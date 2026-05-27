@@ -2991,30 +2991,47 @@ details[open] > summary .recipe-chevron {
 
 /* ── Heart / Favorite Button ───────────────────────────────── */
 .heart-btn {
-  border: none;
-  background: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  border: 1px solid var(--border);
+  background: var(--surface);
   cursor: pointer;
-  font-size: 1.1rem;
-  padding: var(--s2);
-  border-radius: var(--r2);
-  transition: transform 0.15s;
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r-full);
+  font-size: 0.875rem;
+  transition: background var(--t-fast), border-color var(--t-fast), transform 0.15s;
   line-height: 1;
+  color: var(--text-2);
 }
-
 .heart-btn:hover {
-  transform: scale(1.2);
+  background: var(--bg-alt);
+  transform: scale(1.03);
 }
+.heart-btn.saved {
+  background: #FFF0F5;
+  border-color: #F9A8C9;
+  color: #C2185B;
+}
+[data-theme="dark"] .heart-btn.saved {
+  background: #2D0A16;
+  border-color: #7B1A38;
+  color: #F48FB1;
+}
+.heart-icon { font-size: 1rem; line-height: 1; }
+.heart-label { font-size: 0.8rem; font-weight: 600; }
 
 /* ── Vote Bar ──────────────────────────────────────────────── */
 .vote-bar {
   display: flex;
   align-items: center;
-  gap: var(--s3);
+  gap: var(--s2);
   padding: var(--s4) 0;
+  flex-wrap: wrap;
 }
 
 .vote-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: var(--s2);
   padding: var(--s2) var(--s4);
@@ -3023,12 +3040,14 @@ details[open] > summary .recipe-chevron {
   background: var(--surface);
   font-size: 0.875rem;
   cursor: pointer;
-  transition: background var(--t-fast), border-color var(--t-fast);
+  transition: background var(--t-fast), border-color var(--t-fast), transform 0.15s;
+  color: var(--text-2);
+  white-space: nowrap;
 }
 
 .vote-btn:hover {
   background: var(--bg-alt);
-  border-color: var(--border);
+  transform: scale(1.03);
 }
 
 .vote-btn.voted {
@@ -3037,8 +3056,16 @@ details[open] > summary .recipe-chevron {
   color: var(--accent);
 }
 
+.vote-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: inherit;
+}
+
 .vote-count {
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.82rem;
+  min-width: 1ch;
 }
 
 /* ── Filter Pills ──────────────────────────────────────────── */

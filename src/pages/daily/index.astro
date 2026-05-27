@@ -1,0 +1,268 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+// Pick a "daily" recipe based on the day of the year (deterministic, changes daily)
+const recipes = await getCollection('recipes');
+const sorted = recipes.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+// Day-of-year index so it rotates every day
+const now = new Date();
+const start = new Date(now.getFullYear(), 0, 0);
+const dayOfYear = Math.floor((now.getTime() - start.getTime()) / 86400000);
+const daily = sorted[dayOfYear % sorted.length];
+const { Content } = await daily.render();
+
+const difficultyLabel: Record<string, string> = {
+  beginner: '🌱 Beginner',
+  'home-cook': '🍳 Home Cook',
+  'sous-chef': '🔪 Sous Chef',
+};
+
+const dayNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const dateStr = `${dayNames[now.getDay()]}, ${monthNames[now.getMonth()]} ${now.getDate()}`;
+---
+<Page
+  title="Daily Specials"
+  description="A fresh prompt recipe every day — today's special is ready to use."
+>
+  <section class="daily-hero container">
+    <div class="daily-date">{dateStr}</div>
+    <h1>⭐ Today's Special</h1>
+    <p class="daily-sub">A new recipe every day. Come back tomorrow for the next one.</p>
+  </section>
+
+  <div class="container daily-layout">
+    <article class="daily-card">
+      <header class="daily-card-header">
+        <div class="daily-meta">
+          <span class="recipe-category">{daily.data.category}</span>
+          <span class="recipe-difficulty">{difficultyLabel[daily.data.difficulty] ?? daily.data.difficulty}</span>
+        </div>
+        <h2 class="daily-title">
+          <a href={`/prompts/${daily.slug}/`}>{daily.data.title}</a>
+        </h2>
+        <p class="daily-teaser">{daily.data.teaser}</p>
+        {(daily.data.bestFor || daily.data.whenToUse) && (
+          <div class="daily-quick-info">
+            {daily.data.bestFor && (
+              <div class="quick-info-item">
+                <span class="quick-info-label">Best for</span>
+                <span class="quick-info-value">{daily.data.bestFor}</span>
+              </div>
+            )}
+            {daily.data.whenToUse && (
+              <div class="quick-info-item">
+                <span class="quick-info-label">When to use</span>
+                <span class="quick-info-value">{daily.data.whenToUse}</span>
+              </div>
+            )}
+          </div>
+        )}
+      </header>
+
+      <div class="daily-content prose">
+        <Content />
+      </div>
+
+      <footer class="daily-footer">
+        <a href={`/prompts/${daily.slug}/`} class="btn btn-primary">View full recipe →</a>
+        <a href="/prompts/" class="btn btn-secondary">Browse all recipes</a>
+      </footer>
+    </article>
+
+    <aside class="daily-sidebar">
+      <div class="sidebar-card">
+        <h3>🗓️ How it works</h3>
+        <p>Each day a different recipe from the collection is featured here. It rotates automatically — check back tomorrow for a new one.</p>
+      </div>
+      <div class="sidebar-card">
+        <h3>📖 More recipes</h3>
+        <ul class="sidebar-links">
+          {sorted.slice(0, 6).filter(r => r.slug !== daily.slug).slice(0, 5).map(r => (
+            <li><a href={`/prompts/${r.slug}/`}>{r.data.title}</a></li>
+          ))}
+          <li><a href="/prompts/" style="color:var(--accent);font-weight:600;">See all 26 recipes →</a></li>
+        </ul>
+      </div>
+    </aside>
+  </div>
+</Page>
+
+<style>
+.daily-hero {
+  padding: var(--s12) 0 var(--s8);
+  max-width: var(--container-narrow);
+}
+.daily-date {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--s3);
+}
+.daily-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 var(--s3);
+}
+.daily-sub {
+  color: var(--text-3);
+  font-size: 1rem;
+  margin: 0;
+}
+
+.daily-layout {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: var(--s8);
+  padding-bottom: var(--s20);
+  align-items: start;
+}
+
+.daily-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  overflow: hidden;
+}
+.daily-card-header {
+  padding: var(--s8) var(--s8) var(--s6);
+  border-bottom: 1px solid var(--border-light);
+}
+.daily-meta {
+  display: flex;
+  gap: var(--s2);
+  margin-bottom: var(--s4);
+  flex-wrap: wrap;
+}
+.daily-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0 0 var(--s3);
+}
+.daily-title a {
+  color: var(--text);
+  text-decoration: none;
+}
+.daily-title a:hover { color: var(--accent); }
+.daily-teaser {
+  font-size: 1.05rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 var(--s5);
+}
+.daily-quick-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  background: var(--bg-alt);
+  border-radius: var(--r2);
+  padding: var(--s3) var(--s4);
+}
+.quick-info-item { display: flex; gap: var(--s3); font-size: 0.875rem; flex-wrap: wrap; }
+.quick-info-label { font-weight: 700; color: var(--text-3); min-width: 85px; flex-shrink: 0; }
+.quick-info-value { color: var(--text-2); }
+
+.daily-content {
+  padding: var(--s6) var(--s8);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+.daily-content h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  margin: var(--s8) 0 var(--s4);
+  color: var(--text);
+}
+.daily-content pre {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r3);
+  padding: var(--s5);
+  overflow-x: auto;
+  position: relative;
+  margin: var(--s2) 0 var(--s6);
+}
+.daily-content pre code {
+  background: none !important;
+  color: var(--text) !important;
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+.daily-content pre code span { color: var(--text) !important; }
+
+.daily-footer {
+  padding: var(--s5) var(--s8);
+  border-top: 1px solid var(--border-light);
+  display: flex;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+/* Sidebar */
+.daily-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  position: sticky;
+  top: calc(var(--nav-h) + var(--s4));
+}
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s5);
+}
+.sidebar-card h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 var(--s3);
+}
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; }
+.sidebar-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+.sidebar-links a {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  text-decoration: none;
+  display: block;
+  padding: var(--s1) var(--s2);
+  border-radius: var(--r1);
+}
+.sidebar-links a:hover { background: var(--bg-alt); color: var(--text); }
+
+/* Reuse recipe badge styles */
+.recipe-category {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--accent);
+  background: var(--accent-light); padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+}
+.recipe-difficulty {
+  font-size: 0.8rem; padding: var(--s1) var(--s3);
+  border-radius: var(--r-full); background: var(--bg-alt);
+  color: var(--text-3); font-weight: 500;
+}
+
+.btn { display: inline-flex; align-items: center; gap: var(--s2); padding: var(--s3) var(--s5); border-radius: var(--r2); font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); }
+.btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: transparent; color: var(--text-2); border: 1px solid var(--border); }
+.btn-secondary:hover { background: var(--bg-alt); color: var(--text); }
+
+@media (max-width: 768px) {
+  .daily-layout { grid-template-columns: 1fr; }
+  .daily-sidebar { position: static; }
+  .daily-card-header, .daily-content, .daily-footer { padding-left: var(--s5); padding-right: var(--s5); }
+}
+</style>

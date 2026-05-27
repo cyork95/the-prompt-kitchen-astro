@@ -76,14 +76,14 @@ const difficultyLabel = {
 
     <!-- Vote bar -->
     <div class="vote-bar" data-recipe-id={recipe.slug} id="vote-bar">
-      <button class="vote-btn" data-emoji="fire" aria-label="Fire — this recipe is 🔥">
-        🔥 <span class="vote-count" id="count-fire">—</span>
+      <button class="vote-btn" data-emoji="fire" aria-label="Love this prompt">
+        🔥 <span class="vote-label">Love it</span><span class="vote-count" id="count-fire">0</span>
       </button>
-      <button class="vote-btn" data-emoji="chef" aria-label="Chef's kiss — 👨‍🍳">
-        👨‍🍳 <span class="vote-count" id="count-chef">—</span>
+      <button class="vote-btn" data-emoji="chef" aria-label="Cooked using this prompt">
+        👨‍🍳 <span class="vote-label">Used it</span><span class="vote-count" id="count-chef">0</span>
       </button>
-      <button class="vote-btn" data-emoji="star" aria-label="Starred — ⭐">
-        ⭐ <span class="vote-count" id="count-star">—</span>
+      <button class="vote-btn" data-emoji="star" aria-label="Found this useful">
+        ⭐ <span class="vote-label">Useful</span><span class="vote-count" id="count-star">0</span>
       </button>
       <button
         class="heart-btn"
@@ -92,8 +92,12 @@ const difficultyLabel = {
         data-recipe-title={recipe.data.title}
         data-recipe-category={recipe.data.category}
         data-recipe-url={`/prompts/${recipe.slug}/`}
-        aria-label="Save recipe"
-      >🤍</button>
+        aria-label="Save to My Kitchen"
+        title="Save to My Kitchen"
+      >
+        <span class="heart-icon">🤍</span>
+        <span class="heart-label">Save</span>
+      </button>
     </div>
 
     <!-- Recipe content (MDX) -->
@@ -392,23 +396,33 @@ function saveFavorites(favs: Record<string, { title: string; category: string; u
 const heartBtn = document.getElementById('heart-btn') as HTMLButtonElement | null;
 if (heartBtn) {
   const id = heartBtn.dataset.recipeId!;
-  const favs = getFavorites();
-  heartBtn.textContent = favs[id] ? '❤️' : '🤍';
+  const heartIcon = heartBtn.querySelector('.heart-icon') as HTMLElement;
+  const heartLabel = heartBtn.querySelector('.heart-label') as HTMLElement;
+
+  function updateHeart(saved: boolean) {
+    if (heartIcon) heartIcon.textContent = saved ? '❤️' : '🤍';
+    if (heartLabel) heartLabel.textContent = saved ? 'Saved!' : 'Save';
+    heartBtn!.classList.toggle('saved', saved);
+    heartBtn!.title = saved ? 'Remove from My Kitchen' : 'Save to My Kitchen';
+    heartBtn!.setAttribute('aria-label', saved ? 'Remove from My Kitchen' : 'Save to My Kitchen');
+  }
+
+  updateHeart(!!getFavorites()[id]);
 
   heartBtn.addEventListener('click', () => {
     const favs = getFavorites();
-    if (favs[id]) {
+    const isSaved = !!favs[id];
+    if (isSaved) {
       delete favs[id];
-      heartBtn.textContent = '🤍';
     } else {
       favs[id] = {
-        title: heartBtn.dataset.recipeTitle!,
-        category: heartBtn.dataset.recipeCategory!,
-        url: heartBtn.dataset.recipeUrl!,
+        title: heartBtn!.dataset.recipeTitle!,
+        category: heartBtn!.dataset.recipeCategory!,
+        url: heartBtn!.dataset.recipeUrl!,
       };
-      heartBtn.textContent = '❤️';
     }
     saveFavorites(favs);
+    updateHeart(!isSaved);
   });
 }
 
@@ -473,19 +487,46 @@ if (voteBar) {
   // Load initial counts
   loadVotes(recipeId);
 
-  // Handle clicks
+  // Track which emojis this session has voted for (localStorage)
+  const VOTES_KEY = `pk-votes-${recipeId}`;
+  function getMyVotes(): Set<string> {
+    try { return new Set(JSON.parse(localStorage.getItem(VOTES_KEY) ?? '[]')); }
+    catch { return new Set(); }
+  }
+  function saveMyVotes(votes: Set<string>) {
+    localStorage.setItem(VOTES_KEY, JSON.stringify([...votes]));
+  }
+
+  // Mark already-voted buttons on load
+  const myVotes = getMyVotes();
+  voteBar.querySelectorAll<HTMLButtonElement>('.vote-btn').forEach(btn => {
+    if (myVotes.has(btn.dataset.emoji!)) btn.classList.add('voted');
+  });
+
+  // Handle clicks — toggle on/off
   voteBar.querySelectorAll<HTMLButtonElement>('.vote-btn').forEach(btn => {
     const emoji = btn.dataset.emoji!;
     const countEl = btn.querySelector<HTMLSpanElement>('.vote-count');
 
     btn.addEventListener('click', async () => {
-      if (btn.classList.contains('voted')) return;
-      btn.classList.add('voted');
-      if (countEl) {
-        const prev = parseInt(countEl.textContent ?? '0', 10);
-        countEl.textContent = String(isNaN(prev) ? 1 : prev + 1);
+      const votes = getMyVotes();
+      const isVoted = votes.has(emoji);
+      const countStr = countEl?.textContent ?? '0';
+      const count = parseInt(countStr, 10) || 0;
+
+      if (isVoted) {
+        // Unvote
+        votes.delete(emoji);
+        btn.classList.remove('voted');
+        if (countEl) countEl.textContent = String(Math.max(0, count - 1));
+      } else {
+        // Vote
+        votes.add(emoji);
+        btn.classList.add('voted');
+        if (countEl) countEl.textContent = String(count + 1);
+        await submitVote(recipeId, emoji);
       }
-      await submitVote(recipeId, emoji);
+      saveMyVotes(votes);
     });
   });
 }
