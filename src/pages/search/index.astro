@@ -1,0 +1,94 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Search"
+  description="Search The Prompt Kitchen — recipes, guides, and more."
+>
+  <section class="search-page container">
+    <h1>Search</h1>
+    <div id="search-ui"></div>
+  </section>
+</Page>
+
+<!-- Pagefind default UI styles -->
+<link rel="stylesheet" href="/_pagefind/pagefind-ui.css" />
+
+<style>
+.search-page {
+  padding-top: var(--s12);
+  padding-bottom: var(--s20);
+  max-width: 720px;
+}
+.search-page h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  margin-bottom: var(--s6);
+}
+
+/* Pagefind UI overrides */
+#search-ui .pagefind-ui__search-input {
+  border-radius: var(--r-full) !important;
+  border: 1.5px solid var(--border) !important;
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  font-family: var(--font-body) !important;
+  padding: var(--s3) var(--s5) !important;
+  font-size: 1rem !important;
+  width: 100% !important;
+  transition: border-color var(--t-fast), box-shadow var(--t-fast) !important;
+}
+#search-ui .pagefind-ui__search-input:focus {
+  border-color: var(--accent) !important;
+  box-shadow: 0 0 0 3px var(--accent-light) !important;
+  outline: none !important;
+}
+#search-ui .pagefind-ui__result-link {
+  color: var(--accent) !important;
+  font-weight: 600 !important;
+}
+#search-ui .pagefind-ui__result-excerpt mark {
+  background: var(--accent-light) !important;
+  color: var(--accent) !important;
+  border-radius: 2px !important;
+}
+#search-ui .pagefind-ui__button {
+  background: var(--accent) !important;
+  color: white !important;
+  border-radius: var(--r2) !important;
+  border: none !important;
+}
+</style>
+
+<script>
+  // Use PagefindUI on this dedicated page (it's fine here since we have full UI)
+  async function init() {
+    try {
+      const { PagefindUI } = await import(/* @vite-ignore */ '/_pagefind/pagefind-ui.js');
+      const ui = new PagefindUI({
+        element: '#search-ui',
+        showImages: false,
+        resetStyles: false,
+        showSubResults: true,
+      });
+
+      // Auto-search from URL param ?q=
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get('q');
+      if (q) {
+        // PagefindUI sets its input after mount — wait a tick
+        requestAnimationFrame(() => {
+          const inp = document.querySelector<HTMLInputElement>('.pagefind-ui__search-input');
+          if (inp) {
+            inp.value = q;
+            inp.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+        });
+      }
+    } catch (e) {
+      document.getElementById('search-ui')!.innerHTML =
+        '<p style="color:var(--text-3);padding:2rem 0">Search index not available. Try after the next deployment.</p>';
+    }
+  }
+  init();
+</script>
