@@ -1,0 +1,196 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Tip Jar"
+  description="The Prompt Kitchen is free and always will be. If it's been useful, a tip keeps the kitchen running."
+>
+  <section class="support-hero container">
+    <h1>♥ Tip Jar</h1>
+    <p class="support-sub">The Prompt Kitchen is free, open, and always will be. If it's saved you time or made AI more useful, a small tip keeps the lights on and new recipes coming.</p>
+  </section>
+
+  <div class="container support-layout">
+
+    <div class="support-main">
+      <div class="support-card">
+        <div class="support-emoji">☕</div>
+        <h2>Buy me a coffee</h2>
+        <p>The simplest way to say thanks. One-time, no account needed.</p>
+        <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large">
+          Buy me a coffee →
+        </a>
+        <p class="support-note">Opens Buy Me a Coffee — a trusted tip platform used by thousands of creators.</p>
+      </div>
+
+      <div class="support-card support-card--alt">
+        <div class="support-emoji">🍕</div>
+        <h2>Buy me a slice</h2>
+        <p>A bigger tip for a bigger appetite. Goes directly toward hosting, research, and new content.</p>
+        <a href="https://buymeacoffee.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-large">
+          Buy me a slice →
+        </a>
+      </div>
+    </div>
+
+    <aside class="support-sidebar">
+      <div class="sidebar-card">
+        <h3>🍳 What your tip funds</h3>
+        <ul>
+          <li>Hosting &amp; infrastructure</li>
+          <li>New recipes and guides</li>
+          <li>AI tool research &amp; testing</li>
+          <li>Keeping the site ad-free</li>
+        </ul>
+      </div>
+      <div class="sidebar-card">
+        <h3>💬 Other ways to help</h3>
+        <ul class="other-ways">
+          <li><a href="/submit/">Submit a recipe</a> — share a prompt that works for you</li>
+          <li>Tell a friend who uses AI</li>
+          <li>Star the project on GitHub</li>
+        </ul>
+      </div>
+      <div class="sidebar-card sidebar-card--warm">
+        <p>"Free and open" isn't a business model — it's a commitment. Thanks for being part of it. 🙏</p>
+      </div>
+    </aside>
+
+  </div>
+</Page>
+
+<style>
+.support-hero {
+  padding: var(--s12) 0 var(--s8);
+  max-width: var(--container-narrow);
+}
+.support-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 var(--s4);
+}
+.support-sub {
+  font-size: 1.1rem;
+  color: var(--text-2);
+  line-height: 1.65;
+  max-width: 560px;
+  margin: 0;
+}
+
+.support-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: var(--s8);
+  padding-bottom: var(--s20);
+  align-items: start;
+}
+
+.support-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+
+.support-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  padding: var(--s8);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+.support-card--alt {
+  background: var(--bg-alt);
+}
+.support-emoji {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+.support-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: 0;
+}
+.support-card p {
+  color: var(--text-2);
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+}
+.support-note {
+  font-size: 0.78rem !important;
+  color: var(--text-3) !important;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  text-decoration: none;
+  font-weight: 600;
+  font-family: var(--font-body);
+  border-radius: var(--r2);
+  transition: all var(--t-fast);
+  border: 1px solid transparent;
+  cursor: pointer;
+  align-self: flex-start;
+}
+.btn-large { padding: var(--s3) var(--s6); font-size: 1rem; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); color: #fff; text-decoration: none; }
+.btn-secondary { background: transparent; color: var(--text); border-color: var(--border); }
+.btn-secondary:hover { background: var(--bg-alt); color: var(--text); text-decoration: none; }
+
+/* Sidebar */
+.support-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  position: sticky;
+  top: calc(var(--nav-h) + var(--s4));
+}
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s5);
+}
+.sidebar-card--warm {
+  background: var(--accent-light);
+  border-color: var(--accent-border);
+}
+.sidebar-card--warm p {
+  color: var(--text-2);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  font-style: italic;
+}
+.sidebar-card h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 var(--s3);
+}
+.sidebar-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+.sidebar-card li {
+  font-size: 0.875rem;
+  color: var(--text-2);
+}
+.other-ways a {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .support-layout { grid-template-columns: 1fr; }
+  .support-sidebar { position: static; }
+}
+</style>
