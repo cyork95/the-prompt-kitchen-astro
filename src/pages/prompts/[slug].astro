@@ -281,19 +281,31 @@ const difficultyLabel = {
 }
 
 .prose pre {
-  background: var(--code-bg);
-  border-radius: var(--r2);
+  background: var(--code-bg) !important;
+  border-radius: var(--r3);
   padding: var(--s5);
+  padding-right: 5rem; /* room for copy button */
   overflow-x: auto;
-  margin: 0 0 var(--s5);
+  margin: var(--s2) 0 var(--s6);
   position: relative;
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
 }
 
 .prose pre code {
-  background: none;
+  background: none !important;
   padding: 0;
   font-size: 0.875rem;
-  line-height: 1.6;
+  line-height: 1.7;
+  /* Override global `code { color: accent }` for block prompts */
+  color: var(--text) !important;
+}
+
+/* Flatten all Shiki token colors — prompts are plain text, not code */
+.prose pre code span {
+  color: var(--text) !important;
+  background: transparent !important;
+  font-style: normal !important;
 }
 
 .prose blockquote {
