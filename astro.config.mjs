@@ -18,7 +18,7 @@ export default defineConfig({
     build: {
       rollupOptions: {
         // pagefind is only available after the build; don't resolve it at bundle time
-        external: ['/_pagefind/pagefind-ui.js', '/_pagefind/pagefind.js'],
+        external: ['/pagefind/pagefind-ui.js', '/pagefind/pagefind.js'],
       },
     },
   },

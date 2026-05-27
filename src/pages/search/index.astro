@@ -12,7 +12,7 @@ import Page from '../../layouts/Page.astro';
 </Page>
 
 <!-- Pagefind default UI styles -->
-<link rel="stylesheet" href="/_pagefind/pagefind-ui.css" />
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
 
 <style>
 .search-page {
@@ -64,7 +64,7 @@ import Page from '../../layouts/Page.astro';
   // Use PagefindUI on this dedicated page (it's fine here since we have full UI)
   async function init() {
     try {
-      const { PagefindUI } = await import(/* @vite-ignore */ '/_pagefind/pagefind-ui.js');
+      const { PagefindUI } = await import(/* @vite-ignore */ '/pagefind/pagefind-ui.js');
       const ui = new PagefindUI({
         element: '#search-ui',
         showImages: false,

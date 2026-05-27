@@ -804,7 +804,7 @@
     pfLoading = true;
     try {
       // Use raw pagefind.js (not PagefindUI) for full API control
-      pf = await import(/* @vite-ignore */ '/_pagefind/pagefind.js');
+      pf = await import(/* @vite-ignore */ '/pagefind/pagefind.js');
       await pf.init();
     } catch (e) {
       pf = null;
