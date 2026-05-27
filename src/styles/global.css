@@ -180,6 +180,39 @@ code {
   color: var(--accent);
 }
 
+/* ── Shiki code block overrides ──────────────────────────────────────────
+   Shiki (Astro's syntax highlighter) adds inline style="background-color"
+   and per-token <span style="color:..."> which override scoped component
+   CSS. We target pre.astro-code globally to win that specificity battle.
+   ──────────────────────────────────────────────────────────────────────── */
+pre.astro-code {
+  background: var(--code-bg) !important;
+  border: 1px solid var(--border) !important;
+  border-left: 3px solid var(--accent) !important;
+  border-radius: var(--r3) !important;
+  padding: var(--s5) !important;
+  padding-right: 5rem !important; /* room for Copy button */
+  overflow-x: auto;
+  position: relative;
+  margin: var(--s2) 0 var(--s6) !important;
+}
+
+pre.astro-code code {
+  background: transparent !important;
+  color: var(--text) !important;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  padding: 0 !important;
+}
+
+/* Flatten all Shiki token colours — prompts are plain text, not code */
+pre.astro-code span {
+  color: var(--text) !important;
+  background: transparent !important;
+  font-style: normal !important;
+  text-decoration: none !important;
+}
+
 strong { font-weight: 700; }
 em { font-style: italic; }
 
