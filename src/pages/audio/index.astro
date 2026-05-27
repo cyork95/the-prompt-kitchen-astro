@@ -1,0 +1,88 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Kitchen Radio" description="AI music and audio tools — how to prompt for music, voice, and sound.">
+  <section class="page-hero container">
+    <h1>🎵 Kitchen Radio</h1>
+    <p>AI audio tools have arrived. From music generation to voice cloning to sound design — here's how to use them and what actually works.</p>
+  </section>
+  <div class="container radio-layout">
+
+    <section class="radio-section">
+      <h2>AI music tools</h2>
+      <div class="tools-grid">
+        {[
+          { name: 'Suno', url: 'https://suno.ai', desc: 'Best for full songs with lyrics. Describe genre, mood, and style. Remarkably good vocals. Free tier available.', badge: 'Most accessible' },
+          { name: 'Udio', url: 'https://udio.com', desc: 'Similar to Suno, strong on production quality. Good for instrumentals and genre exploration.', badge: '' },
+          { name: 'Stable Audio', url: 'https://stableaudio.com', desc: 'Better for longer-form instrumentals and sound design. More control over structure.', badge: '' },
+          { name: 'MusicGen (Meta)', url: 'https://huggingface.co/spaces/facebook/MusicGen', desc: 'Open source, run locally or in browser. Good for shorter clips, fully free.', badge: 'Free & open' },
+        ].map(t => (
+          <div class="tool-card">
+            <div class="tool-header">
+              <a href={t.url} target="_blank" rel="noopener" class="tool-name">{t.name} →</a>
+              {t.badge && <span class="tool-badge">{t.badge}</span>}
+            </div>
+            <p>{t.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="radio-section">
+      <h2>How to prompt for music</h2>
+      <div class="prompt-examples">
+        {[
+          { label: 'Genre + mood + tempo', example: 'Lo-fi hip hop, melancholic, 75 BPM, rainy afternoon, vinyl crackle, jazz piano chords' },
+          { label: 'Reference artists', example: 'Influenced by Boards of Canada, ambient electronic, slow evolving textures, nostalgic, slightly unsettling' },
+          { label: 'Functional context', example: 'Background music for a product demo video. Upbeat but not distracting. Modern tech company feel. No lyrics.' },
+          { label: 'Emotional arc', example: 'Starts quiet and introspective (piano only), builds over 2 minutes, ends with full orchestral swell. Cinematic.' },
+        ].map(e => (
+          <div class="prompt-example">
+            <span class="example-label">{e.label}</span>
+            <p class="example-text">"{e.example}"</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="radio-section">
+      <h2>AI voice tools</h2>
+      <div class="tools-grid">
+        {[
+          { name: 'ElevenLabs', url: 'https://elevenlabs.io', desc: 'Best text-to-speech quality. Voice cloning, multilingual, realistic emotion. Free tier is generous.', badge: 'Best quality' },
+          { name: 'OpenAI TTS', url: 'https://platform.openai.com/docs/guides/text-to-speech', desc: 'Fast and clean via API. 6 voices, good for production use. Cheap at scale.', badge: '' },
+          { name: 'Descript', url: 'https://descript.com', desc: 'Edit audio like a document. Voice cloning for overdubs, podcast editing, transcription.', badge: '' },
+          { name: 'Whisper (OpenAI)', url: 'https://openai.com/research/whisper', desc: 'Best-in-class transcription. Open source, runs locally. Use for any audio-to-text task.', badge: 'Free & open' },
+        ].map(t => (
+          <div class="tool-card">
+            <div class="tool-header">
+              <a href={t.url} target="_blank" rel="noopener" class="tool-name">{t.name} →</a>
+              {t.badge && <span class="tool-badge">{t.badge}</span>}
+            </div>
+            <p>{t.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.radio-layout { display: flex; flex-direction: column; gap: var(--s12); padding-bottom: var(--s20); }
+.radio-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: var(--s4); }
+.tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.tool-header { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s2); flex-wrap: wrap; }
+.tool-name { font-size: 1rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+.tool-name:hover { text-decoration: underline; }
+.tool-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); border-radius: var(--r-full); padding: 1px var(--s2); }
+.tool-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.prompt-examples { display: flex; flex-direction: column; gap: var(--s4); }
+.prompt-example { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r2); padding: var(--s4) var(--s5); }
+.example-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.example-text { font-size: 0.9rem; color: var(--text-2); font-style: italic; margin: 0; line-height: 1.6; font-family: var(--font-body); }
+</style>

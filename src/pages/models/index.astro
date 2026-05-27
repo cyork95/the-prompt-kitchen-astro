@@ -1,0 +1,141 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const models = [
+  {
+    name: "ChatGPT (GPT-4o)",
+    maker: "OpenAI",
+    emoji: "🟢",
+    tagline: "The household name. Versatile and widely integrated.",
+    strengths: ["Broad knowledge", "Code & debugging", "Plugin/tool ecosystem", "Image generation (DALL·E)", "Voice mode"],
+    weaknesses: ["Can be sycophantic", "Long context less reliable", "Costs add up on heavy use"],
+    bestFor: "General use, coding, customer-facing apps, image generation",
+    pricing: "Free tier + ChatGPT Plus ($20/mo)",
+    url: "https://chat.openai.com",
+  },
+  {
+    name: "Claude (Sonnet / Opus)",
+    maker: "Anthropic",
+    emoji: "🟠",
+    tagline: "Best for long documents, nuanced writing, and following complex instructions.",
+    strengths: ["200K+ token context", "Nuanced, careful writing", "Strong instruction-following", "Less sycophantic", "Document analysis"],
+    weaknesses: ["No image generation", "Less plugin ecosystem", "Can be cautious on edge cases"],
+    bestFor: "Long documents, research, detailed writing, complex instructions",
+    pricing: "Free tier + Claude Pro ($20/mo)",
+    url: "https://claude.ai",
+  },
+  {
+    name: "Gemini (1.5 Pro)",
+    maker: "Google",
+    emoji: "🔵",
+    tagline: "Google's model. Strong at search-grounded answers and multimodal tasks.",
+    strengths: ["1M token context", "Google Search grounding", "Strong with data/spreadsheets", "Multimodal (text, image, video, audio)", "Free generous tier"],
+    weaknesses: ["Less consistent writing quality", "Personality feels flatter", "Newer ecosystem"],
+    bestFor: "Research with web grounding, data tasks, Google Workspace integration",
+    pricing: "Free + Gemini Advanced ($20/mo via Google One)",
+    url: "https://gemini.google.com",
+  },
+  {
+    name: "Perplexity",
+    maker: "Perplexity AI",
+    emoji: "🟣",
+    tagline: "AI search engine. Best when you need current, cited information.",
+    strengths: ["Real-time web search", "Cites sources", "Great for research", "Fast answers with links", "Good free tier"],
+    weaknesses: ["Not great for generation tasks", "Less creative", "Not for long documents"],
+    bestFor: "Current events, factual research, anything that needs up-to-date sources",
+    pricing: "Free + Perplexity Pro ($20/mo)",
+    url: "https://perplexity.ai",
+  },
+  {
+    name: "Mistral / Llama (Local)",
+    maker: "Open source",
+    emoji: "⚫",
+    tagline: "Run AI locally. Private, free, no subscription.",
+    strengths: ["100% private", "No cost after setup", "No rate limits", "Customisable", "Offline capable"],
+    weaknesses: ["Requires setup (Ollama etc.)", "Less capable than frontier models", "No built-in web access"],
+    bestFor: "Privacy-sensitive tasks, cost-sensitive workflows, tinkering and self-hosting",
+    pricing: "Free (hardware/electricity only)",
+    url: "https://ollama.ai",
+  },
+];
+---
+<Page title="Appliance Guide" description="Compare AI models — ChatGPT, Claude, Gemini and more. Find the right tool for your task.">
+  <section class="page-hero container">
+    <h1>🍳 Appliance Guide</h1>
+    <p>Every kitchen needs the right appliance for the job. Here's what the main AI models are good at — and where they fall short.</p>
+  </section>
+
+  <div class="container models-layout">
+    <div class="models-intro">
+      <p>All the major models can do most things. The differences are at the margins — and the margins matter when you're using AI every day.</p>
+    </div>
+
+    <div class="models-grid">
+      {models.map(m => (
+        <article class="model-card">
+          <div class="model-header">
+            <div class="model-emoji">{m.emoji}</div>
+            <div>
+              <div class="model-maker">{m.maker}</div>
+              <h2 class="model-name">{m.name}</h2>
+            </div>
+            <a href={m.url} target="_blank" rel="noopener" class="model-link">Try it →</a>
+          </div>
+          <p class="model-tagline">{m.tagline}</p>
+          <div class="model-columns">
+            <div class="model-col">
+              <h4>✅ Strengths</h4>
+              <ul>{m.strengths.map(s => <li>{s}</li>)}</ul>
+            </div>
+            <div class="model-col">
+              <h4>⚠️ Weaknesses</h4>
+              <ul>{m.weaknesses.map(w => <li>{w}</li>)}</ul>
+            </div>
+          </div>
+          <div class="model-footer">
+            <div class="model-meta"><span class="meta-label">Best for</span><span>{m.bestFor}</span></div>
+            <div class="model-meta"><span class="meta-label">Pricing</span><span>{m.pricing}</span></div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="models-cta">
+      <h2>Not sure which to use?</h2>
+      <p>The Test Kitchen lets you run the same prompt through multiple models and compare the outputs side-by-side.</p>
+      <a href="/model-tester/" class="btn btn-primary">Open the Test Kitchen →</a>
+    </div>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.models-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
+.models-intro p { color: var(--text-2); font-size: 1rem; max-width: 600px; }
+.models-grid { display: flex; flex-direction: column; gap: var(--s5); }
+.model-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
+.model-header { display: flex; align-items: center; gap: var(--s4); padding: var(--s5) var(--s6); background: var(--bg-alt); border-bottom: 1px solid var(--border-light); }
+.model-emoji { font-size: 1.75rem; flex-shrink: 0; line-height: 1; }
+.model-maker { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin-bottom: 2px; }
+.model-name { font-family: var(--font-display); font-size: 1.2rem; margin: 0; }
+.model-link { margin-left: auto; font-size: 0.82rem; font-weight: 700; color: var(--accent); text-decoration: none; white-space: nowrap; flex-shrink: 0; }
+.model-link:hover { text-decoration: underline; }
+.model-tagline { padding: var(--s4) var(--s6) 0; font-size: 0.95rem; color: var(--text-2); font-style: italic; margin: 0; }
+.model-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 0; padding: var(--s4) var(--s6); }
+.model-col h4 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); margin: 0 0 var(--s3); }
+.model-col ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: var(--s1); }
+.model-col li { font-size: 0.82rem; color: var(--text-2); line-height: 1.4; }
+.model-footer { padding: var(--s4) var(--s6); border-top: 1px solid var(--border-light); background: var(--bg-alt); display: flex; flex-direction: column; gap: var(--s2); }
+.model-meta { display: flex; gap: var(--s3); font-size: 0.82rem; align-items: baseline; flex-wrap: wrap; }
+.meta-label { font-weight: 700; color: var(--text-3); min-width: 60px; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; flex-shrink: 0; }
+.model-meta span:last-child { color: var(--text-2); }
+.models-cta { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--s3); }
+.models-cta h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
+.models-cta p { color: var(--text-2); margin: 0; max-width: 480px; }
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+@media (max-width: 600px) { .model-columns { grid-template-columns: 1fr; } .model-col:first-child { padding-bottom: var(--s4); border-bottom: 1px solid var(--border-light); margin-bottom: var(--s4); } }
+</style>

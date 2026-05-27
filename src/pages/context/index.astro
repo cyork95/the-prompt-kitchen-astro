@@ -1,0 +1,151 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Kitchen Prep" description="How to give AI the context it needs to actually help you — the foundation of every great prompt.">
+  <section class="page-hero container">
+    <h1>🧑‍🍳 Kitchen Prep</h1>
+    <p>The difference between a useful AI response and a generic one is almost always context. Here's what to give it and why.</p>
+  </section>
+
+  <div class="container prep-layout">
+    <div class="prep-content">
+
+      <section class="prep-section">
+        <h2>Why context matters</h2>
+        <p>AI doesn't know who you are, what you're working on, or what a good answer looks like for your situation. Without context, it defaults to the most average possible response — technically correct, practically useless.</p>
+        <p>Think of it like briefing a new hire. The more relevant background you give, the better the work you get back.</p>
+      </section>
+
+      <section class="prep-section">
+        <h2>The 5 context ingredients</h2>
+        <div class="ingredients-grid">
+          {[
+            { icon: '🎯', label: 'Goal', desc: 'What are you actually trying to accomplish? Not just "write an email" but "write an email that gets a meeting with a cold prospect who\'s seen 50 pitches."' },
+            { icon: '👥', label: 'Audience', desc: 'Who is this for? Their background, what they know, what they care about, and what would make them tune out.' },
+            { icon: '📐', label: 'Format', desc: 'What does the output need to look like? Bullet points, paragraphs, a table, a specific word count, a specific tone?' },
+            { icon: '🚧', label: 'Constraints', desc: 'What are the limits? What can\'t you do, what must you include, what would be a deal-breaker?' },
+            { icon: '🗺️', label: 'Examples', desc: 'What does good look like? Even a rough example — "something like this but shorter" — dramatically improves results.' },
+          ].map(item => (
+            <div class="ingredient-card">
+              <div class="ingredient-icon">{item.icon}</div>
+              <div>
+                <h3>{item.label}</h3>
+                <p>{item.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="prep-section">
+        <h2>Before vs. after</h2>
+        <div class="compare-table">
+          <div class="compare-row compare-header">
+            <div>❌ Unprepared prompt</div>
+            <div>✅ Well-prepped prompt</div>
+          </div>
+          {[
+            { bad: 'Write me a bio.', good: 'Write a 3-sentence professional bio for a UX designer with 8 years of experience applying for a senior role at a fintech startup. Tone: confident but not arrogant. Audience: hiring manager.' },
+            { bad: 'Summarize this article.', good: 'Summarize this article in 3 bullet points for a non-technical executive who needs to decide whether to fund further research. Focus on business implications, not methodology.' },
+            { bad: 'Help me with my presentation.', good: 'I\'m presenting Q3 results to our board in 10 minutes. Sales missed target by 12%. Help me open with a frame that\'s honest about the miss but focuses the conversation on the recovery plan.' },
+          ].map(row => (
+            <div class="compare-row">
+              <div class="compare-bad"><span class="compare-quote">"{row.bad}"</span></div>
+              <div class="compare-good"><span class="compare-quote">"{row.good}"</span></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="prep-section">
+        <h2>The role frame shortcut</h2>
+        <p>One of the fastest ways to add context is a role frame — telling the AI who it should be. This calibrates tone, vocabulary, and the type of advice it gives.</p>
+        <div class="tip-block">
+          <p><strong>Instead of:</strong> "Give me feedback on my code"</p>
+          <p><strong>Try:</strong> "You are a senior engineer doing a code review. Your goal is to catch bugs and flag anything that won't scale. Be direct — don't soften criticism."</p>
+        </div>
+        <p>Browse ready-made role frames in <a href="/pantry/">The Pantry</a> or build your own in the <a href="/spice-rack/">Spice Rack</a>.</p>
+      </section>
+
+      <section class="prep-section">
+        <h2>Quick checklist</h2>
+        <p>Before you hit send, ask yourself:</p>
+        <ul class="checklist">
+          <li>Does it know what I'm trying to accomplish?</li>
+          <li>Does it know who this is for?</li>
+          <li>Does it know what format I need?</li>
+          <li>Have I told it what to avoid?</li>
+          <li>Would a smart person reading only this prompt know what a good answer looks like?</li>
+        </ul>
+        <p>If yes to all five — you're ready to cook.</p>
+      </section>
+
+    </div>
+
+    <aside class="prep-sidebar">
+      <div class="sidebar-card">
+        <h3>🥫 Ready-made context</h3>
+        <p>The Pantry has pre-written role frames, context setters, and constraints you can drop straight into any prompt.</p>
+        <a href="/pantry/" class="sidebar-link">Visit The Pantry →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🌶️ Build your own</h3>
+        <p>The Spice Rack lets you mix context ingredients into a custom prompt.</p>
+        <a href="/spice-rack/" class="sidebar-link">Open Spice Rack →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>📖 See it in action</h3>
+        <p>The Recipe Book has 26 prompts that put these principles into practice.</p>
+        <a href="/prompts/" class="sidebar-link">Browse recipes →</a>
+      </div>
+    </aside>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+
+.prep-layout { display: grid; grid-template-columns: 1fr 260px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+
+.prep-content { display: flex; flex-direction: column; gap: var(--s12); }
+
+.prep-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
+.prep-section p { color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s4); }
+.prep-section p:last-child { margin: 0; }
+.prep-section a { color: var(--accent); font-weight: 600; }
+
+.ingredients-grid { display: flex; flex-direction: column; gap: var(--s4); }
+.ingredient-card { display: flex; gap: var(--s4); padding: var(--s4) var(--s5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.ingredient-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
+.ingredient-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.ingredient-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.compare-table { border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; }
+.compare-row { display: grid; grid-template-columns: 1fr 1fr; }
+.compare-header { background: var(--bg-alt); font-size: 0.8rem; font-weight: 700; }
+.compare-header > div { padding: var(--s3) var(--s4); color: var(--text-3); }
+.compare-row:not(.compare-header) { border-top: 1px solid var(--border-light); }
+.compare-bad, .compare-good { padding: var(--s4); font-size: 0.875rem; line-height: 1.6; }
+.compare-bad { background: var(--bg); border-right: 1px solid var(--border-light); }
+.compare-good { background: var(--surface); }
+.compare-quote { color: var(--text-2); font-style: italic; }
+
+.tip-block { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s5); margin: var(--s4) 0; }
+.tip-block p { color: var(--text-2); font-size: 0.9rem; margin: 0 0 var(--s2); }
+.tip-block p:last-child { margin: 0; }
+
+.checklist { list-style: none; padding: 0; margin: var(--s4) 0; display: flex; flex-direction: column; gap: var(--s3); }
+.checklist li { display: flex; gap: var(--s3); font-size: 0.9rem; color: var(--text-2); }
+.checklist li::before { content: '□'; color: var(--accent); font-size: 1rem; flex-shrink: 0; }
+
+.prep-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) { .prep-layout { grid-template-columns: 1fr; } .prep-sidebar { position: static; } .compare-row { grid-template-columns: 1fr; } .compare-bad { border-right: none; border-bottom: 1px solid var(--border-light); } }
+</style>

@@ -1,0 +1,118 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Test Kitchen" description="Run the same prompt through multiple AI models and see how differently they respond.">
+  <section class="page-hero container">
+    <h1>🧪 Test Kitchen</h1>
+    <p>Same prompt, different models. See how ChatGPT, Claude, and Gemini respond — then decide which kitchen appliance fits the job.</p>
+  </section>
+
+  <div class="container tester-layout">
+
+    <div class="tester-tip">
+      <span class="tip-icon">💡</span>
+      <p>Paste your prompt below, then open each model in a new tab and paste it there. Compare the results side by side. This page helps you think about what to look for.</p>
+    </div>
+
+    <div class="tester-main">
+      <div class="prompt-area-wrap">
+        <label for="test-prompt" class="prompt-label">Your test prompt</label>
+        <textarea id="test-prompt" class="prompt-area" placeholder="Enter a prompt to test across models…" rows="5"></textarea>
+        <div class="prompt-actions">
+          <button class="btn btn-primary" id="btn-copy-all">Copy prompt</button>
+          <button class="btn btn-secondary" id="btn-clear-prompt">Clear</button>
+        </div>
+      </div>
+
+      <div class="models-row">
+        {[
+          { name: 'ChatGPT', url: 'https://chat.openai.com', emoji: '🟢', desc: 'Good for general tasks, code, and images' },
+          { name: 'Claude', url: 'https://claude.ai', emoji: '🟠', desc: 'Good for long docs and nuanced writing' },
+          { name: 'Gemini', url: 'https://gemini.google.com', emoji: '🔵', desc: 'Good for search-grounded research' },
+          { name: 'Perplexity', url: 'https://perplexity.ai', emoji: '🟣', desc: 'Good for current facts with sources' },
+        ].map(m => (
+          <div class="model-launch-card">
+            <span class="model-emoji">{m.emoji}</span>
+            <strong>{m.name}</strong>
+            <p>{m.desc}</p>
+            <a href={m.url} target="_blank" rel="noopener" class="btn btn-model" data-model={m.name}>
+              Open {m.name} →
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <section class="what-to-look-for">
+      <h2>What to look for</h2>
+      <div class="look-grid">
+        {[
+          { label: 'Accuracy', q: 'Did it get the facts right? Did it make anything up?' },
+          { label: 'Instruction-following', q: 'Did it do exactly what you asked, or did it go off on its own?' },
+          { label: 'Tone', q: 'Does the voice match what you need? Formal, casual, confident, hedged?' },
+          { label: 'Length', q: 'Was it appropriately brief, or did it pad the response?' },
+          { label: 'Format', q: 'Did it use the structure you asked for without being told explicitly?' },
+          { label: 'Surprise', q: 'Did it add something you didn\'t expect that made the response better?' },
+        ].map(item => (
+          <div class="look-card">
+            <h3>{item.label}</h3>
+            <p>{item.q}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="tester-cta">
+      <p>Want a deeper comparison? The <a href="/models/">Appliance Guide</a> breaks down each model's strengths and weaknesses.</p>
+    </div>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.tester-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
+.tester-tip { display: flex; gap: var(--s3); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s4) var(--s5); align-items: flex-start; }
+.tip-icon { font-size: 1.2rem; flex-shrink: 0; }
+.tester-tip p { font-size: 0.9rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.tester-main { display: flex; flex-direction: column; gap: var(--s6); }
+.prompt-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.prompt-area { width: 100%; padding: var(--s4); border: 1.5px solid var(--border); border-radius: var(--r3); background: var(--surface); color: var(--text); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6; resize: vertical; transition: border-color var(--t-fast); }
+.prompt-area:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+.prompt-actions { display: flex; gap: var(--s3); margin-top: var(--s3); flex-wrap: wrap; }
+.models-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: var(--s4); }
+.model-launch-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); display: flex; flex-direction: column; gap: var(--s2); }
+.model-emoji { font-size: 1.5rem; }
+.model-launch-card strong { font-size: 1rem; font-weight: 700; }
+.model-launch-card p { font-size: 0.8rem; color: var(--text-3); margin: 0; line-height: 1.4; flex: 1; }
+.what-to-look-for h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
+.look-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: var(--s4); }
+.look-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.look-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.look-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+.tester-cta { text-align: center; color: var(--text-2); font-size: 0.9rem; }
+.tester-cta a { color: var(--accent); font-weight: 600; }
+.btn { display: inline-flex; align-items: center; padding: var(--s2) var(--s4); border-radius: var(--r2); font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); text-decoration: none; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-secondary:hover { background: var(--bg-alt); }
+.btn-model { margin-top: auto; width: 100%; justify-content: center; background: var(--bg-alt); color: var(--text); border-color: var(--border); }
+.btn-model:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent-border); }
+</style>
+
+<script>
+const promptEl = document.getElementById('test-prompt') as HTMLTextAreaElement;
+document.getElementById('btn-copy-all')?.addEventListener('click', async () => {
+  const text = promptEl?.value?.trim();
+  if (!text) return;
+  try { await navigator.clipboard.writeText(text); } catch {}
+  const btn = document.getElementById('btn-copy-all') as HTMLButtonElement;
+  btn.textContent = 'Copied!';
+  setTimeout(() => { btn.textContent = 'Copy prompt'; }, 2000);
+});
+document.getElementById('btn-clear-prompt')?.addEventListener('click', () => {
+  if (promptEl) promptEl.value = '';
+});
+</script>

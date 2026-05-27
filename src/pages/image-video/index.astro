@@ -1,0 +1,96 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Image & Video" description="Visual AI prompt techniques — how to get better images and videos from AI tools.">
+  <section class="page-hero container">
+    <h1>🎨 Image &amp; Video</h1>
+    <p>Prompting for visual AI is its own craft. These techniques work across Midjourney, DALL·E, Stable Diffusion, Runway, and Sora.</p>
+  </section>
+  <div class="container iv-layout">
+    <div class="section-tabs">
+      <button class="tab active" data-tab="image">🖼️ Images</button>
+      <button class="tab" data-tab="video">🎬 Video</button>
+    </div>
+
+    <div id="tab-image">
+      <div class="tips-grid">
+        {[
+          { title: 'Describe, don\'t instruct', tip: 'Image models aren\'t assistants — they\'re visual interpreters. Don\'t say "make me a photo of a dog." Say "golden retriever mid-leap over a stream, natural forest light, motion blur, Canon 5D."', icon: '🖼️' },
+          { title: 'Camera & lens matter', tip: 'Adding camera specs dramatically improves photorealism: "shot on Sony a7R IV, 85mm f/1.4, shallow depth of field, bokeh background." The model knows what this looks like.', icon: '📷' },
+          { title: 'Aspect ratio is part of the prompt', tip: 'Wide landscape (16:9), portrait (2:3), square (1:1), cinema (2.39:1). Most tools accept --ar flags or style presets. Pick before you prompt.', icon: '📐' },
+          { title: 'Negative prompts remove problems', tip: 'Most tools support negative prompts — things to exclude. Common ones: "blurry, low quality, watermark, extra fingers, deformed, text overlay."', icon: '🚫' },
+          { title: 'Reference images anchor style', tip: 'Tools like Midjourney support --sref (style reference) and --cref (character reference). Upload an image of the style or person you want to match.', icon: '🎯' },
+          { title: 'Seed for consistency', tip: 'Once you get a result you like, save the seed number. Re-using it with variations of your prompt gives consistent character/style across images.', icon: '🌱' },
+        ].map(t => (
+          <div class="tip-card">
+            <div class="tip-icon">{t.icon}</div>
+            <h3>{t.title}</h3>
+            <p>{t.tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div id="tab-video" hidden>
+      <div class="tips-grid">
+        {[
+          { title: 'Start with a still', tip: 'The best video prompts describe a frozen moment first, then the motion. "A candle flame on a dark table — the flame flickers gently in a light breeze."', icon: '🎬' },
+          { title: 'Describe motion precisely', tip: 'Vague motion = bad output. "The camera slowly pulls back to reveal" beats "camera movement." Specify direction, speed, and what\'s being revealed.', icon: '🎥' },
+          { title: 'Duration changes everything', tip: 'Current AI video tools (Sora, Runway, Kling) have sweet spots — usually 4–10 seconds. Design your scene to work in that window. One moment, not a story.', icon: '⏱️' },
+          { title: 'Lighting and atmosphere', tip: 'Same as image prompting: golden hour, neon-lit rain, foggy morning. Atmosphere carries more visual weight in video than in stills.', icon: '🌅' },
+          { title: 'What tools exist now', tip: 'Runway Gen-3, Kling, Luma Dream Machine, Sora (limited access), Pika. Each has different strengths — Kling for realism, Runway for creative control.', icon: '🛠️' },
+          { title: 'Image-to-video is more reliable', tip: 'Generate a strong image first (Midjourney, DALL·E), then animate it with a video tool. More control, better consistency than text-to-video alone.', icon: '✨' },
+        ].map(t => (
+          <div class="tip-card">
+            <div class="tip-icon">{t.icon}</div>
+            <h3>{t.title}</h3>
+            <p>{t.tip}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="iv-links">
+      <h2>Explore more</h2>
+      <div class="links-row">
+        <a href="/gallery/" class="link-card"><span>🍽️</span><div><strong>The Table Spread</strong><p>Style modifiers and image prompt anatomy</p></div></a>
+        <a href="/models/" class="link-card"><span>🍳</span><div><strong>Appliance Guide</strong><p>Which AI tool to use for what</p></div></a>
+      </div>
+    </div>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.iv-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
+.section-tabs { display: flex; gap: var(--s2); border-bottom: 1px solid var(--border); padding-bottom: var(--s4); }
+.tab { padding: var(--s2) var(--s5); border: 1px solid var(--border); border-radius: var(--r2); background: var(--surface); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all var(--t-fast); }
+.tab:hover { background: var(--bg-alt); }
+.tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: var(--s5); }
+.tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.tip-icon { font-size: 1.5rem; margin-bottom: var(--s3); }
+.tip-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.tip-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.iv-links h2 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s4); }
+.links-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.link-card { display: flex; gap: var(--s4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; color: var(--text); transition: background var(--t-fast); align-items: flex-start; }
+.link-card:hover { background: var(--bg-alt); }
+.link-card span { font-size: 1.5rem; flex-shrink: 0; }
+.link-card strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
+.link-card p { font-size: 0.8rem; color: var(--text-3); margin: 0; }
+@media (max-width: 600px) { .links-row { grid-template-columns: 1fr; } }
+</style>
+<script>
+document.querySelectorAll<HTMLButtonElement>('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const target = tab.dataset.tab;
+    document.getElementById('tab-image')!.hidden = target !== 'image';
+    document.getElementById('tab-video')!.hidden = target !== 'video';
+  });
+});
+</script>

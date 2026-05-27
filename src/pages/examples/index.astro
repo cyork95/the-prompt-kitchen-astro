@@ -1,0 +1,99 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+const featured = recipes.filter(r => r.data.featured).slice(0, 6);
+
+const examples = [
+  {
+    recipe: "Cold Email That Gets Replies",
+    recipeSlug: "cold-email-that-gets-replies",
+    prompt: `Write a cold email to a senior product manager at Notion.\n\nPurpose: I want a 20-minute call to discuss how they approach onboarding.\n\nAbout them: They recently posted about reducing time-to-value in B2B SaaS on LinkedIn.\n\nAbout me: I'm a UX researcher studying onboarding patterns — no sales pitch.\n\nConstraints:\n- Max 120 words\n- No "I hope this finds you well"\n- Lead with what I know about their work`,
+    output: `Subject: Your take on time-to-value in onboarding\n\nHi [Name],\n\nYour LinkedIn post about reducing time-to-value in B2B SaaS hit close to home — I've spent the last year studying exactly that.\n\nI'm a UX researcher looking at onboarding patterns across 20+ tools. Not selling anything — I'm writing up findings and Notion keeps coming up as a model worth studying.\n\nWould you be open to a 20-minute call? I'd share what I'm seeing across the industry in exchange for your perspective.\n\n[Your name]`,
+    notes: "Note how it leads with their work, not yours. The 'no sales pitch' line does real work — it removes the main objection before they think it.",
+  },
+  {
+    recipe: "Draft → Critique → Revise",
+    recipeSlug: "draft-critique-revise",
+    prompt: `Draft a short LinkedIn post announcing that I'm joining a new startup as Head of Design. Tone: genuine, not humblebraggy. Audience: former colleagues and hiring managers. Max 150 words.`,
+    output: `After 4 years at [Company], I'm making a move.\n\nStarting next month, I'll be Head of Design at [Startup] — a small team building [what they do].\n\nHonestly, the decision came down to two things: the problem they're solving (which I think actually matters) and the chance to build a design practice from scratch.\n\nLooking forward to what comes next. And grateful for the work and people that got me here.\n\n[Name]`,
+    notes: "The prompt's 'not humblebraggy' constraint is doing the heavy lifting. Without it, you'd get 'thrilled and honoured to announce this exciting new chapter.'",
+  },
+  {
+    recipe: "Teach Me Like",
+    recipeSlug: "teach-me-like",
+    prompt: `Explain how transformer neural networks work. Teach me like I'm a competent software engineer who understands data structures and algorithms but has no ML background. Use analogies. Stop after each major concept and check if I'm following.`,
+    output: `Let's start with the core problem transformers solve: understanding sequences where order and context matter.\n\nThink about the sentence "The bank was steep." vs "The bank was closed." Same word, different meaning — and you only know which from context.\n\nOld approaches (like RNNs) read left to right, word by word — like reading with a sticky note covering everything you haven't read yet. By the time you reach "bank" in a long sentence, the early context is fuzzy.\n\nTransformers throw that out. Instead, every word "looks at" every other word simultaneously and scores how relevant each one is to understanding it. This is called **attention**.\n\nDoes that distinction between sequential vs. parallel context-reading make sense before we go further?`,
+    notes: "The 'stop and check' instruction produces the conversational back-and-forth that makes explanations stick.",
+  },
+];
+---
+<Page title="Tasting Menu" description="Real AI outputs — see what well-crafted prompts actually produce.">
+  <section class="page-hero container">
+    <h1>🍽️ Tasting Menu</h1>
+    <p>The best way to understand what good prompting looks like is to see the actual output. These are real examples — prompt in, result out, notes on why it worked.</p>
+  </section>
+
+  <div class="container examples-layout">
+    {examples.map(ex => (
+      <article class="example-card">
+        <div class="example-header">
+          <div>
+            <span class="example-from">From the recipe:</span>
+            <a href={`/prompts/${ex.recipeSlug}/`} class="example-recipe-link">{ex.recipe} →</a>
+          </div>
+        </div>
+        <div class="example-body">
+          <div class="example-block example-prompt">
+            <span class="block-label">The prompt</span>
+            <pre class="example-pre">{ex.prompt}</pre>
+          </div>
+          <div class="example-block example-output">
+            <span class="block-label">The output</span>
+            <pre class="example-pre">{ex.output}</pre>
+          </div>
+        </div>
+        <div class="example-notes">
+          <span class="notes-label">💡 Why it worked</span>
+          <p>{ex.notes}</p>
+        </div>
+      </article>
+    ))}
+
+    <div class="examples-cta">
+      <h2>Want to try these yourself?</h2>
+      <p>Each example comes from a full recipe in the Recipe Book — with the prompt template, remix variations, and notes.</p>
+      <a href="/prompts/" class="btn btn-primary">Browse the Recipe Book →</a>
+    </div>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.examples-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
+.example-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
+.example-header { padding: var(--s4) var(--s6); background: var(--bg-alt); border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
+.example-from { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); }
+.example-recipe-link { font-size: 0.875rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+.example-recipe-link:hover { text-decoration: underline; }
+.example-body { display: grid; grid-template-columns: 1fr 1fr; }
+.example-block { padding: var(--s5) var(--s6); }
+.example-prompt { border-right: 1px solid var(--border-light); }
+.block-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: var(--s3); }
+.example-prompt .block-label { color: var(--text-3); }
+.example-output .block-label { color: var(--green); }
+.example-pre { font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.65; color: var(--text-2); white-space: pre-wrap; word-break: break-word; margin: 0; background: none; border: none; padding: 0; }
+.example-notes { padding: var(--s4) var(--s6); border-top: 1px solid var(--border-light); background: var(--accent-light); }
+.notes-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); display: block; margin-bottom: var(--s2); }
+.example-notes p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; font-style: italic; }
+.examples-cta { text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); display: flex; flex-direction: column; align-items: center; gap: var(--s3); }
+.examples-cta h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
+.examples-cta p { color: var(--text-2); margin: 0; }
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+@media (max-width: 700px) { .example-body { grid-template-columns: 1fr; } .example-prompt { border-right: none; border-bottom: 1px solid var(--border-light); } }
+</style>

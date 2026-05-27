@@ -1,0 +1,130 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="The Table Spread" description="AI art and image prompts — examples, techniques, and inspiration.">
+  <section class="page-hero container">
+    <h1>🍽️ The Table Spread</h1>
+    <p>AI image generation prompts and techniques. From photorealistic to abstract — how to describe what you're imagining.</p>
+  </section>
+
+  <div class="container gallery-layout">
+
+    <div class="gallery-intro">
+      <p>Image prompting is a different skill from text prompting — it's about describing visual scenes rather than instructions. Here are the key techniques.</p>
+    </div>
+
+    <section class="technique-section">
+      <h2>The anatomy of an image prompt</h2>
+      <div class="anatomy-card">
+        <div class="anatomy-parts">
+          {[
+            { part: 'Subject', example: 'A lone lighthouse', color: 'var(--accent)' },
+            { part: 'Setting', example: 'on a rocky coast at golden hour', color: 'var(--green)' },
+            { part: 'Style', example: 'oil painting, impressionist', color: '#6366F1' },
+            { part: 'Lighting', example: 'warm side-lighting, long shadows', color: '#F59E0B' },
+            { part: 'Quality', example: 'highly detailed, 4K, masterpiece', color: '#EC4899' },
+          ].map(p => (
+            <div class="anatomy-part">
+              <span class="anatomy-label" style={`color: ${p.color}`}>{p.part}</span>
+              <span class="anatomy-text">"{p.example}"</span>
+            </div>
+          ))}
+        </div>
+        <div class="anatomy-full">
+          <span class="anatomy-full-label">Full prompt:</span>
+          <p class="anatomy-full-text">"A lone lighthouse on a rocky coast at golden hour, oil painting, impressionist style, warm side-lighting, long shadows, highly detailed, masterpiece"</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="technique-section">
+      <h2>Style modifiers that work</h2>
+      <div class="style-grid">
+        {[
+          { category: 'Photography', modifiers: ['35mm film', 'shot on Kodak Portra 400', 'long exposure', 'macro photography', 'golden hour', 'blue hour', 'studio lighting'] },
+          { category: 'Illustration', modifiers: ['flat design', 'vector art', 'line art', 'watercolour', 'ink wash', 'risograph', 'retro poster'] },
+          { category: 'Painting', modifiers: ['oil painting', 'impressionist', 'baroque', 'art nouveau', 'ukiyo-e', 'expressionist', 'pointillist'] },
+          { category: 'Digital / 3D', modifiers: ['3D render', 'Blender render', 'octane render', 'unreal engine 5', 'isometric', 'low poly', 'voxel art'] },
+          { category: 'Quality boosters', modifiers: ['highly detailed', '4K', '8K', 'masterpiece', 'award-winning', 'sharp focus', 'intricate details'] },
+        ].map(s => (
+          <div class="style-card">
+            <h3>{s.category}</h3>
+            <div class="modifier-pills">
+              {s.modifiers.map(m => <span class="modifier-pill">{m}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="technique-section">
+      <h2>Before vs. after</h2>
+      <div class="compare-cards">
+        {[
+          { bad: 'A coffee shop', good: 'A cozy independent coffee shop interior at dawn, warm amber lighting, steam rising from a ceramic cup on a worn wooden table, film photography, bokeh background, golden morning light through fogged windows, Kodak Portra 400' },
+          { bad: 'A futuristic city', good: 'Aerial view of a biopunk megacity at night, bioluminescent plants growing on skyscrapers, rain-slicked streets reflecting neon signs, fog at mid-level, cinematic composition, Blade Runner aesthetic, highly detailed, 8K' },
+        ].map(c => (
+          <div class="compare-card">
+            <div class="compare-bad"><span class="compare-tag bad">❌ Vague</span><p>"{c.bad}"</p></div>
+            <div class="compare-arrow">→</div>
+            <div class="compare-good"><span class="compare-tag good">✅ Detailed</span><p>"{c.good}"</p></div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="technique-section">
+      <h2>Best AI image tools</h2>
+      <div class="tools-grid">
+        {[
+          { name: 'Midjourney', desc: 'Best overall image quality. Requires Discord. Subscription from $10/mo.', url: 'https://midjourney.com' },
+          { name: 'DALL·E 3', desc: 'Built into ChatGPT Plus. Great for following exact instructions. Easy to use.', url: 'https://openai.com/dall-e-3' },
+          { name: 'Stable Diffusion', desc: 'Open source, run locally or on RunDiffusion. Most flexible, highest ceiling.', url: 'https://stability.ai' },
+          { name: 'Adobe Firefly', desc: 'Built into Photoshop. Commercially safe training data. Great for product work.', url: 'https://firefly.adobe.com' },
+        ].map(t => (
+          <div class="tool-card">
+            <h3><a href={t.url} target="_blank" rel="noopener">{t.name} →</a></h3>
+            <p>{t.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.gallery-layout { display: flex; flex-direction: column; gap: var(--s12); padding-bottom: var(--s20); }
+.gallery-intro p { color: var(--text-2); font-size: 1rem; max-width: 600px; }
+.technique-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
+.anatomy-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); display: flex; flex-direction: column; gap: var(--s5); }
+.anatomy-parts { display: flex; flex-direction: column; gap: var(--s3); }
+.anatomy-part { display: flex; gap: var(--s4); align-items: baseline; flex-wrap: wrap; }
+.anatomy-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; min-width: 70px; flex-shrink: 0; }
+.anatomy-text { font-size: 0.9rem; color: var(--text-2); font-style: italic; }
+.anatomy-full { background: var(--bg-alt); border-radius: var(--r2); padding: var(--s4); }
+.anatomy-full-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.anatomy-full-text { font-size: 0.9rem; color: var(--text-2); font-style: italic; margin: 0; line-height: 1.6; }
+.style-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: var(--s4); }
+.style-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.style-card h3 { font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 var(--s3); }
+.modifier-pills { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.modifier-pill { font-size: 0.72rem; padding: 2px var(--s3); border-radius: var(--r-full); background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-2); cursor: default; }
+.compare-cards { display: flex; flex-direction: column; gap: var(--s5); }
+.compare-card { display: flex; gap: var(--s4); align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); flex-wrap: wrap; }
+.compare-bad, .compare-good { flex: 1; min-width: 200px; }
+.compare-tag { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: var(--s2); }
+.compare-tag.bad { color: #B91C1C; }
+.compare-tag.good { color: var(--green); }
+.compare-bad p, .compare-good p { font-size: 0.875rem; color: var(--text-2); font-style: italic; margin: 0; line-height: 1.5; }
+.compare-arrow { font-size: 1.5rem; color: var(--text-3); flex-shrink: 0; }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: var(--s4); }
+.tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.tool-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.tool-card a { color: var(--accent); text-decoration: none; }
+.tool-card a:hover { text-decoration: underline; }
+.tool-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+</style>

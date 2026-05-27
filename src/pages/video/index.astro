@@ -1,0 +1,112 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Kitchen Cinema" description="AI video tools and prompting techniques — Sora, Runway, Kling and more.">
+  <section class="page-hero container">
+    <h1>🎬 Kitchen Cinema</h1>
+    <p>AI video generation is moving fast. Here's the current landscape, what each tool is best at, and how to prompt for video that actually looks good.</p>
+  </section>
+  <div class="container cinema-layout">
+
+    <section class="cinema-section">
+      <h2>The tools (as of 2025)</h2>
+      <div class="tools-grid">
+        {[
+          { name: 'Sora (OpenAI)', url: 'https://sora.com', desc: 'Best overall quality and coherence. Up to 20 seconds. Available to ChatGPT Plus/Pro users.', badge: 'Best quality' },
+          { name: 'Runway Gen-3', url: 'https://runwayml.com', desc: 'Most creative control. Good for stylised and artistic video. Strong image-to-video.', badge: '' },
+          { name: 'Kling', url: 'https://klingai.com', desc: 'Strong photorealistic video, especially for faces and natural motion. Good free tier.', badge: 'Best realism' },
+          { name: 'Luma Dream Machine', url: 'https://lumalabs.ai', desc: 'Fast generation, good for product shots and camera movements. Free tier available.', badge: '' },
+          { name: 'Pika', url: 'https://pika.art', desc: 'Good for short creative clips. Easy to use, solid free tier, good lip sync.', badge: '' },
+          { name: 'HeyGen', url: 'https://heygen.com', desc: 'AI avatars and talking head videos. Best tool for generating presenter videos at scale.', badge: 'Talking heads' },
+        ].map(t => (
+          <div class="tool-card">
+            <div class="tool-header">
+              <a href={t.url} target="_blank" rel="noopener" class="tool-name">{t.name} →</a>
+              {t.badge && <span class="tool-badge">{t.badge}</span>}
+            </div>
+            <p>{t.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="cinema-section">
+      <h2>Prompt structure for video</h2>
+      <div class="structure-card">
+        <div class="structure-parts">
+          {[
+            { label: '1. The scene', example: 'A chef in a sunlit kitchen at 7am' },
+            { label: '2. The action', example: 'carefully cracks an egg into a cast iron pan' },
+            { label: '3. The camera', example: 'close-up shot, slow push-in' },
+            { label: '4. The atmosphere', example: 'steam rising, warm morning light, peaceful' },
+            { label: '5. The style', example: 'cinematic, 35mm film look, shallow depth of field' },
+          ].map(p => (
+            <div class="structure-part">
+              <span class="structure-label">{p.label}</span>
+              <span class="structure-text">"{p.example}"</span>
+            </div>
+          ))}
+        </div>
+        <div class="structure-result">
+          <span class="result-label">Combined:</span>
+          <p>"A chef in a sunlit kitchen at 7am carefully cracks an egg into a cast iron pan. Close-up shot, slow push-in. Steam rising, warm morning light, peaceful. Cinematic, 35mm film look, shallow depth of field."</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cinema-section">
+      <h2>Camera moves that work</h2>
+      <div class="moves-grid">
+        {[
+          { name: 'Slow push-in', desc: 'Camera slowly moves toward subject. Creates intimacy and tension.' },
+          { name: 'Pull back reveal', desc: 'Starts close, pulls back to show the wider scene. Great for reveals.' },
+          { name: 'Orbit / 360', desc: 'Camera circles the subject. Works well for products and objects.' },
+          { name: 'Tracking shot', desc: 'Camera moves alongside a moving subject. Good for walking scenes.' },
+          { name: 'Top-down / bird\'s eye', desc: 'Looking straight down. Works beautifully for food, maps, crowds.' },
+          { name: 'Static lock-off', desc: 'Camera doesn\'t move at all. Often the cleanest choice — let the scene do the work.' },
+        ].map(m => (
+          <div class="move-card">
+            <h3>{m.name}</h3>
+            <p>{m.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <div class="cinema-tip">
+      <span class="tip-icon">💡</span>
+      <p><strong>Pro tip:</strong> Generate a high-quality image first in Midjourney or DALL·E, then use image-to-video in Runway or Kling. You get more control over the starting frame and better consistency than text-to-video alone.</p>
+    </div>
+
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.cinema-layout { display: flex; flex-direction: column; gap: var(--s12); padding-bottom: var(--s20); }
+.cinema-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
+.tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr)); gap: var(--s4); }
+.tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.tool-header { display: flex; align-items: center; gap: var(--s3); margin-bottom: var(--s2); flex-wrap: wrap; }
+.tool-name { font-size: 1rem; font-weight: 700; color: var(--accent); text-decoration: none; }
+.tool-name:hover { text-decoration: underline; }
+.tool-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); border-radius: var(--r-full); padding: 1px var(--s2); }
+.tool-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.structure-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); display: flex; flex-direction: column; gap: var(--s5); }
+.structure-parts { display: flex; flex-direction: column; gap: var(--s3); }
+.structure-part { display: flex; gap: var(--s4); align-items: baseline; flex-wrap: wrap; }
+.structure-label { font-size: 0.75rem; font-weight: 700; color: var(--accent); min-width: 120px; flex-shrink: 0; }
+.structure-text { font-size: 0.875rem; color: var(--text-2); font-style: italic; }
+.structure-result { background: var(--bg-alt); border-radius: var(--r2); padding: var(--s4); }
+.result-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.structure-result p { font-size: 0.875rem; color: var(--text-2); font-style: italic; margin: 0; line-height: 1.65; }
+.moves-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: var(--s4); }
+.move-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s4) var(--s5); }
+.move-card h3 { font-size: 0.9rem; font-weight: 700; margin: 0 0 var(--s2); color: var(--text); }
+.move-card p { font-size: 0.8rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+.cinema-tip { display: flex; gap: var(--s3); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s4) var(--s5); }
+.tip-icon { font-size: 1.2rem; flex-shrink: 0; }
+.cinema-tip p { font-size: 0.9rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+</style>

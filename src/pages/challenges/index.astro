@@ -1,0 +1,125 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const challenges = [
+  {
+    id: 1,
+    title: "The 30-Word Brief",
+    difficulty: "beginner",
+    description: "Explain what you do to a complete stranger in exactly 30 words — clear enough that they'd know whether to hire you.",
+    task: "Write a prompt that gets AI to produce a 30-word professional bio. Then try it. Did it nail it in one shot, or did you need to iterate?",
+    hint: "Specify: your role, your audience (who would read this bio), the context (LinkedIn? email signature? conference badge?), and the exact word count.",
+  },
+  {
+    id: 2,
+    title: "The Worst Version First",
+    difficulty: "beginner",
+    description: "Write a prompt that asks AI to produce the worst possible version of something, then the best. Compare them.",
+    task: "Pick a piece of writing you need (email, bio, proposal). Prompt AI for the worst version, then the best. What does the gap reveal about what makes good writing?",
+    hint: "The worst version is often revealing — it shows exactly what clichés and lazy patterns to avoid.",
+  },
+  {
+    id: 3,
+    title: "The Devil's Advocate",
+    difficulty: "home-cook",
+    description: "Get AI to argue against your own idea as convincingly as possible.",
+    task: "Take a decision you've made (or are about to make). Write a prompt that produces the strongest possible argument against it. Then evaluate it honestly.",
+    hint: "Tell AI to steelman the opposing view, not just list concerns. 'The strongest case against this is...' gets better results than 'what are the downsides?'",
+  },
+  {
+    id: 4,
+    title: "The Compression Test",
+    difficulty: "home-cook",
+    description: "Take a long document and compress it to 10%, 5%, and 1% of its original length — without losing what matters.",
+    task: "Find a long article or report you need to digest. Write three prompts that compress it to different lengths for different audiences. Does the essence survive?",
+    hint: "Be explicit about the audience and their priority. A 1% summary for a CEO is very different from a 1% summary for a technical reviewer.",
+  },
+  {
+    id: 5,
+    title: "The Translation Chain",
+    difficulty: "sous-chef",
+    description: "Take one idea and translate it for five completely different audiences.",
+    task: "Pick a concept (a technical process, a business strategy, a health recommendation). Prompt AI to explain it for: a 10-year-old, a domain expert, a journalist, a skeptic, and a policymaker.",
+    hint: "Each audience has different priors, different concerns, and a different definition of 'useful.' A single concept, five completely different explanations.",
+  },
+  {
+    id: 6,
+    title: "The Constraint Crush",
+    difficulty: "sous-chef",
+    description: "The tighter the constraints, the more creative the output. Force AI into a corner.",
+    task: "Write a marketing headline for a product with these constraints: under 8 words, no adjectives, must include a number, must pose a question. Then remove one constraint at a time and see what changes.",
+    hint: "Constraints aren't restrictions — they're creative scaffolding. The best work often comes from the tightest brief.",
+  },
+];
+
+const difficultyLabel: Record<string, string> = { beginner: '🌱 Beginner', 'home-cook': '🍳 Home Cook', 'sous-chef': '🔪 Sous Chef' };
+---
+<Page title="Cook-Off" description="Prompt challenges to sharpen your skills — from beginner to sous chef.">
+  <section class="page-hero container">
+    <h1>🏆 Cook-Off</h1>
+    <p>Prompting is a skill. These challenges are designed to push you past copy-paste and into genuine craft. Pick a difficulty, set a timer, and see what you can do.</p>
+  </section>
+
+  <div class="container challenges-layout">
+
+    <div class="challenges-intro">
+      <p>There are no scores here. The point is to iterate — write a prompt, see the output, improve the prompt, repeat. That loop is where the skill develops.</p>
+    </div>
+
+    <div class="challenges-grid">
+      {challenges.map(c => (
+        <article class="challenge-card">
+          <div class="challenge-header">
+            <div class="challenge-num">#{c.id}</div>
+            <span class="challenge-difficulty">{difficultyLabel[c.difficulty]}</span>
+          </div>
+          <h2 class="challenge-title">{c.title}</h2>
+          <p class="challenge-desc">{c.description}</p>
+          <div class="challenge-task">
+            <span class="task-label">The challenge</span>
+            <p>{c.task}</p>
+          </div>
+          <details class="challenge-hint">
+            <summary>Show hint</summary>
+            <p>{c.hint}</p>
+          </details>
+        </article>
+      ))}
+    </div>
+
+    <div class="challenges-cta">
+      <h2>Got a challenge to add?</h2>
+      <p>If you've found a prompt challenge that genuinely improved your skills, submit it.</p>
+      <a href="/submit/" class="btn btn-primary">Submit a recipe or challenge →</a>
+    </div>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.challenges-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
+.challenges-intro p { color: var(--text-2); max-width: 600px; }
+.challenges-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px,1fr)); gap: var(--s6); }
+.challenge-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); display: flex; flex-direction: column; gap: var(--s4); }
+.challenge-header { display: flex; align-items: center; gap: var(--s3); }
+.challenge-num { font-family: var(--font-display); font-size: 1.5rem; color: var(--accent); line-height: 1; }
+.challenge-difficulty { font-size: 0.75rem; font-weight: 700; background: var(--bg-alt); color: var(--text-3); border: 1px solid var(--border); border-radius: var(--r-full); padding: 2px var(--s3); }
+.challenge-title { font-family: var(--font-display); font-size: 1.2rem; margin: 0; }
+.challenge-desc { font-size: 0.9rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.challenge-task { background: var(--bg-alt); border-radius: var(--r2); padding: var(--s4); }
+.task-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.challenge-task p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.challenge-hint { border-top: 1px solid var(--border-light); padding-top: var(--s3); margin-top: auto; }
+.challenge-hint summary { font-size: 0.82rem; font-weight: 600; color: var(--accent); cursor: pointer; list-style: none; padding: var(--s2) 0; }
+.challenge-hint summary::-webkit-details-marker { display: none; }
+.challenge-hint p { font-size: 0.82rem; color: var(--text-2); margin: var(--s3) 0 0; line-height: 1.6; font-style: italic; }
+.challenges-cta { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--s3); }
+.challenges-cta h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
+.challenges-cta p { color: var(--text-2); margin: 0; }
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+@media (max-width: 640px) { .challenges-grid { grid-template-columns: 1fr; } }
+</style>
