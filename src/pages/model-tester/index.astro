@@ -1,58 +1,80 @@
 ---
 import Page from '../../layouts/Page.astro';
 ---
-<Page title="Test Kitchen" description="Run the same prompt through multiple AI models and see how differently they respond.">
+<Page title="Test Kitchen" description="Run the same prompt through multiple AI models and compare how they respond.">
   <section class="page-hero container">
-    <h1>🧪 Test Kitchen</h1>
-    <p>Same prompt, different models. See how ChatGPT, Claude, and Gemini respond — then decide which kitchen appliance fits the job.</p>
+    <h1><span class="h1-emoji">🧪</span> Test Kitchen</h1>
+    <p>Pick your task, get a suggested prompt, test on the recommended models, then compare results.</p>
   </section>
 
   <div class="container tester-layout">
 
-    <div class="tester-tip">
-      <span class="tip-icon">💡</span>
-      <p>Paste your prompt below, then open each model in a new tab and paste it there. Compare the results side by side. This page helps you think about what to look for.</p>
-    </div>
+    <!-- Step 1: Task type -->
+    <section class="tester-step">
+      <div class="step-label"><span class="step-num">1</span> What are you trying to do?</div>
+      <div class="type-grid" id="type-grid">
+        <button class="type-btn" data-type="writing">✍️ Writing &amp; editing</button>
+        <button class="type-btn" data-type="coding">💻 Coding &amp; debugging</button>
+        <button class="type-btn" data-type="research">🔍 Research &amp; summarising</button>
+        <button class="type-btn" data-type="creative">🎨 Creative &amp; brainstorming</button>
+        <button class="type-btn" data-type="analysis">📊 Analysis &amp; reasoning</button>
+        <button class="type-btn" data-type="general">⚡ General / not sure</button>
+      </div>
+    </section>
 
-    <div class="tester-main">
-      <div class="prompt-area-wrap">
-        <label for="test-prompt" class="prompt-label">Your test prompt</label>
-        <textarea id="test-prompt" class="prompt-area" placeholder="Enter a prompt to test across models…" rows="5"></textarea>
+    <!-- Step 2: Your prompt -->
+    <section class="tester-step" id="step-prompt" hidden>
+      <div class="step-label"><span class="step-num">2</span> Your prompt <span class="step-hint">Edit the suggestion or write your own</span></div>
+      <div class="prompt-wrap">
+        <textarea id="test-prompt" class="prompt-area" rows="6" placeholder="Enter a prompt to test…"></textarea>
         <div class="prompt-actions">
-          <button class="btn btn-primary" id="btn-copy-all">Copy prompt</button>
-          <button class="btn btn-secondary" id="btn-clear-prompt">Clear</button>
+          <button class="btn btn-primary" id="btn-copy-prompt">Copy prompt</button>
+          <button class="btn btn-secondary" id="btn-reset-prompt">Reset to example</button>
+          <button class="btn btn-ghost" id="btn-clear-prompt">Clear</button>
         </div>
       </div>
+    </section>
 
-      <div class="models-row">
-        {[
-          { name: 'ChatGPT', url: 'https://chat.openai.com', emoji: '🟢', desc: 'Good for general tasks, code, and images' },
-          { name: 'Claude', url: 'https://claude.ai', emoji: '🟠', desc: 'Good for long docs and nuanced writing' },
-          { name: 'Gemini', url: 'https://gemini.google.com', emoji: '🔵', desc: 'Good for search-grounded research' },
-          { name: 'Perplexity', url: 'https://perplexity.ai', emoji: '🟣', desc: 'Good for current facts with sources' },
-        ].map(m => (
-          <div class="model-launch-card">
-            <span class="model-emoji">{m.emoji}</span>
-            <strong>{m.name}</strong>
-            <p>{m.desc}</p>
-            <a href={m.url} target="_blank" rel="noopener" class="btn btn-model" data-model={m.name}>
-              Open {m.name} →
-            </a>
-          </div>
-        ))}
+    <!-- Step 3: Recommended models -->
+    <section class="tester-step" id="step-models" hidden>
+      <div class="step-label"><span class="step-num">3</span> Open these models, paste your prompt, and run it</div>
+      <div class="models-grid" id="models-grid">
+        <!-- filled by JS -->
       </div>
-    </div>
+    </section>
 
-    <section class="what-to-look-for">
+    <!-- Step 4: Capture results -->
+    <section class="tester-step" id="step-results" hidden>
+      <div class="step-label"><span class="step-num">4</span> Paste or note each model's response <span class="step-hint">Optional — but needed to generate the compare prompt</span></div>
+      <div class="results-grid" id="results-grid">
+        <!-- filled by JS -->
+      </div>
+    </section>
+
+    <!-- Step 5: Compare prompt -->
+    <section class="tester-step" id="step-compare" hidden>
+      <div class="step-label"><span class="step-num">5</span> Compare prompt <span class="step-hint">Paste this into any AI to get a side-by-side analysis</span></div>
+      <div class="compare-wrap">
+        <textarea id="compare-prompt" class="prompt-area compare-area" rows="10" readonly></textarea>
+        <div class="prompt-actions">
+          <button class="btn btn-primary" id="btn-copy-compare">Copy compare prompt</button>
+          <button class="btn btn-secondary" id="btn-regen-compare">Regenerate</button>
+        </div>
+        <p class="compare-note">Paste this into ChatGPT, Claude, or Gemini to get a structured breakdown of which response was best and why.</p>
+      </div>
+    </section>
+
+    <!-- What to look for -->
+    <section class="look-for" id="look-for" hidden>
       <h2>What to look for</h2>
       <div class="look-grid">
         {[
           { label: 'Accuracy', q: 'Did it get the facts right? Did it make anything up?' },
-          { label: 'Instruction-following', q: 'Did it do exactly what you asked, or did it go off on its own?' },
+          { label: 'Instruction-following', q: 'Did it do exactly what you asked, or go off-script?' },
           { label: 'Tone', q: 'Does the voice match what you need? Formal, casual, confident, hedged?' },
           { label: 'Length', q: 'Was it appropriately brief, or did it pad the response?' },
-          { label: 'Format', q: 'Did it use the structure you asked for without being told explicitly?' },
-          { label: 'Surprise', q: 'Did it add something you didn\'t expect that made the response better?' },
+          { label: 'Format', q: 'Did it structure the output well without being told explicitly?' },
+          { label: 'Surprise', q: "Did it add something you didn't expect that made it better?" },
         ].map(item => (
           <div class="look-card">
             <h3>{item.label}</h3>
@@ -62,57 +84,399 @@ import Page from '../../layouts/Page.astro';
       </div>
     </section>
 
-    <div class="tester-cta">
-      <p>Want a deeper comparison? The <a href="/models/">Appliance Guide</a> breaks down each model's strengths and weaknesses.</p>
-    </div>
   </div>
 </Page>
 
 <style>
-.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
-.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
-.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
 .tester-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
-.tester-tip { display: flex; gap: var(--s3); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s4) var(--s5); align-items: flex-start; }
-.tip-icon { font-size: 1.2rem; flex-shrink: 0; }
-.tester-tip p { font-size: 0.9rem; color: var(--text-2); margin: 0; line-height: 1.6; }
-.tester-main { display: flex; flex-direction: column; gap: var(--s6); }
-.prompt-label { font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
-.prompt-area { width: 100%; padding: var(--s4); border: 1.5px solid var(--border); border-radius: var(--r3); background: var(--surface); color: var(--text); font-family: var(--font-body); font-size: 0.95rem; line-height: 1.6; resize: vertical; transition: border-color var(--t-fast); }
+
+.tester-step { display: flex; flex-direction: column; gap: var(--s4); }
+
+.step-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.step-hint {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+/* Type buttons */
+.type-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--s3);
+}
+
+.type-btn {
+  padding: var(--s4) var(--s5);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r3);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--t-fast);
+}
+
+.type-btn:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); }
+.type-btn.active { border-color: var(--accent); background: var(--accent); color: #fff; }
+
+/* Prompt area */
+.prompt-wrap { display: flex; flex-direction: column; gap: var(--s3); }
+.prompt-area {
+  width: 100%;
+  padding: var(--s4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r3);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  resize: vertical;
+  transition: border-color var(--t-fast);
+  box-sizing: border-box;
+}
 .prompt-area:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
-.prompt-actions { display: flex; gap: var(--s3); margin-top: var(--s3); flex-wrap: wrap; }
-.models-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: var(--s4); }
-.model-launch-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); display: flex; flex-direction: column; gap: var(--s2); }
-.model-emoji { font-size: 1.5rem; }
-.model-launch-card strong { font-size: 1rem; font-weight: 700; }
-.model-launch-card p { font-size: 0.8rem; color: var(--text-3); margin: 0; line-height: 1.4; flex: 1; }
-.what-to-look-for h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
-.look-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: var(--s4); }
-.look-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
-.look-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
-.look-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.5; }
-.tester-cta { text-align: center; color: var(--text-2); font-size: 0.9rem; }
-.tester-cta a { color: var(--accent); font-weight: 600; }
-.btn { display: inline-flex; align-items: center; padding: var(--s2) var(--s4); border-radius: var(--r2); font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); text-decoration: none; }
+.compare-area { font-size: 0.85rem; background: var(--bg-alt); color: var(--text-2); }
+
+.prompt-actions { display: flex; gap: var(--s3); flex-wrap: wrap; }
+
+/* Models grid */
+.models-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--s4);
+}
+
+.model-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+.model-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.model-header { display: flex; align-items: center; gap: var(--s2); }
+.model-name { font-weight: 700; font-size: 1rem; }
+.model-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--r-full);
+  padding: 1px var(--s2);
+}
+.model-desc { font-size: 0.8rem; color: var(--text-3); margin: 0; line-height: 1.4; flex: 1; }
+.model-open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s2) var(--s4);
+  border-radius: var(--r2);
+  background: var(--bg-alt);
+  color: var(--text);
+  border: 1px solid var(--border);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--t-fast);
+  margin-top: auto;
+}
+.model-open-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent-border); }
+
+/* Results grid */
+.results-grid { display: flex; flex-direction: column; gap: var(--s4); }
+.result-entry { display: flex; flex-direction: column; gap: var(--s2); }
+.result-label-row { display: flex; align-items: center; gap: var(--s2); font-size: 0.82rem; font-weight: 700; color: var(--text-2); }
+.result-textarea {
+  width: 100%;
+  padding: var(--s4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r3);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  line-height: 1.6;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color var(--t-fast);
+}
+.result-textarea:focus { outline: none; border-color: var(--accent); }
+
+.compare-wrap { display: flex; flex-direction: column; gap: var(--s3); }
+.compare-note { font-size: 0.82rem; color: var(--text-3); margin: 0; font-style: italic; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); border-radius: var(--r2); font-size: 0.875rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); text-decoration: none; }
 .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
 .btn-primary:hover { background: var(--accent-hover); }
 .btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
 .btn-secondary:hover { background: var(--bg-alt); }
-.btn-model { margin-top: auto; width: 100%; justify-content: center; background: var(--bg-alt); color: var(--text); border-color: var(--border); }
-.btn-model:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent-border); }
+.btn-ghost { background: transparent; color: var(--text-3); border-color: transparent; padding-left: var(--s2); }
+.btn-ghost:hover { color: var(--text); }
+
+/* What to look for */
+.look-for h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s5); }
+.look-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: var(--s4); }
+.look-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.look-card h3 { font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 var(--s2); }
+.look-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+/* Divider between steps */
+.tester-step:not([hidden]) + .tester-step:not([hidden]) {
+  border-top: 1px solid var(--border-light);
+  padding-top: var(--s8);
+}
+
+@media (max-width: 640px) { .type-grid { grid-template-columns: 1fr 1fr; } .models-grid { grid-template-columns: 1fr; } }
 </style>
 
 <script>
-const promptEl = document.getElementById('test-prompt') as HTMLTextAreaElement;
-document.getElementById('btn-copy-all')?.addEventListener('click', async () => {
-  const text = promptEl?.value?.trim();
-  if (!text) return;
-  try { await navigator.clipboard.writeText(text); } catch {}
-  const btn = document.getElementById('btn-copy-all') as HTMLButtonElement;
-  btn.textContent = 'Copied!';
-  setTimeout(() => { btn.textContent = 'Copy prompt'; }, 2000);
+// ─── Data ───────────────────────────────────────────────────────────────────
+const taskData: Record<string, {
+  prompt: string;
+  models: { name: string; url: string; color: string; desc: string; badge?: string }[];
+  goal: string;
+}> = {
+  writing: {
+    goal: 'produce the clearest, most natural and appropriate piece of writing',
+    prompt: `Write a short email (under 150 words) declining a meeting invitation from a senior executive. The reason is a conflicting deadline. Keep the tone professional, warm, and suggest an alternative time next week.`,
+    models: [
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Best for nuanced, careful writing and long documents', badge: 'Top pick' },
+      { name: 'ChatGPT', url: 'https://chat.openai.com', color: '#10A37F', desc: 'Fast, versatile, great for quick drafts and edits' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Solid writing with Google Workspace integration' },
+    ],
+  },
+  coding: {
+    goal: 'produce the most accurate, readable, and well-explained code',
+    prompt: `Write a Python function that takes a list of transactions — each a dict with "amount" (float) and "category" (string) — and returns a summary dict showing total spending per category and each category's percentage of total spend. Include type hints and a brief docstring.`,
+    models: [
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Consistently top-rated for code quality and explanations', badge: 'Top pick' },
+      { name: 'ChatGPT', url: 'https://chat.openai.com', color: '#10A37F', desc: 'Strong coder, great for quick scripts and debugging' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Good for code with Google ecosystem context' },
+    ],
+  },
+  research: {
+    goal: 'provide the most accurate, well-sourced, and balanced summary',
+    prompt: `Summarise the main evidence for and against a 4-day work week. Include: what studies show about productivity, what employers say, and what employees report. Keep it to 300 words and cite specific research where possible.`,
+    models: [
+      { name: 'Perplexity', url: 'https://perplexity.ai', color: '#8B5CF6', desc: 'Real-time web search with source citations', badge: 'Top pick' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Strong research with current web access' },
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Best for synthesising and maintaining nuance' },
+    ],
+  },
+  creative: {
+    goal: 'produce the most original, engaging, and surprising creative output',
+    prompt: `Write the opening paragraph of a short story set in a near-future city where AI has replaced all bureaucratic jobs. The protagonist is a former DMV employee on their first day of retirement. Surprise me with the tone — don't make it dystopian.`,
+    models: [
+      { name: 'ChatGPT', url: 'https://chat.openai.com', color: '#10A37F', desc: 'Playful, versatile, strong at unexpected creative angles', badge: 'Top pick' },
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Thoughtful, literary — better for longer-form creative work' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Good for creative ideas and brainstorming variety' },
+    ],
+  },
+  analysis: {
+    goal: 'reason most clearly, spot the most important nuances, and avoid false conclusions',
+    prompt: `Here is a business decision: a startup with 12 employees is considering switching from a weekly all-hands meeting to async video updates. Analyse the pros and cons. Be specific — avoid generic business-speak. End with a clear recommendation.`,
+    models: [
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Strongest at careful reasoning and avoiding false certainty', badge: 'Top pick' },
+      { name: 'ChatGPT', url: 'https://chat.openai.com', color: '#10A37F', desc: 'Good at structured analysis and clear recommendations' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Solid reasoning, good at finding counterarguments' },
+    ],
+  },
+  general: {
+    goal: 'be most helpful, accurate, and appropriate for the task',
+    prompt: `Explain the difference between machine learning, deep learning, and AI to someone who knows nothing about the topic. Use a concrete analogy, keep it under 200 words, and don't use jargon.`,
+    models: [
+      { name: 'ChatGPT', url: 'https://chat.openai.com', color: '#10A37F', desc: 'Best all-rounder — versatile, fast, widely supported', badge: 'Top pick' },
+      { name: 'Claude', url: 'https://claude.ai', color: '#E8784D', desc: 'Careful, nuanced — great at clear explanations' },
+      { name: 'Gemini', url: 'https://gemini.google.com', color: '#4285F4', desc: 'Solid across general tasks, good Google integration' },
+    ],
+  },
+};
+
+// ─── State ───────────────────────────────────────────────────────────────────
+let selectedType = '';
+let currentModels: typeof taskData.writing.models = [];
+
+// ─── Elements ────────────────────────────────────────────────────────────────
+const stepPrompt   = document.getElementById('step-prompt')!;
+const stepModels   = document.getElementById('step-models')!;
+const stepResults  = document.getElementById('step-results')!;
+const stepCompare  = document.getElementById('step-compare')!;
+const lookFor      = document.getElementById('look-for')!;
+const promptEl     = document.getElementById('test-prompt') as HTMLTextAreaElement;
+const modelsGrid   = document.getElementById('models-grid')!;
+const resultsGrid  = document.getElementById('results-grid')!;
+const compareEl    = document.getElementById('compare-prompt') as HTMLTextAreaElement;
+
+// ─── Helpers ─────────────────────────────────────────────────────────────────
+function show(el: HTMLElement) { el.hidden = false; }
+function hide(el: HTMLElement) { el.hidden = true; }
+
+function buildComparePrompt(): string {
+  const results = Array.from(resultsGrid.querySelectorAll<HTMLTextAreaElement>('.result-textarea'));
+  const hasContent = results.some(r => r.value.trim());
+  const task = taskData[selectedType];
+  if (!task) return '';
+
+  const promptText = promptEl.value.trim();
+  const resultBlocks = currentModels.map((m, i) => {
+    const val = results[i]?.value?.trim();
+    return `### ${m.name}\n${val || '(no response recorded)'}`;
+  }).join('\n\n');
+
+  return `You are a neutral AI evaluator. I tested the same prompt on ${currentModels.length} AI models and captured their responses. Please compare them.
+
+## The prompt I used
+${promptText}
+
+## Goal
+I wanted the model to: ${task.goal}
+
+## Responses
+
+${resultBlocks}
+
+## Your task
+1. Rate each response on: accuracy, instruction-following, tone, and overall quality (score out of 10)
+2. Identify the strongest response and explain specifically why it's better
+3. Note any surprising differences between the models
+4. Give one piece of advice to improve the original prompt for even better results`;
+}
+
+function renderModels() {
+  const task = taskData[selectedType];
+  if (!task) return;
+  currentModels = task.models;
+
+  modelsGrid.innerHTML = currentModels.map(m => `
+    <div class="model-card">
+      <div class="model-header">
+        <div class="model-dot" style="background:${m.color}"></div>
+        <span class="model-name">${m.name}</span>
+        ${m.badge ? `<span class="model-badge">${m.badge}</span>` : ''}
+      </div>
+      <p class="model-desc">${m.desc}</p>
+      <a href="${m.url}" target="_blank" rel="noopener" class="model-open-btn">Open ${m.name} →</a>
+    </div>
+  `).join('');
+}
+
+function renderResultFields() {
+  resultsGrid.innerHTML = currentModels.map(m => `
+    <div class="result-entry">
+      <div class="result-label-row">
+        <div class="model-dot" style="background:${m.color};width:10px;height:10px;border-radius:50%;display:inline-block"></div>
+        ${m.name} response
+      </div>
+      <textarea class="result-textarea" rows="5" placeholder="Paste ${m.name}'s response here, or summarise what it said…"></textarea>
+    </div>
+  `).join('');
+
+  // Regenerate compare prompt on input
+  resultsGrid.querySelectorAll<HTMLTextAreaElement>('.result-textarea').forEach(ta => {
+    ta.addEventListener('input', () => {
+      compareEl.value = buildComparePrompt();
+    });
+  });
+}
+
+// ─── Type selection ───────────────────────────────────────────────────────────
+document.querySelectorAll<HTMLButtonElement>('.type-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedType = btn.dataset.type ?? 'general';
+
+    const task = taskData[selectedType];
+    if (!task) return;
+
+    promptEl.value = task.prompt;
+    renderModels();
+    renderResultFields();
+    compareEl.value = buildComparePrompt();
+
+    show(stepPrompt);
+    show(stepModels);
+    show(stepResults);
+    show(stepCompare);
+    show(lookFor);
+
+    // Smooth scroll to prompt
+    setTimeout(() => stepPrompt.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  });
 });
+
+// ─── Prompt actions ───────────────────────────────────────────────────────────
+document.getElementById('btn-copy-prompt')?.addEventListener('click', async () => {
+  const text = promptEl.value.trim();
+  if (!text) return;
+  await navigator.clipboard.writeText(text).catch(() => {});
+  const btn = document.getElementById('btn-copy-prompt') as HTMLButtonElement;
+  const orig = btn.textContent!;
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => { btn.textContent = orig; }, 2000);
+});
+
+document.getElementById('btn-reset-prompt')?.addEventListener('click', () => {
+  if (selectedType && taskData[selectedType]) {
+    promptEl.value = taskData[selectedType].prompt;
+    compareEl.value = buildComparePrompt();
+  }
+});
+
 document.getElementById('btn-clear-prompt')?.addEventListener('click', () => {
-  if (promptEl) promptEl.value = '';
+  promptEl.value = '';
+});
+
+promptEl.addEventListener('input', () => {
+  compareEl.value = buildComparePrompt();
+});
+
+// ─── Compare actions ──────────────────────────────────────────────────────────
+document.getElementById('btn-copy-compare')?.addEventListener('click', async () => {
+  const text = compareEl.value.trim();
+  if (!text) return;
+  await navigator.clipboard.writeText(text).catch(() => {});
+  const btn = document.getElementById('btn-copy-compare') as HTMLButtonElement;
+  const orig = btn.textContent!;
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => { btn.textContent = orig; }, 2000);
+});
+
+document.getElementById('btn-regen-compare')?.addEventListener('click', () => {
+  compareEl.value = buildComparePrompt();
 });
 </script>

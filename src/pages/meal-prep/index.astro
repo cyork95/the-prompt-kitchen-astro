@@ -20,7 +20,7 @@ const categoryLabels: Record<string, string> = {
   description="System prompts you paste once and reuse forever — each one transforms an AI into a specialized assistant."
 >
   <section class="page-hero container">
-    <h1>🍱 Meal Prep</h1>
+    <h1><span class="h1-emoji">🍱</span> Meal Prep</h1>
     <p>System prompts that transform any AI into a specialized assistant. Copy once, use forever.</p>
   </section>
 
@@ -47,6 +47,18 @@ const categoryLabels: Record<string, string> = {
       </div>
     </div>
 
+    <!-- Search bar -->
+    <div class="search-bar" role="search">
+      <span aria-hidden="true">🔍</span>
+      <input
+        type="text"
+        id="mp-search"
+        placeholder="Search system prompts…"
+        aria-label="Search system prompts"
+        autocomplete="off"
+      />
+    </div>
+
     <!-- Category filter -->
     <div class="filter-pills" role="group" aria-label="Filter by category">
       {categories.map(cat => (
@@ -59,13 +71,23 @@ const categoryLabels: Record<string, string> = {
       ))}
     </div>
 
+    <!-- Results count -->
+    <p class="results-count" id="mp-count" aria-live="polite">
+      {sorted.length} system prompt{sorted.length !== 1 ? 's' : ''}
+    </p>
+
     <!-- Cards -->
     {sorted.length > 0 ? (
       <div class="mp-grid" id="mp-grid">
         {sorted.map(async mp => {
           const { Content } = await mp.render();
           return (
-            <div class="mp-card" data-category={mp.data.category}>
+            <div
+              class="mp-card"
+              data-category={mp.data.category}
+              data-title={mp.data.title.toLowerCase()}
+              data-tagline={(mp.data.tagline ?? '').toLowerCase()}
+            >
               <div class="mp-card-header">
                 <div>
                   <span class="mp-card-category">{categoryLabels[mp.data.category] ?? mp.data.category}</span>
@@ -95,11 +117,20 @@ const categoryLabels: Record<string, string> = {
         <a href="/prompts/" style="color:var(--accent)">Browse the Recipe Book →</a>
       </div>
     )}
+
+    <!-- No results message -->
+    <div class="no-results" id="mp-no-results" hidden>
+      <p>No system prompts match "<span id="mp-query"></span>".</p>
+      <button class="filter-pill active" id="mp-clear">Clear search</button>
+    </div>
   </div>
 </Page>
 
 <style>
 .mp-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
   padding-bottom: var(--s20);
 }
 
@@ -108,7 +139,6 @@ const categoryLabels: Record<string, string> = {
   border: 1px solid var(--border-light);
   border-radius: var(--r3);
   padding: var(--s6);
-  margin-bottom: var(--s8);
 }
 
 .mp-explainer h3 {
@@ -153,10 +183,16 @@ const categoryLabels: Record<string, string> = {
   color: var(--text-3);
 }
 
+.results-count {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  margin: 0;
+}
+
 .mp-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--s5);
+  gap: var(--s4);
 }
 
 .mp-card {
@@ -234,20 +270,76 @@ const categoryLabels: Record<string, string> = {
   font-size: 0.85rem;
   line-height: 1.6;
 }
+
+.no-results {
+  text-align: center;
+  padding: var(--s12) var(--s8);
+  color: var(--text-3);
+}
+
+.no-results p {
+  margin: 0 0 var(--s4);
+  font-size: 0.9rem;
+}
+
+.no-results span {
+  font-style: italic;
+  color: var(--text-2);
+}
 </style>
 
 <script>
+const searchInput = document.getElementById('mp-search') as HTMLInputElement;
 const pills = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
 const cards = document.querySelectorAll<HTMLElement>('.mp-card');
+const countEl = document.getElementById('mp-count');
+const noResults = document.getElementById('mp-no-results');
+const querySpan = document.getElementById('mp-query');
+const clearBtn = document.getElementById('mp-clear');
+
+let activeCategory = 'All';
+let searchQuery = '';
+
+function updateDisplay() {
+  let visible = 0;
+  cards.forEach(card => {
+    const matchCat = activeCategory === 'All' || card.dataset.category === activeCategory;
+    const title = card.dataset.title ?? '';
+    const tagline = card.dataset.tagline ?? '';
+    const matchSearch = !searchQuery ||
+      title.includes(searchQuery) ||
+      tagline.includes(searchQuery) ||
+      (card.dataset.category ?? '').includes(searchQuery);
+    const show = matchCat && matchSearch;
+    card.hidden = !show;
+    if (show) visible++;
+  });
+
+  if (countEl) countEl.textContent = `${visible} system prompt${visible !== 1 ? 's' : ''}`;
+
+  if (noResults && querySpan) {
+    const hasQuery = searchQuery.length > 0;
+    noResults.hidden = visible > 0 || !hasQuery;
+    querySpan.textContent = searchQuery;
+  }
+}
 
 pills.forEach(pill => {
   pill.addEventListener('click', () => {
-    const cat = pill.dataset.category ?? 'All';
+    activeCategory = pill.dataset.category ?? 'All';
     pills.forEach(p => p.classList.toggle('active', p === pill));
-    cards.forEach(card => {
-      const show = cat === 'All' || card.dataset.category === cat;
-      card.style.display = show ? '' : 'none';
-    });
+    updateDisplay();
   });
+});
+
+searchInput?.addEventListener('input', () => {
+  searchQuery = searchInput.value.toLowerCase().trim();
+  updateDisplay();
+});
+
+clearBtn?.addEventListener('click', () => {
+  searchQuery = '';
+  searchInput.value = '';
+  updateDisplay();
 });
 </script>

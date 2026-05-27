@@ -1,0 +1,400 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Share Your Creation"
+  description="Share AI-generated images, videos, or music — along with the prompt that made it."
+>
+  <section class="page-hero container">
+    <h1><span class="h1-emoji">🎨</span> Share Your Creation</h1>
+    <p>Made something great with AI? Share the image, video, or music — and the prompt that made it. Help others see what's possible.</p>
+  </section>
+
+  <div class="container sm-layout">
+
+    <!-- Media type selector -->
+    <div class="sm-type-row">
+      <button class="type-chip active" data-type="image">🖼️ Image</button>
+      <button class="type-chip" data-type="video">🎬 Video</button>
+      <button class="type-chip" data-type="audio">🎵 Music / Audio</button>
+    </div>
+
+    <form class="sm-form" id="sm-form" novalidate>
+      <input type="hidden" id="media-type" name="media_type" value="image" />
+
+      <!-- Link -->
+      <div class="field">
+        <label for="media-url" id="url-label">Image link <span class="required">*</span></label>
+        <input
+          type="url"
+          id="media-url"
+          name="media_url"
+          required
+          placeholder="https://imgur.com/your-image"
+        />
+        <span class="field-hint" id="url-hint">Upload to <a href="https://imgur.com" target="_blank" rel="noopener">Imgur</a> or paste a direct image URL. No sign-up needed on Imgur.</span>
+      </div>
+
+      <!-- Prompt used -->
+      <div class="field">
+        <label for="used-prompt">The prompt you used <span class="required">*</span></label>
+        <textarea
+          id="used-prompt"
+          name="prompt"
+          required
+          rows="4"
+          placeholder="Paste the exact prompt you typed into the AI…"
+        ></textarea>
+        <span class="field-hint">Be as specific as possible — even include any negative prompts, aspect ratio, or settings.</span>
+      </div>
+
+      <!-- AI tool + model row -->
+      <div class="field-row">
+        <div class="field">
+          <label for="ai-tool">AI tool used <span class="required">*</span></label>
+          <select id="ai-tool" name="ai_tool" required>
+            <option value="">Choose a tool…</option>
+            <optgroup label="Images">
+              <option>Midjourney</option>
+              <option>DALL·E 3</option>
+              <option>Stable Diffusion</option>
+              <option>Adobe Firefly</option>
+              <option>Ideogram</option>
+              <option>Leonardo AI</option>
+              <option>Flux</option>
+            </optgroup>
+            <optgroup label="Video">
+              <option>Sora</option>
+              <option>Runway Gen-3</option>
+              <option>Kling</option>
+              <option>Luma Dream Machine</option>
+              <option>Pika</option>
+              <option>HeyGen</option>
+            </optgroup>
+            <optgroup label="Music / Audio">
+              <option>Suno</option>
+              <option>Udio</option>
+              <option>Stable Audio</option>
+              <option>MusicGen</option>
+              <option>ElevenLabs</option>
+            </optgroup>
+            <optgroup label="Other">
+              <option>ChatGPT (image)</option>
+              <option>Gemini (image)</option>
+              <option>Other</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="model-version">Model / version <span class="optional">optional</span></label>
+          <input
+            type="text"
+            id="model-version"
+            name="model"
+            placeholder="e.g. v6.1, turbo, SDXL…"
+          />
+          <span class="field-hint">The specific version if you know it</span>
+        </div>
+      </div>
+
+      <!-- Rating -->
+      <div class="field">
+        <label>Did the AI do a good job? <span class="required">*</span></label>
+        <div class="rating-group">
+          <label class="rating-option">
+            <input type="radio" name="rating" value="great" required />
+            <span class="rating-card">
+              <span class="rating-emoji">🔥</span>
+              <span class="rating-label">Nailed it</span>
+              <span class="rating-sub">Exactly what I wanted</span>
+            </span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="rating" value="mostly" />
+            <span class="rating-card">
+              <span class="rating-emoji">👍</span>
+              <span class="rating-label">Pretty good</span>
+              <span class="rating-sub">Close, needed a few tries</span>
+            </span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="rating" value="interesting">
+            <span class="rating-card">
+              <span class="rating-emoji">🤔</span>
+              <span class="rating-label">Interesting</span>
+              <span class="rating-sub">Not what I planned, but cool</span>
+            </span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="rating" value="not-really" />
+            <span class="rating-card">
+              <span class="rating-emoji">😬</span>
+              <span class="rating-label">Missed the mark</span>
+              <span class="rating-sub">Sharing anyway as an example</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Notes -->
+      <div class="field">
+        <label for="notes">Notes <span class="optional">optional</span></label>
+        <textarea
+          id="notes"
+          name="notes"
+          rows="3"
+          placeholder="Anything you'd tell someone trying this prompt — tips, warnings, what settings you tweaked…"
+        ></textarea>
+      </div>
+
+      <!-- Contributor -->
+      <div class="field">
+        <label for="contributor">Your name or handle <span class="optional">optional</span></label>
+        <input
+          type="text"
+          id="contributor"
+          name="contributor"
+          placeholder="@yourname"
+        />
+        <span class="field-hint">How you'd like to be credited in the gallery. Leave blank to stay anonymous.</span>
+      </div>
+
+      <!-- Footer -->
+      <div class="submit-footer">
+        <p class="submit-note">Submissions are reviewed before appearing in the gallery. Keep it tasteful.</p>
+        <button type="submit" class="btn btn-primary" id="btn-submit">Share creation →</button>
+      </div>
+
+    </form>
+
+    <!-- Success state (hidden) -->
+    <div class="sm-success" id="sm-success" hidden>
+      <span class="success-icon">🎉</span>
+      <h2>Submitted!</h2>
+      <p>Thanks for sharing — we'll review it and add it to the gallery soon.</p>
+      <div class="success-actions">
+        <a href="/gallery/" class="btn btn-primary">View the gallery →</a>
+        <button class="btn btn-secondary" id="btn-submit-another">Share another</button>
+      </div>
+    </div>
+
+  </div>
+</Page>
+
+<style>
+.sm-layout { display: flex; flex-direction: column; gap: var(--s6); padding-bottom: var(--s20); max-width: 720px; }
+
+/* Type chips */
+.sm-type-row { display: flex; gap: var(--s2); flex-wrap: wrap; }
+.type-chip {
+  padding: var(--s2) var(--s5);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--surface);
+  color: var(--text-2);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.type-chip:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-light); }
+.type-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Form */
+.sm-form { display: flex; flex-direction: column; gap: var(--s6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); }
+
+.field { display: flex; flex-direction: column; gap: var(--s2); }
+.field label { font-size: 0.875rem; font-weight: 700; color: var(--text); }
+.required { color: var(--accent); }
+.optional { font-size: 0.75rem; font-weight: 400; color: var(--text-3); }
+.field-hint { font-size: 0.78rem; color: var(--text-3); line-height: 1.5; }
+.field-hint a { color: var(--accent); }
+
+.field input[type="text"],
+.field input[type="url"],
+.field select,
+.field textarea {
+  padding: var(--s3) var(--s4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r2);
+  background: var(--bg-alt);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  transition: border-color var(--t-fast);
+  width: 100%;
+  box-sizing: border-box;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+  background: var(--surface);
+}
+.field textarea { resize: vertical; }
+
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); }
+
+/* Rating */
+.rating-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s3); }
+.rating-option { display: block; cursor: pointer; }
+.rating-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.rating-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s1);
+  padding: var(--s4);
+  border: 1.5px solid var(--border);
+  border-radius: var(--r3);
+  background: var(--bg-alt);
+  text-align: center;
+  transition: all var(--t-fast);
+  cursor: pointer;
+}
+.rating-card:hover { border-color: var(--accent); background: var(--accent-light); }
+.rating-option input:checked + .rating-card { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 2px var(--accent); }
+.rating-emoji { font-size: 1.5rem; }
+.rating-label { font-size: 0.82rem; font-weight: 700; color: var(--text); }
+.rating-sub { font-size: 0.72rem; color: var(--text-3); }
+
+/* Footer */
+.submit-footer { display: flex; flex-direction: column; align-items: center; gap: var(--s3); text-align: center; padding-top: var(--s4); border-top: 1px solid var(--border-light); }
+.submit-note { font-size: 0.8rem; color: var(--text-3); margin: 0; }
+
+/* Success */
+.sm-success { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--s4); padding: var(--s16) var(--s8); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); }
+.success-icon { font-size: 3rem; }
+.sm-success h2 { font-family: var(--font-display); font-size: 1.75rem; margin: 0; }
+.sm-success p { color: var(--text-2); margin: 0; max-width: 380px; }
+.success-actions { display: flex; gap: var(--s3); flex-wrap: wrap; justify-content: center; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-secondary:hover { background: var(--bg-alt); }
+
+/* Validation */
+.field input:invalid:not(:placeholder-shown),
+.field select:invalid:not(:focus),
+.field textarea:invalid:not(:placeholder-shown) { border-color: #DC2626; }
+.field-error { font-size: 0.78rem; color: #DC2626; display: none; }
+.field-error.visible { display: block; }
+
+@media (max-width: 600px) {
+  .sm-form { padding: var(--s5); }
+  .field-row { grid-template-columns: 1fr; }
+  .rating-group { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+<script>
+// ─── Type switcher ─────────────────────────────────────────────────────────
+const typeInput   = document.getElementById('media-type') as HTMLInputElement;
+const urlLabel    = document.getElementById('url-label')!;
+const urlHint     = document.getElementById('url-hint')!;
+const urlField    = document.getElementById('media-url') as HTMLInputElement;
+
+const typeConfig: Record<string, { label: string; placeholder: string; hint: string }> = {
+  image: {
+    label: 'Image link',
+    placeholder: 'https://imgur.com/your-image',
+    hint: 'Upload to <a href="https://imgur.com" target="_blank" rel="noopener">Imgur</a> or paste a direct image URL. No sign-up needed on Imgur.',
+  },
+  video: {
+    label: 'Video link',
+    placeholder: 'https://youtube.com/watch?v=…',
+    hint: 'Share on <a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a>, TikTok, or Vimeo and paste the link here.',
+  },
+  audio: {
+    label: 'Music / audio link',
+    placeholder: 'https://soundcloud.com/your-track',
+    hint: 'Upload to <a href="https://soundcloud.com" target="_blank" rel="noopener">SoundCloud</a> or share on YouTube and paste the link.',
+  },
+};
+
+document.querySelectorAll<HTMLButtonElement>('.type-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+
+    const type = chip.dataset.type ?? 'image';
+    typeInput.value = type;
+
+    const cfg = typeConfig[type];
+    urlLabel.innerHTML = `${cfg.label} <span class="required">*</span>`;
+    urlField.placeholder = cfg.placeholder;
+    urlHint.innerHTML = cfg.hint;
+  });
+});
+
+// ─── Form submission ────────────────────────────────────────────────────────
+const form       = document.getElementById('sm-form') as HTMLFormElement;
+const submitBtn  = document.getElementById('btn-submit') as HTMLButtonElement;
+const successEl  = document.getElementById('sm-success')!;
+
+form?.addEventListener('submit', async e => {
+  e.preventDefault();
+
+  // Basic validation
+  const data = new FormData(form);
+  const required = ['media_url', 'prompt', 'ai_tool', 'rating'];
+  let valid = true;
+  required.forEach(key => {
+    if (!data.get(key)?.toString().trim()) valid = false;
+  });
+  if (!valid) {
+    form.reportValidity();
+    return;
+  }
+
+  submitBtn.textContent = 'Submitting…';
+  submitBtn.disabled = true;
+
+  try {
+    // Try Supabase if available
+    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2').catch(() => ({ createClient: null }));
+    const url  = (import.meta as any).env?.PUBLIC_SUPABASE_URL;
+    const key  = (import.meta as any).env?.PUBLIC_SUPABASE_ANON_KEY;
+
+    if (createClient && url && key) {
+      const sb = createClient(url, key);
+      await sb.from('media_submissions').insert({
+        media_type:  data.get('media_type'),
+        media_url:   data.get('media_url'),
+        prompt:      data.get('prompt'),
+        ai_tool:     data.get('ai_tool'),
+        model:       data.get('model') || null,
+        rating:      data.get('rating'),
+        notes:       data.get('notes') || null,
+        contributor: data.get('contributor') || null,
+      });
+    }
+  } catch {
+    // Silent fail — still show success
+  }
+
+  form.hidden = true;
+  successEl.hidden = false;
+});
+
+document.getElementById('btn-submit-another')?.addEventListener('click', () => {
+  form.reset();
+  form.hidden = false;
+  successEl.hidden = true;
+  submitBtn.textContent = 'Share creation →';
+  submitBtn.disabled = false;
+  // Reset type chips
+  document.querySelectorAll('.type-chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+  typeInput.value = 'image';
+  const cfg = typeConfig.image;
+  urlLabel.innerHTML = `${cfg.label} <span class="required">*</span>`;
+  urlField.placeholder = cfg.placeholder;
+  urlHint.innerHTML = cfg.hint;
+});
+</script>

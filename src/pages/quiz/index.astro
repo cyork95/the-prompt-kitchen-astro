@@ -3,7 +3,7 @@ import Page from '../../layouts/Page.astro';
 ---
 <Page title="Ask the Chef" description="Answer a few questions and get a personalised AI tool recommendation.">
   <section class="page-hero container">
-    <h1>👨‍🍳 Ask the Chef</h1>
+    <h1><span class="h1-emoji">👨‍🍳</span> Ask the Chef</h1>
     <p>Not sure which AI tool to use? Answer a few questions and get a personalised recommendation.</p>
   </section>
 
@@ -11,10 +11,10 @@ import Page from '../../layouts/Page.astro';
     <div class="quiz-card" id="quiz-card">
       <!-- Step indicator -->
       <div class="quiz-steps" id="quiz-steps">
-        <div class="step active" data-step="0"></div>
-        <div class="step" data-step="1"></div>
-        <div class="step" data-step="2"></div>
-        <div class="step" data-step="3"></div>
+        <div class="quiz-step active" data-step="0"></div>
+        <div class="quiz-step" data-step="1"></div>
+        <div class="quiz-step" data-step="2"></div>
+        <div class="quiz-step" data-step="3"></div>
       </div>
 
       <div id="quiz-body">
@@ -37,20 +37,17 @@ import Page from '../../layouts/Page.astro';
   </div>
 </Page>
 
-<style>
-.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
-.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
-.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+<style is:global>
 .quiz-layout { display: grid; grid-template-columns: 1fr 260px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
 .quiz-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); min-height: 320px; }
 .quiz-steps { display: flex; gap: var(--s2); margin-bottom: var(--s8); }
-.step { height: 4px; flex: 1; background: var(--border); border-radius: 2px; transition: background var(--t-fast); }
-.step.active, .step.done { background: var(--accent); }
+.quiz-step { height: 4px; flex: 1; background: var(--border); border-radius: 2px; transition: background var(--t-fast); }
+.quiz-step.active, .quiz-step.done { background: var(--accent); }
 .quiz-question { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s6); line-height: 1.3; }
 .quiz-options { display: flex; flex-direction: column; gap: var(--s3); }
-.quiz-option { display: flex; align-items: flex-start; gap: var(--s4); padding: var(--s4) var(--s5); border: 1.5px solid var(--border); border-radius: var(--r3); background: var(--bg-alt); cursor: pointer; text-align: left; font-family: var(--font-body); transition: all var(--t-fast); }
+.quiz-option { display: flex; align-items: flex-start; gap: var(--s4); padding: var(--s4) var(--s5); border: 1.5px solid var(--border); border-radius: var(--r3); background: var(--bg-alt); cursor: pointer; text-align: left; font-family: var(--font-body); font-size: 1rem; transition: all var(--t-fast); width: 100%; }
 .quiz-option:hover { border-color: var(--accent); background: var(--accent-light); }
-.option-icon { font-size: 1.3rem; flex-shrink: 0; }
+.option-icon { font-size: 1.3rem; flex-shrink: 0; line-height: 1.4; }
 .option-text { display: flex; flex-direction: column; gap: 2px; }
 .option-label { font-size: 0.9rem; font-weight: 600; color: var(--text); }
 .option-sub { font-size: 0.78rem; color: var(--text-3); }
@@ -64,17 +61,17 @@ import Page from '../../layouts/Page.astro';
 .also-list { display: flex; flex-direction: column; gap: var(--s2); }
 .also-item { font-size: 0.875rem; color: var(--text-2); padding: var(--s2) var(--s3); background: var(--bg-alt); border-radius: var(--r2); }
 .result-actions { display: flex; gap: var(--s3); flex-wrap: wrap; }
-.btn { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); border-radius: var(--r2); font-size: 0.875rem; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); }
-.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-.btn-primary:hover { background: var(--accent-hover); }
-.btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
-.btn-secondary:hover { background: var(--bg-alt); }
+.quiz-btn { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); border-radius: var(--r2); font-size: 0.875rem; font-weight: 600; text-decoration: none; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); }
+.quiz-btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.quiz-btn-primary:hover { background: var(--accent-hover); }
+.quiz-btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
+.quiz-btn-secondary:hover { background: var(--bg-alt); }
 .quiz-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
-.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
-.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
-.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); }
-.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
-.sidebar-link:hover { text-decoration: underline; }
+.quiz-sidebar .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.quiz-sidebar .sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.quiz-sidebar .sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); }
+.quiz-sidebar .sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.quiz-sidebar .sidebar-link:hover { text-decoration: underline; }
 @media (max-width: 768px) { .quiz-layout { grid-template-columns: 1fr; } .quiz-sidebar { position: static; } }
 </style>
 
@@ -95,7 +92,7 @@ const questions = [
       { icon: '⚡', label: 'Quick answers', sub: 'I want fast, direct responses', key: 'fast' },
       { icon: '📄', label: 'Long documents', sub: 'I work with large files and need deep context', key: 'long' },
       { icon: '🌐', label: 'Current information', sub: 'I need up-to-date facts and sources', key: 'current' },
-      { icon: '🔒', label: 'Privacy matters', sub: 'I\'d rather not send data to big tech', key: 'private' },
+      { icon: '🔒', label: 'Privacy matters', sub: "I'd rather not send data to big tech", key: 'private' },
     ],
   },
   {
@@ -117,12 +114,12 @@ const questions = [
 ];
 
 const recommendations: Record<string, { name: string; emoji: string; url: string; reason: string; also: string[] }> = {
-  'writing-long': { name: 'Claude', emoji: '🟠', url: 'https://claude.ai', reason: 'Claude handles long documents exceptionally well and produces nuanced, careful writing. Its 200K context window means it can read your entire document before responding.', also: ['ChatGPT for quick edits', 'Grammarly for grammar-only fixes'] },
-  'writing-fast': { name: 'ChatGPT', emoji: '🟢', url: 'https://chat.openai.com', reason: 'ChatGPT is fast, versatile, and excellent for everyday writing tasks. GPT-4o handles drafts, rewrites, and edits with minimal fuss.', also: ['Claude for longer documents', 'Notion AI if you\'re already in Notion'] },
+  'writing-long': { name: 'Claude', emoji: '🟠', url: 'https://claude.ai', reason: 'Claude handles long documents exceptionally well and produces nuanced, careful writing. Its 200K context window means it can read your entire document before responding.', also: ['ChatGPT for quick edits', "Grammarly for grammar-only fixes"] },
+  'writing-fast': { name: 'ChatGPT', emoji: '🟢', url: 'https://chat.openai.com', reason: 'ChatGPT is fast, versatile, and excellent for everyday writing tasks. GPT-4o handles drafts, rewrites, and edits with minimal fuss.', also: ['Claude for longer documents', "Notion AI if you're already in Notion"] },
   'coding': { name: 'Claude', emoji: '🟠', url: 'https://claude.ai', reason: 'Claude is consistently rated the best model for code. It explains errors clearly, follows complex refactoring instructions, and handles large codebases.', also: ['GitHub Copilot for in-editor completions', 'ChatGPT for quick scripts'] },
   'research-current': { name: 'Perplexity', emoji: '🟣', url: 'https://perplexity.ai', reason: 'Perplexity is built for research — it searches the web in real time and cites every source. Best tool for anything where recency and accuracy matter.', also: ['Claude for synthesising long reports', 'Gemini for Google-integrated research'] },
   'research': { name: 'Claude', emoji: '🟠', url: 'https://claude.ai', reason: 'Claude excels at synthesising large amounts of information, maintaining nuance, and being honest about uncertainty. Ideal for deep research and summarisation.', also: ['Perplexity if you need current sources', 'NotebookLM for document libraries'] },
-  'creative': { name: 'ChatGPT', emoji: '🟢', url: 'https://chat.openai.com', reason: 'ChatGPT with DALL·E covers text and images in one place. For video and music, see the Kitchen Cinema and Kitchen Radio pages.', also: ['Midjourney for better image quality', 'Suno for music generation'] },
+  'creative': { name: 'ChatGPT', emoji: '🟢', url: 'https://chat.openai.com', reason: "ChatGPT with DALL·E covers text and images in one place. For video and music, see the Kitchen Cinema and Kitchen Radio pages.", also: ['Midjourney for better image quality', 'Suno for music generation'] },
   'private': { name: 'Ollama (local)', emoji: '⚫', url: 'https://ollama.ai', reason: 'Ollama lets you run open-source models (Llama, Mistral) entirely on your own machine. Nothing leaves your computer. Free, but requires some setup.', also: ['Mistral (privacy-focused EU company)', 'Claude for the most privacy-conscious hosted option'] },
   default: { name: 'ChatGPT', emoji: '🟢', url: 'https://chat.openai.com', reason: 'ChatGPT is the best all-rounder for most use cases. The free tier is generous, it handles almost any task, and GPT-4o is genuinely impressive.', also: ['Claude for writing and long documents', 'Perplexity for current research'] },
 };
@@ -158,12 +155,10 @@ function renderQuestion(i: number) {
   body.querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(btn => {
     btn.addEventListener('click', () => {
       answers[i] = btn.dataset.key!;
-      // Mark step done
-      document.querySelectorAll('.step').forEach((s, idx) => {
+      document.querySelectorAll('.quiz-step').forEach((s, idx) => {
         s.classList.toggle('done', idx < i + 1);
         s.classList.toggle('active', idx === i + 1);
       });
-
       step = i + 1;
       if (step < questions.length) {
         renderQuestion(step);
@@ -177,8 +172,7 @@ function renderQuestion(i: number) {
 function renderResult() {
   const rec = getRecommendation();
   const body = document.getElementById('quiz-body')!;
-  // Mark all steps done
-  document.querySelectorAll('.step').forEach(s => { s.classList.add('done'); s.classList.remove('active'); });
+  document.querySelectorAll('.quiz-step').forEach(s => { s.classList.add('done'); s.classList.remove('active'); });
 
   body.innerHTML = `
     <div class="quiz-result">
@@ -199,8 +193,8 @@ function renderResult() {
         </div>
       ` : ''}
       <div class="result-actions">
-        <a href="${rec.url}" target="_blank" rel="noopener" class="btn btn-primary">Try ${rec.name} →</a>
-        <button class="btn btn-secondary" id="btn-retake">Retake quiz</button>
+        <a href="${rec.url}" target="_blank" rel="noopener" class="quiz-btn quiz-btn-primary">Try ${rec.name} →</a>
+        <button class="quiz-btn quiz-btn-secondary" id="btn-retake">Retake quiz</button>
       </div>
     </div>
   `;
@@ -208,7 +202,7 @@ function renderResult() {
   document.getElementById('btn-retake')?.addEventListener('click', () => {
     step = 0;
     Object.keys(answers).forEach(k => delete (answers as any)[k]);
-    document.querySelectorAll('.step').forEach((s, i) => {
+    document.querySelectorAll('.quiz-step').forEach((s, i) => {
       s.classList.toggle('active', i === 0);
       s.classList.remove('done');
     });
@@ -216,6 +210,5 @@ function renderResult() {
   });
 }
 
-// Init
 renderQuestion(0);
 </script>

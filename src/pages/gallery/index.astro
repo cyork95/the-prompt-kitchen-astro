@@ -1,18 +1,45 @@
 ---
 import Page from '../../layouts/Page.astro';
 ---
-<Page title="The Table Spread" description="AI art and image prompts — examples, techniques, and inspiration.">
+<Page title="The Table Spread" description="Community AI art gallery — images, videos, and music created with AI prompts.">
   <section class="page-hero container">
-    <h1>🍽️ The Table Spread</h1>
-    <p>AI image generation prompts and techniques. From photorealistic to abstract — how to describe what you're imagining.</p>
+    <h1><span class="h1-emoji">🍽️</span> The Table Spread</h1>
+    <p>Community AI art — images, videos, and music made with great prompts. See what's possible, steal the prompt, make something better.</p>
   </section>
 
   <div class="container gallery-layout">
 
-    <div class="gallery-intro">
-      <p>Image prompting is a different skill from text prompting — it's about describing visual scenes rather than instructions. Here are the key techniques.</p>
+    <!-- Filter tabs -->
+    <div class="gallery-tabs" role="tablist">
+      <button class="gallery-tab active" data-filter="all">All</button>
+      <button class="gallery-tab" data-filter="image">🖼️ Images</button>
+      <button class="gallery-tab" data-filter="video">🎬 Video</button>
+      <button class="gallery-tab" data-filter="audio">🎵 Audio</button>
     </div>
 
+    <!-- Community gallery -->
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Placeholder cards until real submissions arrive -->
+      <div class="gallery-empty">
+        <span class="empty-icon">🍽️</span>
+        <h2>The table is being set</h2>
+        <p>No community pieces yet — be the first to share your AI art, video, or music.</p>
+        <a href="/submit-media/" class="btn btn-primary">Share your creation →</a>
+      </div>
+    </div>
+
+    <!-- Submit CTA -->
+    <div class="gallery-cta">
+      <div class="cta-content">
+        <div class="cta-text">
+          <h2>Made something with AI?</h2>
+          <p>Share the image, video, or song — and the prompt you used to make it. Help others learn what's possible.</p>
+        </div>
+        <a href="/submit-media/" class="btn btn-primary">Share your creation →</a>
+      </div>
+    </div>
+
+    <!-- Techniques section -->
     <section class="technique-section">
       <h2>The anatomy of an image prompt</h2>
       <div class="anatomy-card">
@@ -94,11 +121,42 @@ import Page from '../../layouts/Page.astro';
 </Page>
 
 <style>
-.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
-.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
-.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
-.gallery-layout { display: flex; flex-direction: column; gap: var(--s12); padding-bottom: var(--s20); }
-.gallery-intro p { color: var(--text-2); font-size: 1rem; max-width: 600px; }
+.gallery-layout { display: flex; flex-direction: column; gap: var(--s10); padding-bottom: var(--s20); }
+
+/* Tabs */
+.gallery-tabs { display: flex; gap: var(--s2); border-bottom: 1px solid var(--border); padding-bottom: var(--s4); }
+.gallery-tab { padding: var(--s2) var(--s4); border: 1px solid var(--border); border-radius: var(--r2); background: var(--surface); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all var(--t-fast); }
+.gallery-tab:hover { background: var(--bg-alt); }
+.gallery-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* Gallery grid */
+.gallery-grid { min-height: 300px; }
+.gallery-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--s16) var(--s8); gap: var(--s4); border: 2px dashed var(--border); border-radius: var(--r4); }
+.gallery-empty .empty-icon { font-size: 3rem; }
+.gallery-empty h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
+.gallery-empty p { color: var(--text-2); margin: 0; max-width: 380px; }
+
+/* Gallery cards (used when data loads) */
+.gallery-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s5); }
+.gallery-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; }
+.gallery-card-media { aspect-ratio: 16/9; background: var(--bg-alt); overflow: hidden; position: relative; }
+.gallery-card-media img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-card-media .media-type-badge { position: absolute; top: var(--s2); right: var(--s2); background: rgba(0,0,0,.6); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px var(--s2); border-radius: var(--r-full); }
+.gallery-card-body { padding: var(--s4); }
+.gallery-card-tool { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: var(--s2); }
+.gallery-card-prompt { font-size: 0.82rem; color: var(--text-2); line-height: 1.5; margin: 0 0 var(--s3); font-style: italic; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
+.gallery-card-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
+.gallery-card-rating { font-size: 0.75rem; color: var(--text-3); }
+.gallery-card-contributor { font-size: 0.75rem; color: var(--text-3); }
+.copy-prompt-btn { font-size: 0.72rem; font-weight: 600; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
+
+/* CTA */
+.gallery-cta { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); }
+.cta-content { display: flex; align-items: center; justify-content: space-between; gap: var(--s6); flex-wrap: wrap; }
+.cta-text h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s2); }
+.cta-text p { color: var(--text-2); margin: 0; max-width: 480px; font-size: 0.95rem; }
+
+/* Techniques */
 .technique-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s5); }
 .anatomy-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); display: flex; flex-direction: column; gap: var(--s5); }
 .anatomy-parts { display: flex; flex-direction: column; gap: var(--s3); }
@@ -112,7 +170,7 @@ import Page from '../../layouts/Page.astro';
 .style-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
 .style-card h3 { font-family: var(--font-display); font-size: 0.95rem; margin: 0 0 var(--s3); }
 .modifier-pills { display: flex; flex-wrap: wrap; gap: var(--s2); }
-.modifier-pill { font-size: 0.72rem; padding: 2px var(--s3); border-radius: var(--r-full); background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-2); cursor: default; }
+.modifier-pill { font-size: 0.72rem; padding: 2px var(--s3); border-radius: var(--r-full); background: var(--bg-alt); border: 1px solid var(--border); color: var(--text-2); }
 .compare-cards { display: flex; flex-direction: column; gap: var(--s5); }
 .compare-card { display: flex; gap: var(--s4); align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); flex-wrap: wrap; }
 .compare-bad, .compare-good { flex: 1; min-width: 200px; }
@@ -127,4 +185,35 @@ import Page from '../../layouts/Page.astro';
 .tool-card a { color: var(--accent); text-decoration: none; }
 .tool-card a:hover { text-decoration: underline; }
 .tool-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+
+@media (max-width: 600px) { .cta-content { flex-direction: column; align-items: flex-start; } .gallery-tabs { flex-wrap: wrap; } }
 </style>
+
+<script>
+// Tab filtering
+document.querySelectorAll<HTMLButtonElement>('.gallery-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    const filter = tab.dataset.filter ?? 'all';
+    document.querySelectorAll<HTMLElement>('.gallery-card').forEach(card => {
+      card.hidden = filter !== 'all' && card.dataset.type !== filter;
+    });
+  });
+});
+
+// Copy prompt button (for when cards exist)
+document.addEventListener('click', async e => {
+  const btn = (e.target as Element).closest<HTMLButtonElement>('.copy-prompt-btn');
+  if (!btn) return;
+  const prompt = btn.dataset.prompt ?? '';
+  await navigator.clipboard.writeText(prompt).catch(() => {});
+  const orig = btn.textContent!;
+  btn.textContent = '✓ Copied!';
+  setTimeout(() => { btn.textContent = orig; }, 2000);
+});
+</script>

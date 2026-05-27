@@ -3174,6 +3174,19 @@ details[open] > summary .recipe-chevron {
   line-height: 1.1;
   margin: 0 0 var(--s4) 0;
   color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4em;
+  flex-wrap: wrap;
+}
+
+.h1-emoji {
+  display: inline-flex;
+  align-items: center;
+  font-style: normal;
+  line-height: 1;
+  flex-shrink: 0;
 }
 
 .page-hero p {

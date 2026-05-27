@@ -6,11 +6,11 @@ const guardrails = await getCollection('guardrails');
 const sorted = guardrails.sort((a, b) => a.data.order - b.data.order);
 
 const categoryColors: Record<string, string> = {
-  accuracy: '#B45309',   // amber
-  trust: '#D97706',      // yellow
-  privacy: '#2563EB',    // blue
-  bias: '#7C3AED',       // purple
-  safety: '#059669',     // green
+  accuracy: '#B45309',
+  trust: '#D97706',
+  privacy: '#2563EB',
+  bias: '#7C3AED',
+  safety: '#059669',
 };
 
 const categoryLabels: Record<string, string> = {
@@ -20,24 +20,64 @@ const categoryLabels: Record<string, string> = {
   bias: '⚖️ Bias',
   safety: '🛡️ Safety',
 };
+
+const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
 ---
 <Page
   title="Kitchen Guardrails"
   description="Practical, non-corporate guide to AI safety — avoiding hallucinations, verifying output, spotting bias, and knowing when to trust AI."
 >
   <section class="page-hero container">
-    <h1>🛡️ Kitchen Guardrails</h1>
+    <h1><span class="h1-emoji">🛡️</span> Kitchen Guardrails</h1>
     <p>Practical AI safety — not corporate policy. How to use AI responsibly without overthinking it.</p>
   </section>
 
   <div class="container gr-layout">
+
+    <!-- Search bar -->
+    <div class="search-bar" role="search">
+      <span aria-hidden="true">🔍</span>
+      <input
+        type="text"
+        id="gr-search"
+        placeholder="Search guardrails…"
+        aria-label="Search guardrails"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Category filter -->
+    {categories.length > 1 && (
+      <div class="filter-pills" role="group" aria-label="Filter by category">
+        {categories.map(cat => (
+          <button
+            class={`filter-pill ${cat === 'All' ? 'active' : ''}`}
+            data-category={cat}
+          >
+            {cat === 'All' ? 'All' : (categoryLabels[cat] ?? cat)}
+          </button>
+        ))}
+      </div>
+    )}
+
+    <!-- Results count -->
+    <p class="results-count" id="gr-count" aria-live="polite">
+      {sorted.length} guardrail{sorted.length !== 1 ? 's' : ''}
+    </p>
+
     {sorted.length > 0 ? (
-      <div class="gr-grid">
+      <div class="gr-grid" id="gr-grid">
         {sorted.map(async gr => {
           const { Content } = await gr.render();
           const color = categoryColors[gr.data.category] ?? '#B85C20';
           return (
-            <div class="gr-card" style={`--gr-color: ${color}`} data-category={gr.data.category}>
+            <div
+              class="gr-card"
+              style={`--gr-color: ${color}`}
+              data-category={gr.data.category}
+              data-title={gr.data.title.toLowerCase()}
+              data-analogy={(gr.data.analogy ?? '').toLowerCase()}
+            >
               <div class="gr-card-header">
                 <span class="gr-tag" style={`color: ${color}`}>{categoryLabels[gr.data.category] ?? gr.data.category}</span>
                 <h3 class="gr-title">{gr.data.title}</h3>
@@ -60,18 +100,33 @@ const categoryLabels: Record<string, string> = {
         <a href="/prompts/" style="color:var(--accent)">Browse the Recipe Book →</a>
       </div>
     )}
+
+    <!-- No results -->
+    <div class="no-results" id="gr-no-results" hidden>
+      <p>No guardrails match "<span id="gr-query"></span>".</p>
+      <button class="filter-pill active" id="gr-clear">Clear search</button>
+    </div>
   </div>
 </Page>
 
 <style>
 .gr-layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
   padding-bottom: var(--s20);
+}
+
+.results-count {
+  font-size: 0.82rem;
+  color: var(--text-3);
+  margin: 0;
 }
 
 .gr-grid {
   display: flex;
   flex-direction: column;
-  gap: var(--s5);
+  gap: var(--s4);
 }
 
 .gr-card {
@@ -80,6 +135,10 @@ const categoryLabels: Record<string, string> = {
   border-left: 3px solid var(--gr-color);
   border-radius: var(--r3);
   padding: var(--s5) var(--s6);
+}
+
+.gr-card-header {
+  margin-bottom: var(--s2);
 }
 
 .gr-tag {
@@ -121,4 +180,76 @@ const categoryLabels: Record<string, string> = {
   font-size: 0.875rem;
   line-height: 1.7;
 }
+
+.no-results {
+  text-align: center;
+  padding: var(--s12) var(--s8);
+  color: var(--text-3);
+}
+
+.no-results p {
+  margin: 0 0 var(--s4);
+  font-size: 0.9rem;
+}
+
+.no-results span {
+  font-style: italic;
+  color: var(--text-2);
+}
 </style>
+
+<script>
+const searchInput = document.getElementById('gr-search') as HTMLInputElement;
+const pills = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
+const cards = document.querySelectorAll<HTMLElement>('.gr-card');
+const countEl = document.getElementById('gr-count');
+const noResults = document.getElementById('gr-no-results');
+const querySpan = document.getElementById('gr-query');
+const clearBtn = document.getElementById('gr-clear');
+
+let activeCategory = 'All';
+let searchQuery = '';
+
+function updateDisplay() {
+  let visible = 0;
+  cards.forEach(card => {
+    const matchCat = activeCategory === 'All' || card.dataset.category === activeCategory;
+    const title = card.dataset.title ?? '';
+    const analogy = card.dataset.analogy ?? '';
+    const matchSearch = !searchQuery ||
+      title.includes(searchQuery) ||
+      analogy.includes(searchQuery) ||
+      (card.dataset.category ?? '').includes(searchQuery);
+    const show = matchCat && matchSearch;
+    card.hidden = !show;
+    if (show) visible++;
+  });
+
+  if (countEl) countEl.textContent = `${visible} guardrail${visible !== 1 ? 's' : ''}`;
+
+  if (noResults && querySpan) {
+    noResults.hidden = visible > 0 || !searchQuery;
+    querySpan.textContent = searchQuery;
+  }
+}
+
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    if (pill.id === 'gr-clear') return;
+    activeCategory = pill.dataset.category ?? 'All';
+    pills.forEach(p => p.classList.toggle('active', p === pill));
+    updateDisplay();
+  });
+});
+
+searchInput?.addEventListener('input', () => {
+  searchQuery = searchInput.value.toLowerCase().trim();
+  updateDisplay();
+});
+
+clearBtn?.addEventListener('click', () => {
+  searchQuery = '';
+  searchInput.value = '';
+  updateDisplay();
+});
+</script>
