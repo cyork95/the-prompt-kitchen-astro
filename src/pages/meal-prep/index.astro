@@ -1,0 +1,253 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const mealPreps = await getCollection('mealPrep');
+const sorted = mealPreps.sort((a, b) => a.data.order - b.data.order);
+
+const categories = ['All', ...new Set(sorted.map(mp => mp.data.category))];
+
+const categoryLabels: Record<string, string> = {
+  writing: '✍️ Writing',
+  coding: '💻 Coding',
+  learning: '📚 Learning',
+  productivity: '⚡ Productivity',
+  business: '💼 Business',
+};
+---
+<Page
+  title="Meal Prep"
+  description="System prompts you paste once and reuse forever — each one transforms an AI into a specialized assistant."
+>
+  <section class="page-hero container">
+    <h1>🍱 Meal Prep</h1>
+    <p>System prompts that transform any AI into a specialized assistant. Copy once, use forever.</p>
+  </section>
+
+  <div class="container mp-layout">
+
+    <!-- Explainer -->
+    <div class="mp-explainer">
+      <h3>What's a system prompt?</h3>
+      <p>It's a set of instructions you give an AI <em>before</em> your conversation starts — like briefing an assistant on how to work with you. Most AI tools let you save system prompts and reuse them. These are battle-tested setups that make AI consistently better at specific tasks.</p>
+
+      <div class="mp-how-to">
+        <div class="mp-platform">
+          <strong>ChatGPT</strong>
+          <span>Settings → Personalization → Custom Instructions</span>
+        </div>
+        <div class="mp-platform">
+          <strong>Claude</strong>
+          <span>Projects → Add project instructions</span>
+        </div>
+        <div class="mp-platform">
+          <strong>Gemini</strong>
+          <span>Gems → Create a Gem</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category filter -->
+    <div class="filter-pills" role="group" aria-label="Filter by category">
+      {categories.map(cat => (
+        <button
+          class={`filter-pill ${cat === 'All' ? 'active' : ''}`}
+          data-category={cat}
+        >
+          {cat === 'All' ? 'All' : (categoryLabels[cat] ?? cat)}
+        </button>
+      ))}
+    </div>
+
+    <!-- Cards -->
+    {sorted.length > 0 ? (
+      <div class="mp-grid" id="mp-grid">
+        {sorted.map(async mp => {
+          const { Content } = await mp.render();
+          return (
+            <div class="mp-card" data-category={mp.data.category}>
+              <div class="mp-card-header">
+                <div>
+                  <span class="mp-card-category">{categoryLabels[mp.data.category] ?? mp.data.category}</span>
+                  <h3 class="mp-card-title">{mp.data.title}</h3>
+                  <p class="mp-card-tagline">{mp.data.tagline}</p>
+                </div>
+                {mp.data.bestOn.length > 0 && (
+                  <div class="mp-platforms">
+                    {mp.data.bestOn.map(p => <span class="mp-platform-badge">{p}</span>)}
+                  </div>
+                )}
+              </div>
+              <details class="mp-detail">
+                <summary>View system prompt</summary>
+                <div class="mp-content prose">
+                  <Content />
+                </div>
+              </details>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <span class="empty-icon">🍱</span>
+        <p>System prompt recipes coming soon.</p>
+        <a href="/prompts/" style="color:var(--accent)">Browse the Recipe Book →</a>
+      </div>
+    )}
+  </div>
+</Page>
+
+<style>
+.mp-layout {
+  padding-bottom: var(--s20);
+}
+
+.mp-explainer {
+  background: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  border-radius: var(--r3);
+  padding: var(--s6);
+  margin-bottom: var(--s8);
+}
+
+.mp-explainer h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin: 0 0 var(--s3);
+}
+
+.mp-explainer p {
+  font-size: 0.9rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 var(--s5);
+}
+
+.mp-how-to {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s3);
+}
+
+.mp-platform {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--s3) var(--s4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  flex: 1;
+  min-width: 160px;
+}
+
+.mp-platform strong {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.mp-platform span {
+  font-size: 0.75rem;
+  color: var(--text-3);
+}
+
+.mp-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+
+.mp-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s5) var(--s6);
+}
+
+.mp-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  margin-bottom: var(--s3);
+}
+
+.mp-card-category {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: var(--s2);
+}
+
+.mp-card-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: 0 0 var(--s2);
+}
+
+.mp-card-tagline {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.mp-platforms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  flex-shrink: 0;
+}
+
+.mp-platform-badge {
+  font-size: 0.7rem;
+  padding: 2px var(--s2);
+  border-radius: var(--r-full);
+  background: var(--bg-alt);
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+.mp-detail summary {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  padding: var(--s2) 0;
+}
+
+.mp-content {
+  padding-top: var(--s4);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.mp-content pre {
+  background: var(--code-bg);
+  border-radius: var(--r2);
+  padding: var(--s5);
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+</style>
+
+<script>
+const pills = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
+const cards = document.querySelectorAll<HTMLElement>('.mp-card');
+
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    const cat = pill.dataset.category ?? 'All';
+    pills.forEach(p => p.classList.toggle('active', p === pill));
+    cards.forEach(card => {
+      const show = cat === 'All' || card.dataset.category === cat;
+      card.style.display = show ? '' : 'none';
+    });
+  });
+});
+</script>

@@ -1,0 +1,124 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const guardrails = await getCollection('guardrails');
+const sorted = guardrails.sort((a, b) => a.data.order - b.data.order);
+
+const categoryColors: Record<string, string> = {
+  accuracy: '#B45309',   // amber
+  trust: '#D97706',      // yellow
+  privacy: '#2563EB',    // blue
+  bias: '#7C3AED',       // purple
+  safety: '#059669',     // green
+};
+
+const categoryLabels: Record<string, string> = {
+  accuracy: '🎯 Accuracy',
+  trust: '🤝 Trust',
+  privacy: '🔒 Privacy',
+  bias: '⚖️ Bias',
+  safety: '🛡️ Safety',
+};
+---
+<Page
+  title="Kitchen Guardrails"
+  description="Practical, non-corporate guide to AI safety — avoiding hallucinations, verifying output, spotting bias, and knowing when to trust AI."
+>
+  <section class="page-hero container">
+    <h1>🛡️ Kitchen Guardrails</h1>
+    <p>Practical AI safety — not corporate policy. How to use AI responsibly without overthinking it.</p>
+  </section>
+
+  <div class="container gr-layout">
+    {sorted.length > 0 ? (
+      <div class="gr-grid">
+        {sorted.map(async gr => {
+          const { Content } = await gr.render();
+          const color = categoryColors[gr.data.category] ?? '#B85C20';
+          return (
+            <div class="gr-card" style={`--gr-color: ${color}`} data-category={gr.data.category}>
+              <div class="gr-card-header">
+                <span class="gr-tag" style={`color: ${color}`}>{categoryLabels[gr.data.category] ?? gr.data.category}</span>
+                <h3 class="gr-title">{gr.data.title}</h3>
+                <p class="gr-analogy">🍳 {gr.data.analogy}</p>
+              </div>
+              <details class="gr-detail">
+                <summary>Read the guardrail</summary>
+                <div class="gr-content prose">
+                  <Content />
+                </div>
+              </details>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="empty-state">
+        <span class="empty-icon">🛡️</span>
+        <p>Guardrails content coming soon.</p>
+        <a href="/prompts/" style="color:var(--accent)">Browse the Recipe Book →</a>
+      </div>
+    )}
+  </div>
+</Page>
+
+<style>
+.gr-layout {
+  padding-bottom: var(--s20);
+}
+
+.gr-grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s5);
+}
+
+.gr-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gr-color);
+  border-radius: var(--r3);
+  padding: var(--s5) var(--s6);
+}
+
+.gr-tag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: var(--s2);
+}
+
+.gr-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: 0 0 var(--s2);
+}
+
+.gr-analogy {
+  font-size: 0.875rem;
+  color: var(--text-3);
+  font-style: italic;
+  margin: 0;
+}
+
+.gr-detail {
+  margin-top: var(--s4);
+}
+
+.gr-detail summary {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  padding: var(--s2) 0;
+}
+
+.gr-content {
+  padding-top: var(--s4);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+</style>

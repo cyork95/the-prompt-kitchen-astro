@@ -1,0 +1,429 @@
+---
+import Page from '../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+const featured = recipes.filter(r => r.data.featured).slice(0, 6);
+---
+<Page title="Home">
+
+  <!-- Hero -->
+  <section class="hero container">
+    <div class="hero-content">
+      <span class="hero-eyebrow">🍳 A kitchen for AI prompts</span>
+      <h1 class="hero-title">
+        Prompts that<br/>
+        <em>actually work</em>
+      </h1>
+      <p class="hero-subtitle">
+        Simple, practical recipes for getting the most out of AI.
+        Free, open, and always will be.
+      </p>
+      <div class="hero-actions">
+        <a href="/prompts/" class="btn btn-primary">Browse Recipes →</a>
+        <a href="/cookbooks/" class="btn btn-secondary">Cookbooks</a>
+      </div>
+    </div>
+    <div class="hero-graphic" aria-hidden="true">
+      <div class="hero-card-stack">
+        <div class="hero-card">📝 Draft → Critique → Revise Loop</div>
+        <div class="hero-card">🔍 Research Deep-Dive Prompt</div>
+        <div class="hero-card">💡 Idea Generator</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats bar -->
+  <section class="stats-bar">
+    <div class="container stats-inner">
+      <div class="stat">
+        <span class="stat-num">{recipes.length}+</span>
+        <span class="stat-label">Recipes</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">5</span>
+        <span class="stat-label">Cookbooks</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">Free</span>
+        <span class="stat-label">Always</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">0</span>
+        <span class="stat-label">Ads</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured recipes -->
+  {featured.length > 0 && (
+    <section class="section container">
+      <div class="section-header">
+        <h2>⭐ Featured Recipes</h2>
+        <a href="/prompts/" class="section-link">View all →</a>
+      </div>
+      <div class="card-grid">
+        {featured.map(recipe => (
+          <a href={`/prompts/${recipe.slug}/`} class="recipe-card">
+            <div class="recipe-card-meta">
+              <span class="recipe-card-category">{recipe.data.category}</span>
+              <span class="recipe-card-difficulty">{recipe.data.difficulty}</span>
+            </div>
+            <h3>{recipe.data.title}</h3>
+            <p class="recipe-card-teaser">{recipe.data.teaser}</p>
+            {recipe.data.tags.length > 0 && (
+              <div class="recipe-card-tags">
+                {recipe.data.tags.slice(0, 3).map(tag => (
+                  <span class="recipe-card-tag">{tag}</span>
+                ))}
+              </div>
+            )}
+            <div class="recipe-card-footer">
+              <span class="recipe-card-read">Read recipe →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <!-- What's cooking section -->
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <h2>🧑‍🍳 What's cooking?</h2>
+      </div>
+      <div class="whats-cooking-grid">
+        <a href="/cookbooks/" class="wc-card">
+          <span class="wc-icon">📚</span>
+          <div>
+            <strong>Cookbooks</strong>
+            <p>Curated recipes for indie hackers, students, creators & founders</p>
+          </div>
+        </a>
+        <a href="/meal-prep/" class="wc-card">
+          <span class="wc-icon">🍱</span>
+          <div>
+            <strong>Meal Prep</strong>
+            <p>System prompts to paste once and reuse forever</p>
+          </div>
+        </a>
+        <a href="/pantry/" class="wc-card">
+          <span class="wc-icon">🫙</span>
+          <div>
+            <strong>The Pantry</strong>
+            <p>Reusable prompt ingredients — role frames, constraints, formats</p>
+          </div>
+        </a>
+        <a href="/guardrails/" class="wc-card">
+          <span class="wc-icon">🛡️</span>
+          <div>
+            <strong>Kitchen Guardrails</strong>
+            <p>Practical AI safety tips — avoid hallucinations, verify output</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Community CTA -->
+  <section class="section container cta-section">
+    <div class="cta-box">
+      <h2>👵 Have a secret recipe?</h2>
+      <p>Share a prompt that works brilliantly and help the whole kitchen.</p>
+      <a href="/submit/" class="btn btn-primary">Submit a Recipe</a>
+    </div>
+  </section>
+
+</Page>
+
+<style>
+/* Hero */
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s12);
+  align-items: center;
+  padding-top: var(--s20);
+  padding-bottom: var(--s16);
+}
+
+.hero-eyebrow {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: var(--s4);
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin: 0 0 var(--s5) 0;
+}
+
+.hero-title em {
+  color: var(--accent);
+  font-style: italic;
+}
+
+.hero-subtitle {
+  font-size: 1.125rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  max-width: 480px;
+  margin: 0 0 var(--s8) 0;
+}
+
+.hero-actions {
+  display: flex;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--s3) var(--s6);
+  border-radius: var(--r2);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background var(--t-fast), color var(--t-fast);
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+
+.btn-secondary:hover {
+  background: var(--bg-alt);
+}
+
+/* Hero graphic */
+.hero-graphic {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-card-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  width: 100%;
+  max-width: 340px;
+}
+
+.hero-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s4) var(--s5);
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: var(--shadow-sm);
+  color: var(--text-2);
+  transition: transform 0.2s;
+}
+
+.hero-card:nth-child(1) { transform: rotate(-1deg); }
+.hero-card:nth-child(2) { transform: rotate(0.5deg); }
+.hero-card:nth-child(3) { transform: rotate(-0.5deg); }
+
+/* Stats */
+.stats-bar {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--border-light);
+  border-bottom: 1px solid var(--border-light);
+  padding: var(--s5) 0;
+}
+
+.stats-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s8);
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.stat-num {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-3);
+  font-weight: 600;
+}
+
+.stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* Sections */
+.section {
+  padding: var(--s16) 0;
+}
+
+.section-alt {
+  background: var(--bg-alt);
+}
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: var(--s8);
+  gap: var(--s4);
+}
+
+.section-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin: 0;
+}
+
+.section-link {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.section-link:hover {
+  text-decoration: underline;
+}
+
+/* What's Cooking */
+.whats-cooking-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--s5);
+}
+
+.wc-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  padding: var(--s5);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  text-decoration: none;
+  color: var(--text);
+  transition: box-shadow var(--t-fast), transform var(--t-fast);
+}
+
+.wc-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.wc-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.wc-card strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: var(--s2);
+  color: var(--text);
+}
+
+.wc-card p {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* CTA */
+.cta-section {
+  padding-bottom: var(--s20);
+}
+
+.cta-box {
+  text-align: center;
+  padding: var(--s12);
+  background: var(--accent-light);
+  border: 1px solid var(--accent-border);
+  border-radius: var(--r4);
+}
+
+.cta-box h2 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin: 0 0 var(--s4) 0;
+}
+
+.cta-box p {
+  font-size: 1rem;
+  color: var(--text-2);
+  margin: 0 0 var(--s6) 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding-top: var(--s12);
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    justify-content: center;
+  }
+
+  .hero-graphic {
+    display: none;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .stats-inner {
+    gap: var(--s6);
+  }
+}
+</style>

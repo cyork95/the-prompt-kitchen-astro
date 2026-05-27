@@ -1,0 +1,187 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const pantry = await getCollection('pantry');
+const sorted = pantry.sort((a, b) => a.data.order - b.data.order);
+
+const shelfLabels: Record<string, { label: string; emoji: string; desc: string }> = {
+  role: { label: 'Role Frames', emoji: '👤', desc: 'Who the AI should be' },
+  context: { label: 'Context Setters', emoji: '📋', desc: 'Background the AI needs' },
+  chain: { label: 'Chain Starters', emoji: '🔗', desc: 'Multi-step prompt structures' },
+  format: { label: 'Format Specifiers', emoji: '📐', desc: 'How to structure the output' },
+  tone: { label: 'Tone Adjusters', emoji: '🎭', desc: 'The voice and register' },
+  constraint: { label: 'Constraints', emoji: '🚧', desc: 'What to avoid or limit' },
+};
+
+// Group by shelf
+const shelves: Record<string, typeof sorted> = {};
+sorted.forEach(item => {
+  if (!shelves[item.data.shelf]) shelves[item.data.shelf] = [];
+  shelves[item.data.shelf].push(item);
+});
+---
+<Page
+  title="The Pantry"
+  description="Reusable prompt ingredients — role frames, context setters, format specifiers, constraints, and more."
+>
+  <section class="page-hero container">
+    <h1>🫙 The Pantry</h1>
+    <p>Reusable prompt ingredients — the building blocks you can combine into any recipe.</p>
+  </section>
+
+  <div class="container pantry-layout">
+    {Object.keys(shelves).length > 0 ? (
+      Object.entries(shelves).map(([shelf, items]) => {
+        const s = shelfLabels[shelf] ?? { label: shelf, emoji: '🫙', desc: '' };
+        return (
+          <div class="pantry-shelf">
+            <div class="pantry-shelf-header">
+              <span class="shelf-emoji">{s.emoji}</span>
+              <div>
+                <h2 class="shelf-label">{s.label}</h2>
+                {s.desc && <p class="shelf-desc">{s.desc}</p>}
+              </div>
+            </div>
+
+            <div class="pantry-items">
+              {items.map(async item => {
+                const { Content } = await item.render();
+                return (
+                  <div class="pantry-item">
+                    <div class="pantry-item-header">
+                      <h3>{item.data.title}</h3>
+                      <p class="pantry-when">{item.data.whenToUse}</p>
+                    </div>
+                    {item.data.combineWith.length > 0 && (
+                      <div class="pantry-combines">
+                        <span class="combines-label">Pairs with:</span>
+                        {item.data.combineWith.map(c => <span class="combines-tag">{c}</span>)}
+                      </div>
+                    )}
+                    <details class="pantry-detail">
+                      <summary>View ingredient</summary>
+                      <div class="pantry-content prose">
+                        <Content />
+                      </div>
+                    </details>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })
+    ) : (
+      <div class="empty-state">
+        <span class="empty-icon">🫙</span>
+        <p>Pantry ingredients coming soon.</p>
+        <a href="/prompts/" style="color:var(--accent)">Browse the Recipe Book →</a>
+      </div>
+    )}
+  </div>
+</Page>
+
+<style>
+.pantry-layout {
+  padding-bottom: var(--s20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s12);
+}
+
+.pantry-shelf {
+  border-top: 2px solid var(--accent);
+  padding-top: var(--s6);
+}
+
+.pantry-shelf-header {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  margin-bottom: var(--s6);
+}
+
+.shelf-emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.shelf-label {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 0 0 var(--s1);
+}
+
+.shelf-desc {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0;
+}
+
+.pantry-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--s5);
+}
+
+.pantry-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r3);
+  padding: var(--s5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+.pantry-item-header h3 {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  margin: 0 0 var(--s2);
+}
+
+.pantry-when {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0;
+}
+
+.pantry-combines {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.combines-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.combines-tag {
+  font-size: 0.7rem;
+  padding: 1px var(--s2);
+  border-radius: var(--r-full);
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-border);
+}
+
+.pantry-detail summary {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  padding: var(--s2) 0;
+}
+
+.pantry-content {
+  padding-top: var(--s4);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+</style>

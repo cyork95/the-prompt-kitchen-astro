@@ -1,0 +1,136 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const cookbooks = [
+  {
+    slug: 'indie-hacker',
+    title: 'The Indie Hacker Cookbook',
+    emoji: '💻',
+    tagline: 'Build, validate, and ship — solo.',
+    description: 'Prompts for solo builders: validate ideas, write landing pages, handle support, build in public.',
+    color: '#6366F1',
+    colorLight: '#EEF2FF',
+  },
+  {
+    slug: 'student',
+    title: 'The Student Cookbook',
+    emoji: '📚',
+    tagline: 'Study smarter, not longer.',
+    description: 'Make AI your most patient tutor — essay help, revision, research, and academic writing.',
+    color: '#059669',
+    colorLight: '#ECFDF5',
+  },
+  {
+    slug: 'creator',
+    title: 'The Creator Cookbook',
+    emoji: '🎨',
+    tagline: 'Ideas to execution.',
+    description: 'Content ideas, scripts, hooks, repurposing, and building an audience — for creators on any platform.',
+    color: '#D97706',
+    colorLight: '#FFFBEB',
+  },
+  {
+    slug: 'startup-founder',
+    title: 'The Startup Founder Cookbook',
+    emoji: '🚀',
+    tagline: 'From zero to traction.',
+    description: 'Investor decks, hiring, GTM, fundraising emails, and everything else founders need to move fast.',
+    color: '#DC2626',
+    colorLight: '#FEF2F2',
+  },
+];
+---
+<Page
+  title="Cookbooks"
+  description="Curated prompt collections for specific roles — indie hackers, students, creators, and startup founders."
+>
+  <section class="page-hero container">
+    <h1>📚 Cookbooks</h1>
+    <p>Curated prompt collections for specific situations. Each cookbook is a complete toolkit for a role or goal.</p>
+  </section>
+
+  <div class="container cookbooks-grid-layout">
+    <div class="cookbooks-grid">
+      {cookbooks.map(cb => (
+        <a href={`/cookbooks/${cb.slug}/`} class="cookbook-card" style={`--cb-color: ${cb.color}; --cb-color-light: ${cb.colorLight};`}>
+          <div class="cookbook-card-icon">{cb.emoji}</div>
+          <div class="cookbook-card-body">
+            <h2>{cb.title}</h2>
+            <p class="cookbook-tagline">{cb.tagline}</p>
+            <p class="cookbook-desc">{cb.description}</p>
+          </div>
+          <div class="cookbook-card-cta">Browse recipes →</div>
+        </a>
+      ))}
+    </div>
+  </div>
+</Page>
+
+<style>
+.cookbooks-grid-layout {
+  padding-bottom: var(--s20);
+}
+
+.cookbooks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--s6);
+}
+
+.cookbook-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 3px solid var(--cb-color);
+  border-radius: var(--r3);
+  padding: var(--s6);
+  text-decoration: none;
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  transition: box-shadow var(--t-fast), transform var(--t-fast);
+}
+
+.cookbook-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.cookbook-card-icon {
+  font-size: 2.5rem;
+  line-height: 1;
+}
+
+.cookbook-card-body {
+  flex: 1;
+}
+
+.cookbook-card-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  margin: 0 0 var(--s2) 0;
+  color: var(--text);
+}
+
+.cookbook-tagline {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cb-color);
+  margin: 0 0 var(--s3) 0;
+}
+
+.cookbook-desc {
+  font-size: 0.875rem;
+  color: var(--text-2);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cookbook-card-cta {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--cb-color);
+}
+</style>

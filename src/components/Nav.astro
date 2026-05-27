@@ -1,0 +1,496 @@
+---
+// Mega-menu navigation — 5 groups, full-width panels
+// Groups are defined here; rendered by MegaItem
+---
+
+<nav class="nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <!-- Logo -->
+    <a href="/" class="nav-logo" aria-label="The Prompt Kitchen — Home">
+      <svg class="nav-logo-icon" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M8 6C8 6 6 10 6 16C6 22 10 26 16 26C22 26 26 22 26 16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M16 6V16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        <path d="M12 10L16 6L20 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="16" cy="16" r="3" fill="currentColor"/>
+      </svg>
+      <span class="nav-logo-text">The Prompt Kitchen</span>
+    </a>
+
+    <!-- Desktop mega-menu -->
+    <ul class="nav-links mega-nav" role="list" id="mega-nav">
+
+      <!-- 📖 Recipes -->
+      <li class="mega-item">
+        <button class="mega-btn" aria-haspopup="true" aria-expanded="false" data-mega="recipes">
+          📖 Recipes <span class="mega-chevron">▾</span>
+        </button>
+        <div class="mega-panel" id="mega-panel-recipes" hidden>
+          <div class="mega-grid">
+            <div class="mega-col">
+              <span class="mega-col-header">Core</span>
+              <a href="/prompts/" class="mega-link">
+                <span class="mega-link-icon">📖</span>
+                <span><strong>Recipe Book</strong><small>26 ready-to-copy prompts</small></span>
+              </a>
+              <a href="/daily/" class="mega-link">
+                <span class="mega-link-icon">⭐</span>
+                <span><strong>Daily Specials</strong><small>Fresh prompt every day</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Collections</span>
+              <a href="/cookbooks/" class="mega-link">
+                <span class="mega-link-icon">📚</span>
+                <span><strong>Cookbooks</strong><small>Curated by audience</small></span>
+              </a>
+              <a href="/cookbooks/indie-hacker/" class="mega-link mega-link--sub">
+                <span>💻 Indie Hacker</span>
+              </a>
+              <a href="/cookbooks/student/" class="mega-link mega-link--sub">
+                <span>🎓 Student</span>
+              </a>
+              <a href="/cookbooks/creator/" class="mega-link mega-link--sub">
+                <span>🎨 Creator</span>
+              </a>
+              <a href="/cookbooks/startup-founder/" class="mega-link mega-link--sub">
+                <span>🚀 Startup Founder</span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Ingredients</span>
+              <a href="/spice-rack/" class="mega-link">
+                <span class="mega-link-icon">🌶️</span>
+                <span><strong>Spice Rack</strong><small>Build your own prompt</small></span>
+              </a>
+              <a href="/pantry/" class="mega-link">
+                <span class="mega-link-icon">🥫</span>
+                <span><strong>The Pantry</strong><small>Reusable building blocks</small></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 🧑‍🍳 Prep -->
+      <li class="mega-item">
+        <button class="mega-btn" aria-haspopup="true" aria-expanded="false" data-mega="prep">
+          🧑‍🍳 Prep <span class="mega-chevron">▾</span>
+        </button>
+        <div class="mega-panel" id="mega-panel-prep" hidden>
+          <div class="mega-grid mega-grid--3">
+            <div class="mega-col">
+              <span class="mega-col-header">Before you cook</span>
+              <a href="/context/" class="mega-link">
+                <span class="mega-link-icon">🧑‍🍳</span>
+                <span><strong>Kitchen Prep</strong><small>How to give AI context</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Set it and forget it</span>
+              <a href="/meal-prep/" class="mega-link">
+                <span class="mega-link-icon">🍱</span>
+                <span><strong>Meal Prep</strong><small>System prompts & custom instructions</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Stay safe</span>
+              <a href="/guardrails/" class="mega-link">
+                <span class="mega-link-icon">🛡️</span>
+                <span><strong>Kitchen Guardrails</strong><small>Practical AI safety guide</small></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 🍳 Appliances -->
+      <li class="mega-item">
+        <button class="mega-btn" aria-haspopup="true" aria-expanded="false" data-mega="appliances">
+          🍳 Appliances <span class="mega-chevron">▾</span>
+        </button>
+        <div class="mega-panel" id="mega-panel-appliances" hidden>
+          <div class="mega-grid mega-grid--3">
+            <div class="mega-col">
+              <a href="/models/" class="mega-link">
+                <span class="mega-link-icon">🍳</span>
+                <span><strong>Appliance Guide</strong><small>Compare AI models side by side</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <a href="/model-tester/" class="mega-link">
+                <span class="mega-link-icon">🧪</span>
+                <span><strong>Test Kitchen</strong><small>Run the same prompt on multiple models</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <a href="/examples/" class="mega-link">
+                <span class="mega-link-icon">🍽️</span>
+                <span><strong>Tasting Menu</strong><small>Real AI outputs, real use cases</small></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 🍽️ Explore -->
+      <li class="mega-item">
+        <button class="mega-btn" aria-haspopup="true" aria-expanded="false" data-mega="explore">
+          🍽️ Explore <span class="mega-chevron">▾</span>
+        </button>
+        <div class="mega-panel" id="mega-panel-explore" hidden>
+          <div class="mega-grid">
+            <div class="mega-col">
+              <span class="mega-col-header">Gallery</span>
+              <a href="/gallery/" class="mega-link">
+                <span class="mega-link-icon">🍽️</span>
+                <span><strong>The Table Spread</strong><small>AI art &amp; image showcase</small></span>
+              </a>
+              <a href="/image-video/" class="mega-link">
+                <span class="mega-link-icon">🎨</span>
+                <span><strong>Image &amp; Video</strong><small>Visual prompt techniques</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Media</span>
+              <a href="/audio/" class="mega-link">
+                <span class="mega-link-icon">🎵</span>
+                <span><strong>Kitchen Radio</strong><small>AI music tool reviews</small></span>
+              </a>
+              <a href="/video/" class="mega-link">
+                <span class="mega-link-icon">🎬</span>
+                <span><strong>Kitchen Cinema</strong><small>AI video tool reviews</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Learn from mistakes</span>
+              <a href="/fails/" class="mega-link">
+                <span class="mega-link-icon">🔥</span>
+                <span><strong>Kitchen Disasters</strong><small>Prompts gone wrong</small></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 👨‍🍳 Community -->
+      <li class="mega-item">
+        <button class="mega-btn" aria-haspopup="true" aria-expanded="false" data-mega="community">
+          👨‍🍳 Community <span class="mega-chevron">▾</span>
+        </button>
+        <div class="mega-panel" id="mega-panel-community" hidden>
+          <div class="mega-grid mega-grid--3">
+            <div class="mega-col">
+              <span class="mega-col-header">Participate</span>
+              <a href="/submit/" class="mega-link">
+                <span class="mega-link-icon">📝</span>
+                <span><strong>Submit a Recipe</strong><small>Share your best prompts</small></span>
+              </a>
+              <a href="/challenges/" class="mega-link">
+                <span class="mega-link-icon">🏆</span>
+                <span><strong>Cook-Off</strong><small>Prompt challenges</small></span>
+              </a>
+              <a href="/quiz/" class="mega-link">
+                <span class="mega-link-icon">👨‍🍳</span>
+                <span><strong>Ask the Chef</strong><small>AI tool recommendations</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Your kitchen</span>
+              <a href="/my-kitchen/" class="mega-link">
+                <span class="mega-link-icon">❤️</span>
+                <span><strong>My Kitchen</strong><small>Your saved recipes</small></span>
+              </a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-header">Support</span>
+              <a href="/support/" class="mega-link">
+                <span class="mega-link-icon">♥</span>
+                <span><strong>Tip Jar</strong><small>Keep the kitchen running</small></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ul><!-- /mega-nav -->
+
+    <!-- Actions: search + theme + hamburger -->
+    <div class="nav-actions">
+      <button class="btn-search" id="btn-search" aria-label="Search (Ctrl+K)" title="Search (Ctrl+K)">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" stroke-width="1.75"/>
+          <path d="M13 13l4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="btn-theme" id="btn-theme" aria-label="Toggle dark mode">
+        <span class="theme-icon-dark" aria-hidden="true">☾</span>
+        <span class="theme-icon-light" aria-hidden="true">☀</span>
+      </button>
+      <button class="btn-hamburger" id="btn-hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="nav-mobile">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile nav overlay -->
+<div class="nav-mobile" id="nav-mobile">
+  <ul class="nav-mobile-links" role="list">
+    <!-- Recipes group -->
+    <li class="mobile-group">
+      <button class="mobile-group-btn" aria-expanded="false">📖 Recipes</button>
+      <ul class="mobile-group-links" hidden>
+        <li><a href="/prompts/">Recipe Book</a></li>
+        <li><a href="/daily/">Daily Specials</a></li>
+        <li><a href="/cookbooks/">Cookbooks</a></li>
+        <li><a href="/spice-rack/">Spice Rack</a></li>
+        <li><a href="/pantry/">The Pantry</a></li>
+      </ul>
+    </li>
+    <!-- Prep group -->
+    <li class="mobile-group">
+      <button class="mobile-group-btn" aria-expanded="false">🧑‍🍳 Prep</button>
+      <ul class="mobile-group-links" hidden>
+        <li><a href="/context/">Kitchen Prep</a></li>
+        <li><a href="/meal-prep/">Meal Prep</a></li>
+        <li><a href="/guardrails/">Kitchen Guardrails</a></li>
+      </ul>
+    </li>
+    <!-- Appliances -->
+    <li class="mobile-group">
+      <button class="mobile-group-btn" aria-expanded="false">🍳 Appliances</button>
+      <ul class="mobile-group-links" hidden>
+        <li><a href="/models/">Appliance Guide</a></li>
+        <li><a href="/model-tester/">Test Kitchen</a></li>
+        <li><a href="/examples/">Tasting Menu</a></li>
+      </ul>
+    </li>
+    <!-- Explore -->
+    <li class="mobile-group">
+      <button class="mobile-group-btn" aria-expanded="false">🍽️ Explore</button>
+      <ul class="mobile-group-links" hidden>
+        <li><a href="/gallery/">The Table Spread</a></li>
+        <li><a href="/image-video/">Image &amp; Video</a></li>
+        <li><a href="/audio/">Kitchen Radio</a></li>
+        <li><a href="/video/">Kitchen Cinema</a></li>
+        <li><a href="/fails/">Kitchen Disasters</a></li>
+      </ul>
+    </li>
+    <!-- Community -->
+    <li class="mobile-group">
+      <button class="mobile-group-btn" aria-expanded="false">👨‍🍳 Community</button>
+      <ul class="mobile-group-links" hidden>
+        <li><a href="/submit/">Submit a Recipe</a></li>
+        <li><a href="/my-kitchen/">My Kitchen</a></li>
+        <li><a href="/challenges/">Cook-Off</a></li>
+        <li><a href="/quiz/">Ask the Chef</a></li>
+        <li><a href="/support/">Tip Jar</a></li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- Search modal -->
+<div class="search-modal" id="search-modal" hidden role="dialog" aria-modal="true" aria-label="Search">
+  <div class="search-modal-inner">
+    <div class="search-modal-header">
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <circle cx="8.5" cy="8.5" r="5.75" stroke="currentColor" stroke-width="1.75"/>
+        <path d="M13 13l4 4" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      </svg>
+      <input type="search" id="search-input" class="search-input" placeholder="Search recipes, guides, templates…" autocomplete="off" spellcheck="false" />
+      <kbd class="search-esc-hint">Esc</kbd>
+    </div>
+    <div id="search-results" class="search-results"></div>
+    <div class="search-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> navigate</span>
+      <span><kbd>↵</kbd> open</span>
+      <span><kbd>Esc</kbd> close</span>
+    </div>
+  </div>
+  <div class="search-modal-backdrop" id="search-backdrop"></div>
+</div>
+
+<script>
+// ── Mega menu ──────────────────────────────────────────────────────────────
+(function () {
+  const btns = document.querySelectorAll<HTMLButtonElement>('.mega-btn');
+
+  function closeAll() {
+    btns.forEach(b => {
+      b.setAttribute('aria-expanded', 'false');
+      const panel = document.getElementById(`mega-panel-${b.dataset.mega}`);
+      if (panel) panel.hidden = true;
+    });
+  }
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const key = btn.dataset.mega!;
+      const panel = document.getElementById(`mega-panel-${key}`)!;
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      closeAll();
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        panel.hidden = false;
+      }
+    });
+  });
+
+  document.addEventListener('click', closeAll);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+})();
+
+// ── Mobile nav accordion ──────────────────────────────────────────────────
+(function () {
+  const hamburger = document.getElementById('btn-hamburger')!;
+  const mobileNav = document.getElementById('nav-mobile')!;
+
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.getAttribute('aria-expanded') === 'true';
+    hamburger.setAttribute('aria-expanded', String(!open));
+    mobileNav.classList.toggle('open', !open);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.mobile-group-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const list = btn.nextElementSibling as HTMLUListElement;
+      const open = btn.getAttribute('aria-expanded') === 'true';
+      // close all siblings
+      btn.closest('ul')!.querySelectorAll<HTMLButtonElement>('.mobile-group-btn').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        (b.nextElementSibling as HTMLElement).hidden = true;
+      });
+      if (!open) {
+        btn.setAttribute('aria-expanded', 'true');
+        list.hidden = false;
+      }
+    });
+  });
+
+  // Close mobile nav on outside click
+  document.addEventListener('click', (e) => {
+    if (!mobileNav.contains(e.target as Node) && !hamburger.contains(e.target as Node)) {
+      hamburger.setAttribute('aria-expanded', 'false');
+      mobileNav.classList.remove('open');
+    }
+  });
+})();
+
+// ── Theme toggle ──────────────────────────────────────────────────────────
+(function () {
+  const btn = document.getElementById('btn-theme')!;
+  btn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const next = cur === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('pk-theme', next);
+  });
+})();
+
+// ── Active nav link ──────────────────────────────────────────────────────
+(function () {
+  const path = window.location.pathname.replace(/\/$/, '') || '/';
+  document.querySelectorAll<HTMLAnchorElement>('.mega-link, .mobile-group-links a').forEach(a => {
+    const lp = new URL(a.href).pathname.replace(/\/$/, '') || '/';
+    if (path === lp || (lp !== '/' && path.startsWith(lp + '/'))) {
+      a.classList.add('active');
+      a.closest('.mega-item')?.querySelector('.mega-btn')?.classList.add('active');
+    }
+  });
+})();
+
+// ── Back to top ─────────────────────────────────────────────────────────
+(function () {
+  const btn = document.getElementById('back-to-top');
+  if (!btn) return;
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 400);
+  }, { passive: true });
+  btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+})();
+
+// ── Search (Pagefind) ───────────────────────────────────────────────────
+(function () {
+  const modal    = document.getElementById('search-modal')!;
+  const backdrop = document.getElementById('search-backdrop')!;
+  const btnOpen  = document.getElementById('btn-search')!;
+  let   inited   = false;
+
+  async function openSearch() {
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+
+    if (!inited) {
+      inited = true;
+      // @ts-ignore — pagefind loaded at runtime, only available after build
+      const { PagefindUI } = await import(/* @vite-ignore */ '/_pagefind/pagefind-ui.js');
+      new PagefindUI({
+        element: '#search-results',
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+      });
+    }
+    setTimeout(() => document.getElementById('search-input')?.focus(), 50);
+  }
+
+  function closeSearch() {
+    modal.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  btnOpen.addEventListener('click', openSearch);
+  backdrop.addEventListener('click', closeSearch);
+  document.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+    if (e.key === 'Escape' && !modal.hidden) closeSearch();
+  });
+})();
+
+// ── Copy buttons (auto-inject for .prompt-block pre) ────────────────────
+(function () {
+  document.querySelectorAll<HTMLElement>('.prompt-block').forEach(block => {
+    if (block.querySelector('.copy-btn')) return;
+    const pre = block.querySelector('pre');
+    if (!pre) return;
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', 'Copy prompt to clipboard');
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(pre.textContent ?? '');
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = pre.textContent ?? '';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      btn.textContent = '✓ Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+    block.style.position = 'relative';
+    block.appendChild(btn);
+  });
+})();
+
+// ── Smooth scroll for anchor links ───────────────────────────────────────
+(function () {
+  document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href')!.slice(1);
+      const target = document.getElementById(id);
+      if (target) {
+        e.preventDefault();
+        const offset = 80; // nav height
+        window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - offset, behavior: 'smooth' });
+      }
+    });
+  });
+})();
+</script>

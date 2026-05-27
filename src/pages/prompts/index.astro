@@ -1,0 +1,236 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+const recipes = await getCollection('recipes');
+
+// Sort: featured first, then by publishedAt desc
+const sorted = recipes.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  const aDate = a.data.publishedAt?.getTime() ?? 0;
+  const bDate = b.data.publishedAt?.getTime() ?? 0;
+  return bDate - aDate;
+});
+
+const categories = ['All', ...new Set(sorted.map(r => r.data.category))];
+---
+<Page
+  title="Recipe Book"
+  description="Browse all AI prompt recipes — practical, tested prompts for writing, coding, research, and more."
+>
+
+  <section class="page-hero container">
+    <h1>📖 Recipe Book</h1>
+    <p>Practical, tested prompts for every situation. Search, filter, and save your favourites.</p>
+  </section>
+
+  <div class="container recipe-book-layout">
+
+    <!-- Search bar -->
+    <div class="search-bar" role="search">
+      <span aria-hidden="true">🔍</span>
+      <input
+        type="text"
+        id="recipe-search"
+        placeholder="Search recipes…"
+        aria-label="Search recipes"
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- Filter pills -->
+    <div class="filter-pills" role="group" aria-label="Filter by category">
+      {categories.map(cat => (
+        <button
+          class={`filter-pill ${cat === 'All' ? 'active' : ''}`}
+          data-category={cat}
+        >
+          {cat}
+        </button>
+      ))}
+    </div>
+
+    <!-- Results count -->
+    <p class="results-count" id="results-count" aria-live="polite">
+      {sorted.length} recipes
+    </p>
+
+    <!-- Card grid -->
+    <div class="card-grid" id="recipe-grid">
+      {sorted.map(recipe => (
+        <a
+          href={`/prompts/${recipe.slug}/`}
+          class="recipe-card"
+          data-category={recipe.data.category}
+          data-title={recipe.data.title.toLowerCase()}
+          data-tags={recipe.data.tags.join(' ').toLowerCase()}
+          data-teaser={recipe.data.teaser.toLowerCase()}
+        >
+          <div class="recipe-card-meta">
+            <span class="recipe-card-category">{recipe.data.category}</span>
+            <span class="recipe-card-difficulty">{recipe.data.difficulty}</span>
+          </div>
+          <h3>
+            {recipe.data.community && <span class="grandma-badge" title="Community Recipe">👵</span>}
+            {recipe.data.title}
+          </h3>
+          <p class="recipe-card-teaser">{recipe.data.teaser}</p>
+          {recipe.data.tags.length > 0 && (
+            <div class="recipe-card-tags">
+              {recipe.data.tags.slice(0, 3).map(tag => (
+                <span class="recipe-card-tag">{tag}</span>
+              ))}
+            </div>
+          )}
+          <div class="recipe-card-footer">
+            <span class="recipe-card-read">Read recipe →</span>
+            <button
+              class="heart-btn"
+              data-recipe-id={recipe.slug}
+              data-recipe-title={recipe.data.title}
+              data-recipe-category={recipe.data.category}
+              data-recipe-url={`/prompts/${recipe.slug}/`}
+              aria-label={`Save ${recipe.data.title}`}
+              onclick="event.preventDefault(); event.stopPropagation();"
+            >🤍</button>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" id="empty-state" hidden>
+      <span class="empty-icon">🍽️</span>
+      <p>No recipes match your search.</p>
+      <button class="filter-pill active" id="btn-clear-filters">Clear filters</button>
+    </div>
+
+  </div>
+</Page>
+
+<style>
+.recipe-book-layout {
+  padding-bottom: var(--s20);
+}
+
+.results-count {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0 0 var(--s5) 0;
+}
+
+.grandma-badge {
+  margin-right: var(--s2);
+}
+</style>
+
+<script>
+const grid = document.getElementById('recipe-grid')!;
+const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
+const searchInput = document.getElementById('recipe-search') as HTMLInputElement;
+const pills = document.querySelectorAll<HTMLButtonElement>('.filter-pill');
+const countEl = document.getElementById('results-count')!;
+const emptyState = document.getElementById('empty-state')!;
+const clearBtn = document.getElementById('btn-clear-filters');
+
+let activeCategory = 'All';
+let searchQuery = '';
+
+function filterRecipes() {
+  let visible = 0;
+
+  cards.forEach(card => {
+    const cardCategory = card.dataset.category ?? '';
+    const searchText = [
+      card.dataset.title,
+      card.dataset.tags,
+      card.dataset.teaser,
+      cardCategory.toLowerCase(),
+    ].join(' ');
+
+    const matchesCategory = activeCategory === 'All' || cardCategory === activeCategory;
+    const matchesSearch = searchQuery === '' || searchText.includes(searchQuery);
+    const show = matchesCategory && matchesSearch;
+
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  countEl.textContent = `${visible} recipe${visible !== 1 ? 's' : ''}`;
+  emptyState.hidden = visible > 0;
+}
+
+// Category pills
+pills.forEach(pill => {
+  pill.addEventListener('click', () => {
+    if (pill.id === 'btn-clear-filters') {
+      activeCategory = 'All';
+      searchQuery = '';
+      searchInput.value = '';
+      pills.forEach(p => p.classList.toggle('active', p.dataset.category === 'All'));
+    } else {
+      activeCategory = pill.dataset.category ?? 'All';
+      pills.forEach(p => p.classList.toggle('active', p === pill));
+    }
+    filterRecipes();
+  });
+});
+
+// Search
+searchInput.addEventListener('input', () => {
+  searchQuery = searchInput.value.toLowerCase().trim();
+  filterRecipes();
+});
+
+clearBtn?.addEventListener('click', () => {
+  activeCategory = 'All';
+  searchQuery = '';
+  searchInput.value = '';
+  pills.forEach(p => p.classList.toggle('active', p.dataset.category === 'All'));
+  filterRecipes();
+});
+
+// Favorites (localStorage)
+const STORAGE_KEY = 'pk-favorites';
+
+function getFavorites(): Record<string, { title: string; category: string; url: string }> {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
+  catch { return {}; }
+}
+
+function saveFavorites(favs: Record<string, { title: string; category: string; url: string }>) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+}
+
+function initHeartButtons() {
+  const favs = getFavorites();
+  document.querySelectorAll<HTMLButtonElement>('.heart-btn').forEach(btn => {
+    const id = btn.dataset.recipeId!;
+    btn.textContent = favs[id] ? '❤️' : '🤍';
+    btn.setAttribute('aria-label', favs[id] ? `Unsave ${btn.dataset.recipeTitle}` : `Save ${btn.dataset.recipeTitle}`);
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const favs = getFavorites();
+      if (favs[id]) {
+        delete favs[id];
+        btn.textContent = '🤍';
+        btn.setAttribute('aria-label', `Save ${btn.dataset.recipeTitle}`);
+      } else {
+        favs[id] = {
+          title: btn.dataset.recipeTitle!,
+          category: btn.dataset.recipeCategory!,
+          url: btn.dataset.recipeUrl!,
+        };
+        btn.textContent = '❤️';
+        btn.setAttribute('aria-label', `Unsave ${btn.dataset.recipeTitle}`);
+      }
+      saveFavorites(favs);
+    });
+  });
+}
+
+initHeartButtons();
+</script>

@@ -1,0 +1,23 @@
+---
+import Base from './Base.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  ogUrl?: string;
+  ogImage?: string;
+  /** Extra class(es) added to <main> */
+  mainClass?: string;
+}
+
+const { title, description, ogUrl, ogImage, mainClass } = Astro.props;
+---
+<Base title={title} description={description} ogUrl={ogUrl} ogImage={ogImage}>
+  <Nav />
+  <main class:list={['site-main', mainClass]}>
+    <slot />
+  </main>
+  <Footer />
+</Base>

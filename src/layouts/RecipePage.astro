@@ -1,0 +1,123 @@
+---
+import Page from './Page.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  /** Breadcrumb trail — array of { label, href } pairs. Last item is current page. */
+  breadcrumbs?: Array<{ label: string; href?: string }>;
+  /** Category label shown in the breadcrumb area */
+  category?: string;
+  /** Back link — defaults to /prompts/ */
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  title,
+  description,
+  breadcrumbs,
+  category,
+  backHref = '/prompts/',
+  backLabel = 'Recipe Book',
+} = Astro.props;
+---
+<Page title={title} description={description} mainClass="recipe-page-main">
+  <div class="recipe-page-header container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        {breadcrumbs?.map((crumb, i) => (
+          <li>
+            {crumb.href && i < (breadcrumbs.length - 1)
+              ? <a href={crumb.href}>{crumb.label}</a>
+              : <span aria-current="page">{crumb.label}</span>
+            }
+          </li>
+        ))}
+        {!breadcrumbs && (
+          <>
+            <li><a href={backHref}>{backLabel}</a></li>
+            <li><span aria-current="page">{title}</span></li>
+          </>
+        )}
+      </ol>
+    </nav>
+
+    <a href={backHref} class="back-link">
+      <span aria-hidden="true">←</span> Back to {backLabel}
+    </a>
+  </div>
+
+  <slot />
+</Page>
+
+<style>
+  .recipe-page-header {
+    padding-top: var(--s5);
+    padding-bottom: var(--s3);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--s3);
+  }
+
+  .breadcrumb ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    flex-wrap: wrap;
+  }
+
+  .breadcrumb li {
+    display: flex;
+    align-items: center;
+    gap: var(--s2);
+    font-size: 0.85rem;
+    color: var(--text-3);
+  }
+
+  .breadcrumb li + li::before {
+    content: '/';
+    color: var(--text-3);
+    opacity: 0.5;
+  }
+
+  .breadcrumb a {
+    color: var(--text-3);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .breadcrumb a:hover {
+    color: var(--accent);
+  }
+
+  .breadcrumb [aria-current="page"] {
+    color: var(--text-1);
+    font-weight: 500;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--s2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    padding: var(--s2) var(--s3);
+    border: 1px solid var(--accent);
+    border-radius: var(--r2);
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .back-link:hover {
+    background: var(--accent);
+    color: #fff;
+  }
+</style>

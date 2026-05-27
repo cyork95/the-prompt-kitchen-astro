@@ -1,0 +1,480 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import RecipePage from '../../layouts/RecipePage.astro';
+
+export async function getStaticPaths() {
+  const recipes = await getCollection('recipes');
+  return recipes.map(recipe => ({
+    params: { slug: recipe.slug },
+    props: { recipe },
+  }));
+}
+
+const { recipe } = Astro.props;
+const { Content } = await recipe.render();
+
+const difficultyLabel = {
+  'beginner': '🌱 Beginner',
+  'home-cook': '🍳 Home Cook',
+  'sous-chef': '🔪 Sous Chef',
+}[recipe.data.difficulty] ?? recipe.data.difficulty;
+---
+<RecipePage
+  title={recipe.data.title}
+  description={recipe.data.teaser}
+  backHref="/prompts/"
+  backLabel="Recipe Book"
+  breadcrumbs={[
+    { label: 'Recipe Book', href: '/prompts/' },
+    { label: recipe.data.title },
+  ]}
+>
+  <article class="recipe-article container-narrow">
+
+    <!-- Header -->
+    <header class="recipe-header">
+      <div class="recipe-header-meta">
+        <span class="recipe-category">{recipe.data.category}</span>
+        <span class="recipe-difficulty">{difficultyLabel}</span>
+        {recipe.data.community && (
+          <span class="recipe-badge community-badge">👵 Community Recipe</span>
+        )}
+      </div>
+
+      <h1 class="recipe-title">{recipe.data.title}</h1>
+      <p class="recipe-teaser">{recipe.data.teaser}</p>
+
+      {(recipe.data.bestFor || recipe.data.whenToUse) && (
+        <div class="recipe-quick-info">
+          {recipe.data.bestFor && (
+            <div class="quick-info-item">
+              <span class="quick-info-label">Best for</span>
+              <span class="quick-info-value">{recipe.data.bestFor}</span>
+            </div>
+          )}
+          {recipe.data.whenToUse && (
+            <div class="quick-info-item">
+              <span class="quick-info-label">When to use</span>
+              <span class="quick-info-value">{recipe.data.whenToUse}</span>
+            </div>
+          )}
+        </div>
+      )}
+
+      {recipe.data.tags.length > 0 && (
+        <div class="recipe-tags">
+          {recipe.data.tags.map(tag => (
+            <span class="recipe-tag">{tag}</span>
+          ))}
+        </div>
+      )}
+
+      {recipe.data.contributor && (
+        <p class="recipe-contributor">Submitted by <strong>{recipe.data.contributor}</strong></p>
+      )}
+    </header>
+
+    <!-- Vote bar -->
+    <div class="vote-bar" data-recipe-id={recipe.slug} id="vote-bar">
+      <button class="vote-btn" data-emoji="fire" aria-label="Fire — this recipe is 🔥">
+        🔥 <span class="vote-count" id="count-fire">—</span>
+      </button>
+      <button class="vote-btn" data-emoji="chef" aria-label="Chef's kiss — 👨‍🍳">
+        👨‍🍳 <span class="vote-count" id="count-chef">—</span>
+      </button>
+      <button class="vote-btn" data-emoji="star" aria-label="Starred — ⭐">
+        ⭐ <span class="vote-count" id="count-star">—</span>
+      </button>
+      <button
+        class="heart-btn"
+        id="heart-btn"
+        data-recipe-id={recipe.slug}
+        data-recipe-title={recipe.data.title}
+        data-recipe-category={recipe.data.category}
+        data-recipe-url={`/prompts/${recipe.slug}/`}
+        aria-label="Save recipe"
+      >🤍</button>
+    </div>
+
+    <!-- Recipe content (MDX) -->
+    <div class="recipe-content prose">
+      <Content />
+    </div>
+
+    <!-- Back navigation -->
+    <div class="recipe-back-nav">
+      <a href="/prompts/" class="btn-back">← Back to Recipe Book</a>
+    </div>
+
+  </article>
+</RecipePage>
+
+<style>
+.recipe-article {
+  padding: var(--s8) 0 var(--s20);
+}
+
+.container-narrow {
+  max-width: var(--container-narrow);
+  margin: 0 auto;
+  padding: 0 var(--s6);
+}
+
+/* Header */
+.recipe-header {
+  margin-bottom: var(--s8);
+  padding-bottom: var(--s8);
+  border-bottom: 2px solid var(--border-light);
+}
+
+.recipe-header-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+  margin-bottom: var(--s5);
+}
+
+.recipe-category {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: var(--accent-light);
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+}
+
+.recipe-difficulty {
+  font-size: 0.8rem;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+  background: var(--bg-alt);
+  color: var(--text-3);
+  font-weight: 500;
+}
+
+.recipe-badge {
+  font-size: 0.8rem;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+  font-weight: 500;
+}
+
+.community-badge {
+  background: #FDF9E8;
+  color: #92400E;
+  border: 1px solid #FDE68A;
+}
+
+[data-theme="dark"] .community-badge {
+  background: #2D1A00;
+  color: #FCD34D;
+  border-color: #78350F;
+}
+
+.recipe-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+  margin: 0 0 var(--s4) 0;
+  color: var(--text);
+}
+
+.recipe-teaser {
+  font-size: 1.125rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 var(--s5) 0;
+}
+
+.recipe-quick-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  background: var(--bg-alt);
+  border-radius: var(--r2);
+  padding: var(--s4) var(--s5);
+  margin-bottom: var(--s5);
+}
+
+.quick-info-item {
+  display: flex;
+  gap: var(--s3);
+  font-size: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.quick-info-label {
+  font-weight: 700;
+  color: var(--text-3);
+  min-width: 90px;
+  flex-shrink: 0;
+}
+
+.quick-info-value {
+  color: var(--text-2);
+}
+
+.recipe-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-bottom: var(--s4);
+}
+
+.recipe-tag {
+  font-size: 0.7rem;
+  padding: 2px var(--s3);
+  border-radius: var(--r-full);
+  background: var(--bg-alt);
+  color: var(--text-3);
+  border: 1px solid var(--border);
+}
+
+.recipe-contributor {
+  font-size: 0.8rem;
+  color: var(--text-3);
+  margin: 0;
+}
+
+/* Prose (MDX content) */
+.prose {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--text);
+}
+
+.prose h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  margin: var(--s10) 0 var(--s4);
+  color: var(--text);
+}
+
+.prose h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  margin: var(--s8) 0 var(--s3);
+}
+
+.prose p {
+  margin: 0 0 var(--s5);
+}
+
+.prose ul, .prose ol {
+  padding-left: var(--s6);
+  margin: 0 0 var(--s5);
+}
+
+.prose li {
+  margin-bottom: var(--s2);
+}
+
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 1px 5px;
+  border-radius: var(--r1);
+}
+
+.prose pre {
+  background: var(--code-bg);
+  border-radius: var(--r2);
+  padding: var(--s5);
+  overflow-x: auto;
+  margin: 0 0 var(--s5);
+  position: relative;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+.prose blockquote {
+  border-left: 3px solid var(--accent);
+  padding-left: var(--s5);
+  margin: var(--s6) 0;
+  color: var(--text-2);
+  font-style: italic;
+}
+
+.prose strong {
+  font-weight: 700;
+  color: var(--text);
+}
+
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: var(--s8) 0;
+}
+
+/* Prompt block styling */
+.prose .prompt-block {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--r2);
+  margin: var(--s5) 0;
+  position: relative;
+}
+
+.prose .prompt-block pre {
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Back nav */
+.recipe-back-nav {
+  margin-top: var(--s12);
+  padding-top: var(--s8);
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--accent);
+  border-radius: var(--r2);
+  transition: background var(--t-fast), color var(--t-fast);
+}
+
+.btn-back:hover {
+  background: var(--accent);
+  color: #fff;
+}
+</style>
+
+<script>
+// Favorites
+const STORAGE_KEY = 'pk-favorites';
+const SESSION_KEY = 'pk-session';
+
+function getFavorites(): Record<string, { title: string; category: string; url: string }> {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
+  catch { return {}; }
+}
+
+function saveFavorites(favs: Record<string, { title: string; category: string; url: string }>) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
+}
+
+const heartBtn = document.getElementById('heart-btn') as HTMLButtonElement | null;
+if (heartBtn) {
+  const id = heartBtn.dataset.recipeId!;
+  const favs = getFavorites();
+  heartBtn.textContent = favs[id] ? '❤️' : '🤍';
+
+  heartBtn.addEventListener('click', () => {
+    const favs = getFavorites();
+    if (favs[id]) {
+      delete favs[id];
+      heartBtn.textContent = '🤍';
+    } else {
+      favs[id] = {
+        title: heartBtn.dataset.recipeTitle!,
+        category: heartBtn.dataset.recipeCategory!,
+        url: heartBtn.dataset.recipeUrl!,
+      };
+      heartBtn.textContent = '❤️';
+    }
+    saveFavorites(favs);
+  });
+}
+
+// Voting (Supabase — graceful fallback if env vars not set)
+async function loadVotes(recipeId: string) {
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) return;
+
+  try {
+    const res = await fetch(
+      `${supabaseUrl}/rest/v1/recipe_votes?recipe_id=eq.${recipeId}&select=emoji`,
+      { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
+    );
+    if (!res.ok) return;
+    const rows: { emoji: string }[] = await res.json();
+
+    const counts: Record<string, number> = { fire: 0, chef: 0, star: 0 };
+    rows.forEach(r => { if (r.emoji in counts) counts[r.emoji]++; });
+
+    (['fire', 'chef', 'star'] as const).forEach(e => {
+      const el = document.getElementById(`count-${e}`);
+      if (el) el.textContent = String(counts[e]);
+    });
+  } catch {}
+}
+
+function getSessionId(): string {
+  let id = localStorage.getItem(SESSION_KEY);
+  if (!id) {
+    id = crypto.randomUUID();
+    localStorage.setItem(SESSION_KEY, id);
+  }
+  return id;
+}
+
+async function submitVote(recipeId: string, emoji: string) {
+  const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+  const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+  if (!supabaseUrl || !supabaseKey) return;
+
+  const sessionId = getSessionId();
+  try {
+    await fetch(`${supabaseUrl}/rest/v1/recipe_votes`, {
+      method: 'POST',
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+        'Content-Type': 'application/json',
+        Prefer: 'resolution=ignore-duplicates',
+      },
+      body: JSON.stringify({ recipe_id: recipeId, emoji, session_id: sessionId }),
+    });
+  } catch {}
+}
+
+const voteBar = document.getElementById('vote-bar');
+if (voteBar) {
+  const recipeId = voteBar.dataset.recipeId!;
+
+  // Load initial counts
+  loadVotes(recipeId);
+
+  // Handle clicks
+  voteBar.querySelectorAll<HTMLButtonElement>('.vote-btn').forEach(btn => {
+    const emoji = btn.dataset.emoji!;
+    const countEl = btn.querySelector<HTMLSpanElement>('.vote-count');
+
+    btn.addEventListener('click', async () => {
+      if (btn.classList.contains('voted')) return;
+      btn.classList.add('voted');
+      if (countEl) {
+        const prev = parseInt(countEl.textContent ?? '0', 10);
+        countEl.textContent = String(isNaN(prev) ? 1 : prev + 1);
+      }
+      await submitVote(recipeId, emoji);
+    });
+  });
+}
+</script>

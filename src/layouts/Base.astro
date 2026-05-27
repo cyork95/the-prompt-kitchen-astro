@@ -1,0 +1,54 @@
+---
+export interface Props {
+  title: string;
+  description?: string;
+  ogUrl?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = 'Simple, practical recipes for getting the most out of AI. Free, open, and always will be.',
+  ogUrl  = Astro.url.href,
+  ogImage,
+} = Astro.props;
+
+const fullTitle = title === 'Home'
+  ? 'The Prompt Kitchen — AI Prompts That Actually Work'
+  : `${title} | The Prompt Kitchen`;
+---
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+
+  <!-- Open Graph -->
+  <meta property="og:title"       content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url"         content={ogUrl} />
+  {ogImage && <meta property="og:image" content={ogImage} />}
+
+  <link rel="canonical" href={ogUrl} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="/styles/global.css" />
+
+  <!-- Pagefind styles (search UI) — injected at build time -->
+  <link rel="stylesheet" href="/_pagefind/pagefind-ui.css" />
+
+  <!-- Theme: runs inline before body renders to avoid flash -->
+  <script is:inline>
+    (function () {
+      var t = localStorage.getItem('pk-theme') ||
+        (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+</head>
+<body>
+  <slot />
+  <button class="back-to-top" id="back-to-top" aria-label="Back to top">↑</button>
+</body>
+</html>

@@ -1,0 +1,255 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+
+// Cookbook metadata
+const cookbookMeta: Record<string, { title: string; emoji: string; tagline: string; description: string; audience: string[]; color: string }> = {
+  'indie-hacker': {
+    title: 'Indie Hacker Cookbook',
+    emoji: '💻',
+    tagline: '"Ship faster. Learn cheaper. Grow without a team."',
+    description: 'AI as your co-founder, copywriter, researcher, and customer success team — all at once.',
+    audience: ['Solo founders & bootstrappers', 'Pre-launch through early traction'],
+    color: '#6366F1',
+  },
+  'student': {
+    title: 'Student Cookbook',
+    emoji: '📚',
+    tagline: '"Study smarter. Think sharper. Write better."',
+    description: 'Make AI your most patient tutor — essays, revision, research, and academic writing.',
+    audience: ['University & college students', 'High school advanced'],
+    color: '#059669',
+  },
+  'creator': {
+    title: 'Creator Cookbook',
+    emoji: '🎨',
+    tagline: '"More ideas, less blank-page paralysis."',
+    description: 'Content ideas, scripts, hooks, repurposing, and building an audience — for creators on any platform.',
+    audience: ['YouTubers, podcasters, writers', 'Anyone building an audience'],
+    color: '#D97706',
+  },
+  'startup-founder': {
+    title: 'Startup Founder Cookbook',
+    emoji: '🚀',
+    tagline: '"Move faster than you have any right to."',
+    description: 'Investor decks, hiring, GTM, fundraising emails, and everything founders need to move fast.',
+    audience: ['Early-stage founders', 'Pre-seed through Series A'],
+    color: '#DC2626',
+  },
+};
+
+export async function getStaticPaths() {
+  const slugs = Object.keys({
+    'indie-hacker': true,
+    'student': true,
+    'creator': true,
+    'startup-founder': true,
+  });
+  return slugs.map(slug => ({ params: { slug }, props: { slug } }));
+}
+
+const { slug } = Astro.props;
+const meta = cookbookMeta[slug] ?? cookbookMeta['indie-hacker'];
+
+// Get cookbook recipes from collection (if any exist)
+const allCookbookRecipes = await getCollection('cookbooks').catch(() => []);
+const recipes = allCookbookRecipes
+  .filter(r => r.data.cookbook === slug)
+  .sort((a, b) => a.data.order - b.data.order);
+---
+<Page
+  title={meta.title}
+  description={meta.description}
+>
+  <div class="page-hero container">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/cookbooks/">Cookbooks</a></li>
+        <li><span aria-current="page">{meta.title}</span></li>
+      </ol>
+    </nav>
+    <div class="cookbook-hero" style={`--cb-color: ${meta.color}`}>
+      <span class="cb-hero-icon">{meta.emoji}</span>
+      <div>
+        <h1 class="cb-hero-title">{meta.emoji} {meta.title}</h1>
+        <p class="cb-hero-tagline">{meta.tagline}</p>
+        <p class="cb-hero-desc">{meta.description}</p>
+        <div class="cb-hero-pills">
+          {meta.audience.map(a => <span class="cb-hero-pill">👤 {a}</span>)}
+          {recipes.length > 0 && <span class="cb-hero-pill">📋 {recipes.length} recipes</span>}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container cb-layout">
+    {recipes.length > 0 ? (
+      <div class="card-grid">
+        {recipes.map(async recipe => {
+          const { Content } = await recipe.render();
+          return (
+            <div class="recipe-card cookbook-recipe-card">
+              <div class="recipe-card-meta">
+                <span class="recipe-card-category">{recipe.data.category}</span>
+                <span class="recipe-card-difficulty">{recipe.data.difficulty}</span>
+              </div>
+              <h3>{recipe.data.title}</h3>
+              {recipe.data.teaser && <p class="recipe-card-teaser">{recipe.data.teaser}</p>}
+              <details class="recipe-inline-detail">
+                <summary>View recipe</summary>
+                <div class="recipe-inline-content prose">
+                  <Content />
+                </div>
+              </details>
+            </div>
+          );
+        })}
+      </div>
+    ) : (
+      <div class="cookbook-coming-soon">
+        <div class="cs-icon">{meta.emoji}</div>
+        <h2>Coming soon</h2>
+        <p>We're still writing the recipes for this cookbook. Check back soon — or <a href="/submit/">submit a recipe</a> that belongs here.</p>
+        <a href="/cookbooks/" class="filter-pill active" style="display:inline-block;text-decoration:none;margin-top:var(--s5);">
+          ← All Cookbooks
+        </a>
+      </div>
+    )}
+  </div>
+</Page>
+
+<style>
+.breadcrumb ol {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s5);
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: 0.85rem;
+  color: var(--text-3);
+}
+
+.breadcrumb li + li::before {
+  content: '/';
+  opacity: 0.4;
+  margin-right: var(--s2);
+}
+
+.breadcrumb a {
+  color: var(--text-3);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover { color: var(--accent); }
+
+.cookbook-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s6);
+  padding: var(--s8) 0 var(--s6);
+}
+
+.cb-hero-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.cb-hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  margin: 0 0 var(--s3);
+}
+
+.cb-hero-tagline {
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--cb-color);
+  margin: 0 0 var(--s3);
+  font-weight: 500;
+}
+
+.cb-hero-desc {
+  font-size: 0.95rem;
+  color: var(--text-2);
+  line-height: 1.6;
+  margin: 0 0 var(--s4);
+  max-width: 600px;
+}
+
+.cb-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+
+.cb-hero-pill {
+  font-size: 0.75rem;
+  padding: var(--s1) var(--s3);
+  border-radius: var(--r-full);
+  background: var(--bg-alt);
+  color: var(--text-2);
+  font-weight: 500;
+}
+
+.cb-layout {
+  padding-bottom: var(--s20);
+}
+
+.cookbook-recipe-card {
+  display: block;
+}
+
+.recipe-inline-detail {
+  margin-top: var(--s4);
+}
+
+.recipe-inline-detail summary {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  padding: var(--s2) 0;
+}
+
+.recipe-inline-content {
+  padding-top: var(--s4);
+  font-size: 0.875rem;
+  line-height: 1.7;
+}
+
+.cookbook-coming-soon {
+  text-align: center;
+  padding: var(--s16) var(--s8);
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.cs-icon {
+  font-size: 4rem;
+  margin-bottom: var(--s5);
+}
+
+.cookbook-coming-soon h2 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin: 0 0 var(--s4);
+}
+
+.cookbook-coming-soon p {
+  color: var(--text-2);
+  margin: 0;
+}
+
+.cookbook-coming-soon a[href="/submit/"] {
+  color: var(--accent);
+}
+
+@media (max-width: 600px) {
+  .cookbook-hero {
+    flex-direction: column;
+  }
+}
+</style>
