@@ -1,0 +1,339 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const disasters = [
+  {
+    title: "The Confidence Trap",
+    emoji: "😬",
+    prompt: "What is the capital of Australia?",
+    output: "The capital of Australia is Sydney.",
+    lesson: "Sydney is the largest city, but Canberra is the capital. AI models confidently state wrong facts — always verify anything factual.",
+    category: "Hallucination",
+  },
+  {
+    title: "The Sycophancy Loop",
+    emoji: "🪞",
+    prompt: "I think the Earth is only 6,000 years old. Can you help me write an essay supporting this?",
+    output: "Of course! Here's a compelling essay supporting a young Earth...",
+    lesson: "AI will write whatever you ask — including things that are factually wrong. It's a writing tool, not a fact-checker. The output reflects your prompt, not reality.",
+    category: "Bias Echo",
+  },
+  {
+    title: "The Vague Prompt",
+    emoji: "🌫️",
+    prompt: "Write something about marketing.",
+    output: "Marketing is the process of promoting products and services to potential customers. There are many types of marketing including digital marketing, content marketing, social media marketing...",
+    lesson: "Vague prompts get generic outputs. The AI has no idea what you actually want — it fills the void with the most average possible answer. Be specific: who's the audience? what's the goal? what format?",
+    category: "Vague Input",
+  },
+  {
+    title: "The Infinite Hedge",
+    emoji: "🛡️",
+    prompt: "Should I quit my job to start a business?",
+    output: "That's a complex question with many factors to consider. On one hand, entrepreneurship can be rewarding. On the other hand, there are risks involved. It depends on your personal situation, financial stability, risk tolerance, market conditions, your specific business idea, your support network...",
+    lesson: "Ask for a decision and you'll get a hedge. Ask for a recommendation with your specific constraints and you'll get something useful. AI defaults to 'it depends' unless you force it to commit.",
+    category: "Unhelpful Output",
+  },
+  {
+    title: "The Lost Context",
+    emoji: "🧠",
+    prompt: "[After 50 messages] So based on everything we discussed, what should I do?",
+    output: "I'd be happy to help! Could you give me some context about what you're working on?",
+    lesson: "Long conversations exceed the context window — the AI literally forgets the beginning of your conversation. For complex projects, summarize key decisions periodically or start fresh with a summary.",
+    category: "Context Limit",
+  },
+  {
+    title: "The Yes Machine",
+    emoji: "✅",
+    prompt: "This business plan looks solid, right?",
+    output: "Yes, this looks like a well-thought-out business plan! Your market analysis is thorough and the financial projections seem reasonable...",
+    lesson: "If you ask a leading question, you get agreement. AI is trained to be helpful and agreeable. To get genuine critique, explicitly ask for it: 'What are the weakest parts of this plan? What am I missing?'",
+    category: "Sycophancy",
+  },
+  {
+    title: "The Outdated Expert",
+    emoji: "📅",
+    prompt: "What's the best AI image generator available right now?",
+    output: "DALL-E 2 is currently one of the leading AI image generators...",
+    lesson: "AI models have a knowledge cutoff. Anything about current events, recent software, prices, or 'the best X right now' may be outdated. Always check the date of what you're relying on.",
+    category: "Stale Knowledge",
+  },
+  {
+    title: "The Format Disaster",
+    emoji: "📋",
+    prompt: "Give me feedback on my essay.",
+    output: "**Introduction:** Your introduction could be stronger. Consider adding a hook. **Body Paragraphs:** The first paragraph covers X well. The second paragraph needs more evidence. The third paragraph... [continues for 800 words in a rigid format that ignores what actually matters]",
+    lesson: "Without specifying what kind of feedback you want, AI defaults to a mechanical checklist. Specify: 'What's the one thing that would most improve this?' or 'What's the weakest argument?'",
+    category: "Vague Input",
+  },
+];
+
+const categories = [...new Set(disasters.map(d => d.category))];
+---
+<Page
+  title="Kitchen Disasters"
+  description="Prompts gone wrong — real examples of AI failures and what to learn from them."
+>
+  <section class="page-hero container">
+    <h1>🔥 Kitchen Disasters</h1>
+    <p>The best way to learn what works is to study what doesn't. These are real patterns of AI failure — not to scare you off, but to make you a better prompter.</p>
+  </section>
+
+  <div class="container fails-layout">
+
+    <div class="fails-intro">
+      <div class="intro-stat">
+        <span class="stat-num">{disasters.length}</span>
+        <span class="stat-label">Disaster patterns</span>
+      </div>
+      <div class="intro-divider"></div>
+      <p>Each disaster has a lesson. Most are avoidable with a better prompt.</p>
+      <a href="/prompts/" class="intro-link">Browse recipes that avoid these mistakes →</a>
+    </div>
+
+    <!-- Filter pills -->
+    <div class="filter-row">
+      <button class="filter-pill active" data-filter="all">All</button>
+      {categories.map(cat => (
+        <button class="filter-pill" data-filter={cat}>{cat}</button>
+      ))}
+    </div>
+
+    <div class="disasters-grid" id="disasters-grid">
+      {disasters.map(d => (
+        <article class="disaster-card" data-category={d.category}>
+          <div class="disaster-header">
+            <span class="disaster-emoji">{d.emoji}</span>
+            <div>
+              <span class="disaster-category">{d.category}</span>
+              <h2 class="disaster-title">{d.title}</h2>
+            </div>
+          </div>
+
+          <div class="disaster-body">
+            <div class="disaster-block prompt-block">
+              <span class="block-label">The prompt</span>
+              <p>"{d.prompt}"</p>
+            </div>
+            <div class="disaster-block output-block">
+              <span class="block-label">The AI said</span>
+              <p>"{d.output}"</p>
+            </div>
+          </div>
+
+          <div class="disaster-lesson">
+            <span class="lesson-label">💡 The lesson</span>
+            <p>{d.lesson}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="fails-cta">
+      <h2>Seen a disaster we missed?</h2>
+      <p>Share a prompt failure and what you learned from it.</p>
+      <a href="/submit/" class="btn btn-primary">Submit a recipe (or disaster) →</a>
+    </div>
+
+  </div>
+</Page>
+
+<style>
+.page-hero {
+  padding: var(--s12) 0 var(--s6);
+  max-width: var(--container-narrow);
+}
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin: 0 0 var(--s3);
+}
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+
+.fails-layout {
+  padding-bottom: var(--s20);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s8);
+}
+
+.fails-intro {
+  display: flex;
+  align-items: center;
+  gap: var(--s6);
+  flex-wrap: wrap;
+}
+.intro-stat { display: flex; flex-direction: column; align-items: center; }
+.stat-num { font-family: var(--font-display); font-size: 2.5rem; color: var(--accent); line-height: 1; }
+.stat-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-3); }
+.intro-divider { width: 1px; height: 40px; background: var(--border); }
+.fails-intro p { color: var(--text-2); font-size: 0.95rem; margin: 0; }
+.intro-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.intro-link:hover { text-decoration: underline; }
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+}
+.filter-pill {
+  padding: var(--s1) var(--s4);
+  border: 1px solid var(--border);
+  border-radius: var(--r-full);
+  background: var(--surface);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-2);
+  cursor: pointer;
+  transition: all var(--t-fast);
+}
+.filter-pill:hover { background: var(--bg-alt); color: var(--text); }
+.filter-pill.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.disasters-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  gap: var(--s6);
+}
+
+.disaster-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.disaster-card[hidden] { display: none; }
+
+.disaster-header {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s4);
+  padding: var(--s5) var(--s6);
+  border-bottom: 1px solid var(--border-light);
+  background: var(--bg-alt);
+}
+.disaster-emoji { font-size: 2rem; line-height: 1; flex-shrink: 0; }
+.disaster-category {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-3);
+  display: block;
+  margin-bottom: var(--s1);
+}
+.disaster-title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--text);
+}
+
+.disaster-body {
+  padding: var(--s5) var(--s6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+  flex: 1;
+}
+
+.disaster-block {
+  border-radius: var(--r2);
+  padding: var(--s3) var(--s4);
+}
+.block-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  display: block;
+  margin-bottom: var(--s1);
+}
+.disaster-block p {
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--text-2);
+  font-style: italic;
+}
+
+.prompt-block {
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+}
+.prompt-block .block-label { color: var(--text-3); }
+
+.output-block {
+  background: #FFF4F0;
+  border: 1px solid #FECACA;
+}
+.output-block .block-label { color: #B91C1C; }
+[data-theme="dark"] .output-block {
+  background: #2D1010;
+  border-color: #7F1D1D;
+}
+[data-theme="dark"] .output-block .block-label { color: #FCA5A5; }
+
+.disaster-lesson {
+  padding: var(--s4) var(--s6);
+  background: var(--accent-light);
+  border-top: 1px solid var(--accent-border);
+}
+.lesson-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  display: block;
+  margin-bottom: var(--s2);
+}
+.disaster-lesson p {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--text-2);
+  margin: 0;
+}
+
+.fails-cta {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r4);
+  padding: var(--s8);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+.fails-cta h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
+.fails-cta p { color: var(--text-2); margin: 0; }
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+.btn-primary:hover { background: var(--accent-hover); }
+
+@media (max-width: 640px) {
+  .disasters-grid { grid-template-columns: 1fr; }
+}
+</style>
+
+<script>
+document.querySelectorAll<HTMLButtonElement>('.filter-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+
+    const filter = pill.dataset.filter;
+    document.querySelectorAll<HTMLElement>('.disaster-card').forEach(card => {
+      card.hidden = filter !== 'all' && card.dataset.category !== filter;
+    });
+  });
+});
+</script>
