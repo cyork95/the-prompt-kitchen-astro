@@ -85,7 +85,7 @@ import Page from '../../layouts/Page.astro';
       </div>
 
       <div id="submit-error" class="submit-error" hidden>
-        <p id="submit-error-msg">Something went wrong. Please try again.</p>
+        <p id="submit-error-msg">Something went wrong. Please try again or email <a href="mailto:coyofroyo@yorkdevelops.com">coyofroyo@yorkdevelops.com</a>.</p>
       </div>
 
       <div id="submit-success" class="submit-success" hidden>
@@ -363,7 +363,7 @@ form?.addEventListener('submit', async (e) => {
     form.style.display = 'none';
     successBox.hidden = false;
   } else {
-    errorMsg.textContent = 'Something went wrong — please try again or email us directly.';
+    errorMsg.innerHTML = 'Something went wrong — please try again or email <a href="mailto:coyofroyo@yorkdevelops.com">coyofroyo@yorkdevelops.com</a> directly.';
     errorBox.hidden = false;
     submitBtn.disabled = false;
     submitBtn.textContent = 'Submit Recipe 🍳';
