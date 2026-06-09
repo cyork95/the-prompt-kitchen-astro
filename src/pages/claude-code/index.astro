@@ -217,7 +217,7 @@ Format: bullet list per person, max 3 items each`,
 .resource-link { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); background: var(--accent); color: #fff; border-radius: var(--r2); font-size: 0.875rem; font-weight: 700; text-decoration: none; transition: background var(--t-fast); }
 .resource-link:hover { background: var(--accent-hover); }
 
-.install-cmd { font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s2) var(--s3); margin: var(--s2) 0 var(--s3); color: var(--text-2); white-space: pre; overflow-x: auto; }
+.install-cmd { font-family: var(--font-mono); font-size: 0.72rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s3) var(--s3) var(--s3) var(--s3); margin: var(--s2) 0 var(--s3); color: var(--text-2); white-space: pre-wrap; word-break: break-all; line-height: 1.6; position: relative; }
 .cc-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
 .sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
 .sidebar-card--accent { border-color: var(--accent-border); background: var(--accent-light); }
@@ -227,4 +227,14 @@ Format: bullet list per person, max 3 items each`,
 .sidebar-link:hover { text-decoration: underline; }
 
 @media (max-width: 768px) { .cc-layout { grid-template-columns: 1fr; } .cc-sidebar { position: static; } .feature-body { grid-template-columns: 1fr; } .feature-how { border-right: none; border-bottom: 1px solid var(--border-light); } }
+</style>
+
+<style is:global>
+.install-cmd .copy-btn {
+  position: absolute !important;
+  top: var(--s2) !important;
+  right: var(--s2) !important;
+  font-size: 0.65rem !important;
+  padding: 2px 6px !important;
+}
 </style>
