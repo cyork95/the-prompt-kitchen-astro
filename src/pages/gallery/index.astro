@@ -1,10 +1,102 @@
 ---
 import Page from '../../layouts/Page.astro';
+
+const ITEMS = [
+  {
+    id: "img-001",
+    type: "image",
+    title: "Misty Forest at Dawn",
+    src: "/gallery/img-001.jpg",
+    model: "Grok Aurora",
+    tags: ["photography", "nature"],
+    prompt: "Ancient redwood forest at dawn, golden light rays breaking through morning mist, moss-covered bark, fern undergrowth, photorealistic, shot on Sony A7R V with 24-70mm f/2.8 lens, 8K detail",
+    params: "Default settings — Aurora generates one image per prompt, no parameters needed",
+    note: "Grok's Aurora image model is free at grok.com with a free X account — no credits, no waitlist. Naming a specific camera body and lens gives it a precise reference for optics and depth of field. The 'golden light rays through mist' detail reliably produces strong atmospheric lighting."
+  },
+  {
+    id: "img-002",
+    type: "image",
+    title: "Brutalist Reading Room",
+    src: "/gallery/img-002.jpg",
+    model: "DALL-E 3",
+    tags: ["architecture", "photography"],
+    prompt: "Interior of a brutalist library reading room, poured concrete walls, dramatic skylights casting geometric shadows, rows of wooden study desks, warm tungsten lamp pools, empty, late afternoon, architectural photography style, editorial lighting",
+    params: "1024×1024, vivid style",
+    note: "DALL-E 3 is excellent at architectural interiors when you name a specific style movement (brutalist) and describe lighting precisely. 'Geometric shadows' from skylights was the detail that made this composition work."
+  },
+  {
+    id: "img-003",
+    type: "image",
+    title: "Cyberpunk Street Market",
+    src: "/gallery/img-003.jpg",
+    model: "Google Gemini Imagen",
+    tags: ["concept-art", "illustration"],
+    prompt: "Crowded night market in a rain-soaked cyberpunk city, neon reflections on wet cobblestones, vendors selling glowing food, paper lanterns mixed with holographic signs, warm vs cool color contrast, cinematic, no logos or text, high detail",
+    params: "Generated in Gemini chat — type the prompt directly, Gemini produces images inline",
+    note: "Google Gemini's free tier includes Imagen-powered image generation — just type an image prompt in the chat at gemini.google.com. The warm/cool color contrast instruction (warm vendor stalls, cool neon) is one of the most effective cinematic prompts across all models."
+  },
+  {
+    id: "img-004",
+    type: "image",
+    title: "Minimalist Product Shot — Ceramic Mug",
+    src: "/gallery/img-004.jpg",
+    model: "Adobe Firefly 3",
+    tags: ["product"],
+    prompt: "Handmade ceramic coffee mug, matte speckled glaze in warm terracotta and cream, sitting on a pale linen cloth, soft diffused window light from the left, shallow depth of field, product photography, white background, studio, commercial quality",
+    params: "Content Credentials: on · Structure Reference: none",
+    note: "Adobe Firefly is the right tool for product shots you might want to use commercially — it's trained on licensed content. Specifying 'matte' in the glaze description was critical; without it the default was a shiny, generic mug."
+  },
+  {
+    id: "img-005",
+    type: "image",
+    title: "Illustrated Recipe Card Style",
+    src: "/gallery/img-005.jpg",
+    model: "Leonardo AI",
+    tags: ["illustration"],
+    prompt: "Botanical illustration style, hand-drawn ink and watercolor, sourdough bread loaf surrounded by wheat stalks, rosemary sprigs, sea salt crystals, soft cream paper texture, warm earth tones, editorial cookbook illustration, vintage feel",
+    params: "Model: Leonardo Diffusion XL · Preset: Illustration · Dimensions: 3:4",
+    note: "Leonardo AI's free tier gives ~150 tokens/day. The Illustration preset naturally leans toward painterly results; combining it with 'hand-drawn ink and watercolor' and 'cream paper texture' grounds the style precisely."
+  },
+  {
+    id: "img-006",
+    type: "image",
+    title: "Cozy Home Office Concept",
+    src: "/gallery/img-006.jpg",
+    model: "Adobe Firefly 3",
+    tags: ["architecture", "photography"],
+    prompt: "Cozy home office in a converted attic, exposed wooden beams, large dormer window with afternoon light, built-in bookshelves filled with books and plants, a vintage wooden desk with a modern monitor, warm reading lamp, plaid blanket on chair, hygge aesthetic",
+    params: "Content Credentials: on · Aspect ratio: 4:3 · Style: Photo",
+    note: "The 'hygge aesthetic' reference is surprisingly precise — it communicates warmth, texture, soft lighting, and comfort as a single concept. Firefly's commercially-safe training makes it a solid choice for interior design mockups and lifestyle branding."
+  },
+  {
+    id: "img-007",
+    type: "image",
+    title: "Abstract Data Visualization Art",
+    src: "/gallery/img-007.jpg",
+    model: "Canva AI Image Generator",
+    tags: ["concept-art", "illustration"],
+    prompt: "Abstract art inspired by data flow, flowing streams of light particles in deep navy and amber, connections branching like neural networks, glowing nodes, dark background, generative art aesthetic, painterly, digital fine art",
+    params: "Style: None (let the model interpret freely) · Aspect ratio: 16:9",
+    note: "Canva's free plan includes AI image generation. For abstract work, leaving the Style selector on 'None' and letting the prompt drive the visual gives more interesting results than using a preset."
+  },
+  {
+    id: "img-008",
+    type: "image",
+    title: "Mountain Lodge at Twilight",
+    src: "/gallery/img-008.jpg",
+    model: "Ideogram v2",
+    tags: ["photography", "nature"],
+    prompt: "Rustic mountain lodge exterior at twilight, warm amber light glowing through windows, snow on the pine trees, clear sky beginning to show stars, smoke from chimney, wide establishing shot, cinematic, national geographic style photography, no people, no text signs, no cars, no power lines",
+    params: "Style: Realistic · Aspect ratio: 16:9",
+    note: "Ideogram v2 handles architectural exteriors with surrounding environment very well. The 'twilight' time specification reliably produces the blue-hour color palette with interior warm light."
+  },
+];
 ---
+
 <Page title="The Table Spread" description="Community AI art gallery — images, videos, and music created with AI prompts.">
   <section class="page-hero container">
     <h1><span class="h1-emoji">🍽️</span> The Table Spread</h1>
-    <p>Community AI art — images, videos, and music made with great prompts. See what's possible, steal the prompt, make something better.</p>
+    <p>Every image here was generated with AI. Every prompt is shown. Click any piece to steal the recipe — what was asked, which tool was used, and what made it work.</p>
   </section>
 
   <div class="container gallery-layout">
@@ -12,21 +104,40 @@ import Page from '../../layouts/Page.astro';
     <!-- Filter tabs -->
     <div class="gallery-tabs" role="tablist">
       <button class="gallery-tab active" data-filter="all">All</button>
-      <button class="gallery-tab" data-filter="image">🖼️ Images</button>
-      <button class="gallery-tab" data-filter="video">🎬 Video</button>
-      <button class="gallery-tab" data-filter="audio">🎵 Audio</button>
+      <button class="gallery-tab" data-filter="photography">📷 Photography</button>
+      <button class="gallery-tab" data-filter="illustration">🎨 Illustration</button>
+      <button class="gallery-tab" data-filter="concept-art">🌌 Concept Art</button>
+      <button class="gallery-tab" data-filter="architecture">🏛️ Architecture</button>
+      <button class="gallery-tab" data-filter="product">📦 Product</button>
     </div>
 
-    <!-- Community gallery -->
+    <!-- Gallery grid -->
     <div class="gallery-grid" id="gallery-grid">
-      <!-- Placeholder cards until real submissions arrive -->
-      <div class="gallery-empty">
-        <span class="empty-icon">🍽️</span>
-        <h2>The table is being set</h2>
-        <p>No community pieces yet — be the first to share your AI art, video, or music.</p>
-        <a href="/submit-media/" class="btn btn-primary">Share your creation →</a>
-      </div>
+      {ITEMS.map(item => (
+        <button
+          class="gallery-card"
+          data-type={item.type}
+          data-tags={item.tags.join(',')}
+          data-id={item.id}
+          aria-label={`View ${item.title}`}
+        >
+          <div class="gallery-card-media">
+            <img src={item.src} alt={item.title} loading="lazy" />
+            <span class="model-badge">{item.model}</span>
+          </div>
+          <div class="gallery-card-body">
+            <div class="gc-title">{item.title}</div>
+            <p class="gc-prompt">"{item.prompt}"</p>
+            <div class="gc-tags">
+              {item.tags.map(t => <span class="gc-tag">{t}</span>)}
+            </div>
+          </div>
+        </button>
+      ))}
     </div>
+
+    <!-- Detail panel -->
+    <div class="gallery-detail" id="gallery-detail"></div>
 
     <!-- Submit CTA -->
     <div class="gallery-cta">
@@ -120,35 +231,63 @@ import Page from '../../layouts/Page.astro';
   </div>
 </Page>
 
-<style>
+<style is:global>
 .gallery-layout { display: flex; flex-direction: column; gap: var(--s10); padding-bottom: var(--s20); }
 
 /* Tabs */
-.gallery-tabs { display: flex; gap: var(--s2); border-bottom: 1px solid var(--border); padding-bottom: var(--s4); }
+.gallery-tabs { display: flex; gap: var(--s2); flex-wrap: wrap; border-bottom: 1px solid var(--border); padding-bottom: var(--s4); }
 .gallery-tab { padding: var(--s2) var(--s4); border: 1px solid var(--border); border-radius: var(--r2); background: var(--surface); font-family: var(--font-body); font-size: 0.875rem; font-weight: 600; color: var(--text-2); cursor: pointer; transition: all var(--t-fast); }
 .gallery-tab:hover { background: var(--bg-alt); }
 .gallery-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* Gallery grid */
-.gallery-grid { min-height: 300px; }
-.gallery-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: var(--s16) var(--s8); gap: var(--s4); border: 2px dashed var(--border); border-radius: var(--r4); }
-.gallery-empty .empty-icon { font-size: 3rem; }
-.gallery-empty h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; }
-.gallery-empty p { color: var(--text-2); margin: 0; max-width: 380px; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s5); }
 
-/* Gallery cards (used when data loads) */
-.gallery-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s5); }
-.gallery-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; }
+/* Gallery card */
+.gallery-card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--r3);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  padding: 0;
+  transition: border-color var(--t-fast), transform var(--t-fast), box-shadow var(--t-fast);
+  font-family: var(--font-body);
+}
+.gallery-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.gallery-card.active { border-color: var(--accent); }
+
 .gallery-card-media { aspect-ratio: 16/9; background: var(--bg-alt); overflow: hidden; position: relative; }
-.gallery-card-media img { width: 100%; height: 100%; object-fit: cover; }
-.gallery-card-media .media-type-badge { position: absolute; top: var(--s2); right: var(--s2); background: rgba(0,0,0,.6); color: #fff; font-size: 0.7rem; font-weight: 700; padding: 2px var(--s2); border-radius: var(--r-full); }
+.gallery-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .3s; }
+.gallery-card:hover .gallery-card-media img { transform: scale(1.03); }
+.model-badge { position: absolute; bottom: var(--s2); left: var(--s2); background: rgba(0,0,0,.65); color: #fff; font-size: 0.65rem; font-weight: 700; padding: 2px var(--s2); border-radius: var(--r-full); backdrop-filter: blur(4px); }
+
 .gallery-card-body { padding: var(--s4); }
-.gallery-card-tool { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent); margin-bottom: var(--s2); }
-.gallery-card-prompt { font-size: 0.82rem; color: var(--text-2); line-height: 1.5; margin: 0 0 var(--s3); font-style: italic; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-.gallery-card-meta { display: flex; align-items: center; justify-content: space-between; gap: var(--s2); }
-.gallery-card-rating { font-size: 0.75rem; color: var(--text-3); }
-.gallery-card-contributor { font-size: 0.75rem; color: var(--text-3); }
-.copy-prompt-btn { font-size: 0.72rem; font-weight: 600; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; text-decoration: underline; }
+.gc-title { font-weight: 700; font-size: 0.9rem; color: var(--text); margin-bottom: var(--s2); }
+.gc-prompt { font-size: 0.78rem; color: var(--text-2); font-style: italic; line-height: 1.5; margin: 0 0 var(--s3); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.gc-tags { display: flex; flex-wrap: wrap; gap: var(--s1); }
+.gc-tag { font-size: 0.65rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; padding: 2px 7px; border-radius: 999px; background: var(--accent-light); border: 1px solid var(--accent-border); color: var(--accent); }
+
+/* Detail panel */
+.gallery-detail { display: none; border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; background: var(--bg-alt); }
+.gallery-detail.open { display: block; animation: fadeUp .2s ease; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+.gd-header { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.gd-image { aspect-ratio: 16/9; background: var(--bg-alt); overflow: hidden; }
+.gd-image img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gd-info { padding: var(--s6); display: flex; flex-direction: column; gap: var(--s4); overflow-y: auto; background: var(--surface); }
+.gd-model { font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); }
+.gd-title { font-family: var(--font-display); font-size: 1.3rem; font-weight: 800; color: var(--text); margin: 0; line-height: 1.2; }
+.gd-section-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .07em; color: var(--text-3); margin-bottom: 4px; }
+.gd-prompt-box { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s3) var(--s4); font-size: 0.82rem; color: var(--text-2); font-style: italic; line-height: 1.6; }
+.gd-params { font-size: 0.8rem; color: var(--text-2); font-family: var(--font-mono); background: var(--bg-alt); border: 1px solid var(--border); padding: var(--s2) var(--s3); border-radius: var(--r1); }
+.gd-note { font-size: 0.82rem; color: var(--text-2); line-height: 1.7; }
+.gd-actions { display: flex; gap: var(--s2); flex-wrap: wrap; align-items: center; margin-top: auto; }
+.gd-close { margin-left: auto; }
+.copy-confirm { font-size: 0.8rem; color: var(--green); font-weight: 600; display: none; }
 
 /* CTA */
 .gallery-cta { background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s8); }
@@ -186,34 +325,120 @@ import Page from '../../layouts/Page.astro';
 .tool-card a:hover { text-decoration: underline; }
 .tool-card p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.5; }
 
-.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; }
+.btn { display: inline-flex; align-items: center; padding: var(--s3) var(--s6); border-radius: var(--r2); font-size: 0.9rem; font-weight: 600; text-decoration: none; transition: all var(--t-fast); border: 1px solid transparent; font-family: var(--font-body); cursor: pointer; }
 .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
 .btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: transparent; color: var(--text-2); border-color: var(--border); }
+.btn-secondary:hover { background: var(--bg-alt); color: var(--text); }
+.btn-sm { padding: 3px var(--s3); font-size: 0.78rem; }
 
-@media (max-width: 600px) { .cta-content { flex-direction: column; align-items: flex-start; } .gallery-tabs { flex-wrap: wrap; } }
+@media (max-width: 768px) {
+  .gd-header { grid-template-columns: 1fr; }
+  .gd-image { aspect-ratio: 16/9; }
+}
+@media (max-width: 600px) { .cta-content { flex-direction: column; align-items: flex-start; } }
 </style>
 
 <script>
-// Tab filtering
+// Build gallery data from static cards
+const ITEMS: Record<string, { prompt: string; params: string; note: string }> = {
+  "img-001": { prompt: "Ancient redwood forest at dawn, golden light rays breaking through morning mist, moss-covered bark, fern undergrowth, photorealistic, shot on Sony A7R V with 24-70mm f/2.8 lens, 8K detail", params: "Default settings — Aurora generates one image per prompt, no parameters needed", note: "Grok's Aurora image model is free at grok.com with a free X account — no credits, no waitlist. Naming a specific camera body and lens gives it a precise reference for optics and depth of field. The 'golden light rays through mist' detail reliably produces strong atmospheric lighting." },
+  "img-002": { prompt: "Interior of a brutalist library reading room, poured concrete walls, dramatic skylights casting geometric shadows, rows of wooden study desks, warm tungsten lamp pools, empty, late afternoon, architectural photography style, editorial lighting", params: "1024×1024, vivid style", note: "DALL-E 3 is excellent at architectural interiors when you name a specific style movement (brutalist) and describe lighting precisely. 'Geometric shadows' from skylights was the detail that made this composition work." },
+  "img-003": { prompt: "Crowded night market in a rain-soaked cyberpunk city, neon reflections on wet cobblestones, vendors selling glowing food, paper lanterns mixed with holographic signs, warm vs cool color contrast, cinematic, no logos or text, high detail", params: "Generated in Gemini chat — type the prompt directly, Gemini produces images inline", note: "Google Gemini's free tier includes Imagen-powered image generation — just type an image prompt in the chat at gemini.google.com. The warm/cool color contrast instruction is one of the most effective cinematic prompts across all models." },
+  "img-004": { prompt: "Handmade ceramic coffee mug, matte speckled glaze in warm terracotta and cream, sitting on a pale linen cloth, soft diffused window light from the left, shallow depth of field, product photography, white background, studio, commercial quality", params: "Content Credentials: on · Structure Reference: none", note: "Adobe Firefly is the right tool for product shots you might want to use commercially — it's trained on licensed content. Specifying 'matte' in the glaze description was critical; without it the default was a shiny, generic mug." },
+  "img-005": { prompt: "Botanical illustration style, hand-drawn ink and watercolor, sourdough bread loaf surrounded by wheat stalks, rosemary sprigs, sea salt crystals, soft cream paper texture, warm earth tones, editorial cookbook illustration, vintage feel", params: "Model: Leonardo Diffusion XL · Preset: Illustration · Dimensions: 3:4", note: "Leonardo AI's free tier gives ~150 tokens/day. The Illustration preset naturally leans toward painterly results; combining it with 'hand-drawn ink and watercolor' and 'cream paper texture' grounds the style precisely." },
+  "img-006": { prompt: "Cozy home office in a converted attic, exposed wooden beams, large dormer window with afternoon light, built-in bookshelves filled with books and plants, a vintage wooden desk with a modern monitor, warm reading lamp, plaid blanket on chair, hygge aesthetic", params: "Content Credentials: on · Aspect ratio: 4:3 · Style: Photo", note: "The 'hygge aesthetic' reference is surprisingly precise — it communicates warmth, texture, soft lighting, and comfort as a single concept. Firefly's commercially-safe training makes it a solid choice for interior design mockups." },
+  "img-007": { prompt: "Abstract art inspired by data flow, flowing streams of light particles in deep navy and amber, connections branching like neural networks, glowing nodes, dark background, generative art aesthetic, painterly, digital fine art", params: "Style: None (let the model interpret freely) · Aspect ratio: 16:9", note: "Canva's free plan includes AI image generation. For abstract work, leaving the Style selector on 'None' and letting the prompt drive the visual gives more interesting results than using a preset." },
+  "img-008": { prompt: "Rustic mountain lodge exterior at twilight, warm amber light glowing through windows, snow on the pine trees, clear sky beginning to show stars, smoke from chimney, wide establishing shot, cinematic, national geographic style photography, no people, no text signs, no cars, no power lines", params: "Style: Realistic · Aspect ratio: 16:9", note: "Ideogram v2 handles architectural exteriors very well. The 'twilight' time specification reliably produces the blue-hour color palette with interior warm light." },
+};
+
+let activeId: string | null = null;
+
+// Tab filtering — by tag (not just type)
 document.querySelectorAll<HTMLButtonElement>('.gallery-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     const filter = tab.dataset.filter ?? 'all';
     document.querySelectorAll<HTMLElement>('.gallery-card').forEach(card => {
-      card.hidden = filter !== 'all' && card.dataset.type !== filter;
+      const tags = (card.dataset.tags ?? '').split(',');
+      card.hidden = filter !== 'all' && !tags.includes(filter);
     });
+    if (activeId) {
+      const active = document.querySelector<HTMLElement>(`[data-id="${activeId}"]`);
+      if (active?.hidden) closeDetail();
+    }
   });
 });
 
-// Copy prompt button (for when cards exist)
-document.addEventListener('click', async e => {
-  const btn = (e.target as Element).closest<HTMLButtonElement>('.copy-prompt-btn');
-  if (!btn) return;
-  const prompt = btn.dataset.prompt ?? '';
-  await navigator.clipboard.writeText(prompt).catch(() => {});
-  const orig = btn.textContent!;
-  btn.textContent = '✓ Copied!';
-  setTimeout(() => { btn.textContent = orig; }, 2000);
+// Card click → detail panel
+document.querySelectorAll<HTMLButtonElement>('.gallery-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const id = card.dataset.id!;
+    if (activeId === id) { closeDetail(); return; }
+    activeId = id;
+    document.querySelectorAll('.gallery-card').forEach(c => c.classList.remove('active'));
+    card.classList.add('active');
+    renderDetail(card);
+    setTimeout(() => document.getElementById('gallery-detail')!.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
+  });
 });
+
+function closeDetail() {
+  activeId = null;
+  const el = document.getElementById('gallery-detail')!;
+  el.classList.remove('open');
+  el.innerHTML = '';
+  document.querySelectorAll('.gallery-card').forEach(c => c.classList.remove('active'));
+}
+
+function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderDetail(card: HTMLElement) {
+  const id = card.dataset.id!;
+  const img = card.querySelector('img')!;
+  const title = card.querySelector('.gc-title')!.textContent ?? '';
+  const model = card.querySelector('.model-badge')!.textContent ?? '';
+  const data = ITEMS[id] ?? { prompt: '', params: '', note: '' };
+
+  const el = document.getElementById('gallery-detail')!;
+  el.innerHTML = `
+    <div class="gd-header">
+      <div class="gd-image">
+        <img src="${esc(img.src)}" alt="${esc(title)}" />
+      </div>
+      <div class="gd-info">
+        <div>
+          <div class="gd-model">${esc(model)}</div>
+          <h2 class="gd-title">${esc(title)}</h2>
+        </div>
+        <div>
+          <div class="gd-section-label">Prompt used</div>
+          <div class="gd-prompt-box">${esc(data.prompt)}</div>
+        </div>
+        <div>
+          <div class="gd-section-label">Parameters</div>
+          <div class="gd-params">${esc(data.params)}</div>
+        </div>
+        <div>
+          <div class="gd-section-label">What made it work</div>
+          <p class="gd-note">${esc(data.note)}</p>
+        </div>
+        <div class="gd-actions">
+          <button class="btn btn-primary btn-sm" id="copy-prompt-btn">📋 Copy prompt</button>
+          <button class="btn btn-secondary btn-sm gd-close" id="close-detail-btn">✕ Close</button>
+          <span class="copy-confirm" id="copy-confirm">Copied!</span>
+        </div>
+      </div>
+    </div>`;
+  el.classList.add('open');
+
+  document.getElementById('copy-prompt-btn')!.addEventListener('click', async () => {
+    await navigator.clipboard.writeText(data.prompt).catch(() => {});
+    const c = document.getElementById('copy-confirm')!;
+    c.style.display = 'inline';
+    setTimeout(() => { c.style.display = 'none'; }, 2200);
+  });
+  document.getElementById('close-detail-btn')!.addEventListener('click', closeDetail);
+}
 </script>
