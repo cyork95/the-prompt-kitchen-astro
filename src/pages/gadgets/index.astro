@@ -50,6 +50,50 @@ import Page from '../../layouts/Page.astro';
       </div>
     </div>
 
+    <!-- Further Reading -->
+    <section class="gadgets-reading">
+      <h2 class="gadgets-reading-heading">Further Reading</h2>
+      <div class="gadgets-reading-list">
+        {[
+          {
+            title: "Agentic Design Patterns",
+            source: "GitHub / evoiz",
+            tag: "Agent Architecture",
+            desc: "A comprehensive catalogue of design patterns for agentic AI systems — ReAct, Plan-and-Execute, Reflection, Tool Use, Multi-Agent, and more. Each pattern with diagrams and implementation notes.",
+            url: "https://github.com/evoiz/Agentic-Design-Patterns",
+          },
+          {
+            title: "Agentic Design Patterns (Extended)",
+            source: "GitHub / Mathews-Tom",
+            tag: "Agent Architecture",
+            desc: "A broader companion collection covering orchestration strategies, memory patterns, error recovery loops, and real-world agent architectures at different complexity levels.",
+            url: "https://github.com/Mathews-Tom/Agentic-Design-Patterns",
+          },
+          {
+            title: "Agent Memory & Context Lifecycle",
+            source: "Anthropic Cookbook",
+            tag: "Memory",
+            desc: "How agents manage what they remember across a session — in-context storage, external memory, summarisation strategies, and when each approach breaks down.",
+            url: "https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/tool_use_agent.ipynb",
+          },
+          {
+            title: "MCP & Tool Ecosystems",
+            source: "modelcontextprotocol.io",
+            tag: "Tool Use",
+            desc: "The Model Context Protocol spec and server directory — how agents connect to Slack, GitHub, databases, and hundreds of other tools through a standardised interface.",
+            url: "https://modelcontextprotocol.io",
+          },
+        ].map(r => (
+          <a href={r.url} target="_blank" rel="noopener" class="gadgets-reading-card">
+            <div class="gadgets-reading-tag">{r.tag}</div>
+            <strong class="gadgets-reading-title">{r.title}</strong>
+            <span class="gadgets-reading-source">{r.source}</span>
+            <p class="gadgets-reading-desc">{r.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
   </div>
 
 </Page>
@@ -211,6 +255,17 @@ import Page from '../../layouts/Page.astro';
 .callout strong { display: block; font-weight: 700; margin-bottom: var(--s2); color: var(--text); }
 .callout p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
 .callout code { font-family: var(--font-mono); font-size: 0.8em; background: var(--bg-alt); padding: 1px 5px; border-radius: 3px; }
+
+/* Further Reading */
+.gadgets-reading { margin-top: var(--s8); padding-top: var(--s8); border-top: 1px solid var(--border); }
+.gadgets-reading-heading { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s5); }
+.gadgets-reading-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--s4); }
+.gadgets-reading-card { display: flex; flex-direction: column; gap: var(--s2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; color: var(--text); transition: background var(--t-fast); }
+.gadgets-reading-card:hover { background: var(--bg-alt); }
+.gadgets-reading-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); }
+.gadgets-reading-title { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+.gadgets-reading-source { font-size: 0.72rem; color: var(--text-3); }
+.gadgets-reading-desc { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
 
 /* Btn */
 .btn { display: inline-flex; align-items: center; gap: var(--s2); padding: var(--s2) var(--s4); border-radius: var(--r2); font-size: 0.82rem; font-weight: 600; cursor: pointer; border: 1px solid transparent; transition: all var(--t-fast); font-family: var(--font-body); text-decoration: none; }

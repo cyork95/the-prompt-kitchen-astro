@@ -232,6 +232,20 @@ import Page from '../../layouts/Page.astro';
               desc: "The best community-built resource for Claude Code — 181 templates, 271-question quiz, agentic workflow patterns, hooks, plugins, and a security threat database.",
               url: "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
             },
+            {
+              title: "Effective Context Engineering",
+              source: "Anthropic Engineering",
+              tag: "Context Engineering",
+              desc: "Anthropic's own engineering guide to context — how to structure what you give a model, when to compress, and why context quality is the highest-leverage variable in agent performance.",
+              url: "https://www.anthropic.com/engineering/effective-context-engineering",
+            },
+            {
+              title: "Agent Memory & Context Lifecycle",
+              source: "Anthropic Cookbook",
+              tag: "Memory",
+              desc: "How agents manage what they remember across a session — in-context storage, external memory, summarisation strategies, and when each approach breaks down.",
+              url: "https://github.com/anthropics/anthropic-cookbook/blob/main/tool_use/tool_use_agent.ipynb",
+            },
           ].map(r => (
             <a href={r.url} target="_blank" rel="noopener" class="reading-card">
               <div class="reading-meta">

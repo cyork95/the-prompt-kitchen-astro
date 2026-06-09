@@ -126,6 +126,13 @@ const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
             desc: "A practical recipe for forcing AI to verify its own output before you trust it — layered fact-checking built into the prompt itself.",
             url: "/prompts/ai-fact-check/",
           },
+          {
+            title: "OWASP LLM Top 10: Prompt Injection & Agent Safety",
+            source: "OWASP",
+            tag: "Security",
+            desc: "The definitive security reference for LLM applications — prompt injection, insecure output handling, training data poisoning, and the 7 other attack vectors every AI builder needs to understand.",
+            url: "https://owasp.org/www-project-top-10-for-large-language-model-applications/",
+          },
         ].map(item => (
           <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener' : undefined} class="gr-reading-card">
             <div class="gr-reading-tag">{item.tag}</div>

@@ -132,6 +132,35 @@ Format: bullet list per person, max 3 items each`,
         </section>
       ))}
 
+      <section class="cc-further">
+        <h2>Further Reading</h2>
+        <div class="cc-reading-list">
+          {[
+            {
+              title: "MCP & Tool Ecosystems",
+              source: "modelcontextprotocol.io",
+              tag: "MCP",
+              desc: "The official Model Context Protocol site — spec, server directory, quickstart guides, and the full list of tools Claude Code can connect to out of the box.",
+              url: "https://modelcontextprotocol.io",
+            },
+            {
+              title: "Claude Code Ultimate Guide",
+              source: "GitHub / Florian Bruniaux",
+              tag: "Community Resource",
+              desc: "181 templates, 271-question quiz, agentic workflow patterns, hooks, plugins, and a security threat database — the best community-built deep-dive.",
+              url: "https://github.com/FlorianBruniaux/claude-code-ultimate-guide",
+            },
+          ].map(r => (
+            <a href={r.url} target="_blank" rel="noopener" class="cc-reading-card">
+              <div class="cc-reading-tag">{r.tag}</div>
+              <strong class="cc-reading-title">{r.title}</strong>
+              <span class="cc-reading-source">{r.source}</span>
+              <p class="cc-reading-desc">{r.desc}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
       <section class="cc-resource">
         <div class="resource-badge">⭐ Community resource</div>
         <h2>Claude Code Ultimate Guide</h2>
@@ -216,6 +245,17 @@ Format: bullet list per person, max 3 items each`,
 .stat-label { font-size: 0.72rem; color: var(--text-3); }
 .resource-link { display: inline-flex; align-items: center; align-self: flex-start; padding: var(--s3) var(--s6); background: var(--accent); color: #fff; border-radius: var(--r2); font-size: 0.875rem; font-weight: 700; text-decoration: none; transition: background var(--t-fast); }
 .resource-link:hover { background: var(--accent-hover); }
+
+.cc-further { padding-top: var(--s6); border-top: 1px solid var(--border); }
+.cc-further h2 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s4); }
+.cc-reading-list { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.cc-reading-card { display: flex; flex-direction: column; gap: var(--s2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; color: var(--text); transition: background var(--t-fast); }
+.cc-reading-card:hover { background: var(--bg-alt); }
+.cc-reading-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); }
+.cc-reading-title { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+.cc-reading-source { font-size: 0.72rem; color: var(--text-3); }
+.cc-reading-desc { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+@media (max-width: 768px) { .cc-reading-list { grid-template-columns: 1fr; } }
 
 .install-cmd { font-family: var(--font-mono); font-size: 0.72rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s3) var(--s3) var(--s3) var(--s3); margin: var(--s2) 0 var(--s3); color: var(--text-2); white-space: pre-wrap; word-break: break-all; line-height: 1.6; position: relative; }
 .cc-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
