@@ -1,0 +1,217 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="Aesthetics vs. Accuracy" description="How AI image models hallucinate historical faces — the Solvay Conference colorization test and what it reveals about quality in AI editing.">
+  <section class="page-hero container">
+    <h1><span class="h1-emoji">🔬</span> Aesthetics vs. Accuracy</h1>
+    <p>The hidden hallucinations in AI image restoration — and what a 1927 photo of Einstein reveals about how models fail.</p>
+  </section>
+
+  <div class="container case-layout">
+    <div class="case-content">
+
+      <section class="case-section">
+        <div class="case-kicker">Case Study</div>
+        <h2>The Solvay Test: the ultimate stress test for AI image editing</h2>
+        <p>The 1927 Solvay Conference photograph is one of the most famous images in scientific history. Taken in Brussels, it captured 29 of the greatest scientific minds of the 20th century in a single frame — <strong>Albert Einstein, Marie Curie, Niels Bohr, Max Planck, Werner Heisenberg</strong>, and others whose faces are among the most documented in the world.</p>
+        <p>This makes it the perfect stress test for AI colorization and restoration tools. Every face is universally recognizable. Any model that "hallucinates" — generates plausible-but-wrong pixels — will replace the actual historical subjects with convincing-looking strangers. And because the real faces are so well-known, the failure is immediately visible.</p>
+        <div class="solvay-facts">
+          <div class="fact-item">
+            <span class="fact-num">29</span>
+            <span class="fact-label">physicists in the frame</span>
+          </div>
+          <div class="fact-item">
+            <span class="fact-num">17</span>
+            <span class="fact-label">Nobel Prize winners photographed</span>
+          </div>
+          <div class="fact-item">
+            <span class="fact-num">1927</span>
+            <span class="fact-label">original photograph date</span>
+          </div>
+        </div>
+        <p>The test: give multiple AI models the original black-and-white photograph and ask them to colorize it while preserving the identity and structural integrity of every face. The results revealed a sharp divide between models that prioritize <strong>aesthetic quality</strong> and models that prioritize <strong>factual preservation</strong>.</p>
+      </section>
+
+      <section class="case-section">
+        <div class="case-kicker failure-kicker">The Failure</div>
+        <h2>The pitfall of "pretty pixels"</h2>
+        <p>Several mainstream models — including variants of <strong>ChatGPT's image editing</strong> and <strong>Grok</strong> — produced visually stunning colorizations. The lighting was cinematic. The skin tones were rich and natural. The fabric textures were high-definition. On a quick glance, the results looked impressive.</p>
+        <p>But look at the faces.</p>
+        <div class="failure-callout">
+          <span class="callout-icon">⚠️</span>
+          <div>
+            <strong>The hallucination problem</strong>
+            <p>These models didn't preserve the historical subjects — they replaced them with generically attractive, plausible-looking faces. Einstein's distinctive features were softened into a generic elderly European man. Curie's recognizable bone structure was replaced. The physics were right. The people were wrong.</p>
+          </div>
+        </div>
+        <p>This is the core tension in generative AI editing: the training objective that produces beautiful, high-fidelity images is not the same as the objective that preserves source integrity. A model optimized to make things look <em>good</em> will, by default, make them look <em>better than reality</em> — which means replacing reality with something prettier.</p>
+
+        <h3>Why this happens technically</h3>
+        <ul class="case-list">
+          <li><strong>Upsampling fills gaps with probability, not fact.</strong> When a model increases resolution or adds color, it generates the most statistically likely pixels — which means average-looking faces, not specific ones.</li>
+          <li><strong>Identity is not explicitly preserved unless the model is designed for it.</strong> Standard image editing models treat faces as visual patterns, not as specific individuals. There's no mechanism to "lock" an identity.</li>
+          <li><strong>Aesthetic training rewards pleasing output.</strong> Models trained on human preference ratings learn to produce what people rate as beautiful — and people rate idealized faces as more attractive than accurate ones.</li>
+        </ul>
+      </section>
+
+      <section class="case-section">
+        <div class="case-kicker success-kicker">The Champions</div>
+        <h2>Preservation over perfection</h2>
+        <p>Two models passed the Solvay test: <strong>Gemini 3 Pro</strong> and <strong>Seedream 4.5</strong>.</p>
+        <p>Their colorizations were not the most stunning. The lighting was less dramatic. The skin tones were more muted. But the faces were right — structurally faithful to the source, with the actual subjects' features preserved rather than enhanced into generic attractiveness.</p>
+
+        <div class="champion-grid">
+          <div class="champion-card">
+            <div class="champion-header">
+              <span class="champion-icon">🔵</span>
+              <div>
+                <strong>Gemini 3 Pro</strong>
+                <span>Google DeepMind</span>
+              </div>
+            </div>
+            <p>Maintained structural fidelity to source faces. Color palette was historically plausible — muted, era-appropriate tones rather than modern cinematic saturation. Einstein, Curie, and Bohr remained recognizable.</p>
+            <div class="champion-verdict">
+              <span class="verdict-label">Verdict</span>
+              <span class="verdict-pass">✅ Preserves identity</span>
+            </div>
+          </div>
+          <div class="champion-card">
+            <div class="champion-header">
+              <span class="champion-icon">🟣</span>
+              <div>
+                <strong>Seedream 4.5</strong>
+                <span>ByteDance</span>
+              </div>
+            </div>
+            <p>Strong source adherence throughout the restoration. Where other models added idealized features, Seedream 4.5 held closer to the original pixel structure — producing a less "polished" but historically accurate result.</p>
+            <div class="champion-verdict">
+              <span class="verdict-label">Verdict</span>
+              <span class="verdict-pass">✅ Preserves identity</span>
+            </div>
+          </div>
+        </div>
+
+        <p>The difference isn't just a preference — it's architectural. Models that prioritize source fidelity implement explicit constraints during inference that prevent the network from "improving" source material beyond a threshold. This trades aesthetic sharpness for structural truth.</p>
+      </section>
+
+      <section class="case-section">
+        <div class="case-kicker">Technical Takeaway</div>
+        <h2>What "quality" actually means in AI editing</h2>
+        <p>The Solvay test exposes a fundamental confusion in how we evaluate AI image output. <strong>Quality has two completely different definitions</strong> — and most users don't know which one they're getting.</p>
+
+        <div class="quality-compare">
+          <div class="quality-col quality-bad">
+            <h4>Aesthetic quality</h4>
+            <p>High sharpness, rich saturation, idealized lighting. Looks impressive in a portfolio or social post. Optimizes for human preference ratings.</p>
+            <p class="quality-risk">Risk: the model is a creative collaborator, not a faithful reproducer. It will improve on reality.</p>
+          </div>
+          <div class="quality-col quality-good">
+            <h4>Fidelity quality</h4>
+            <p>Structural preservation of source data. Less visually dramatic, but factually accurate. Optimizes for data integrity over aesthetics.</p>
+            <p class="quality-win">Use when: accuracy matters. Historical restoration, forensic work, medical imaging, identity verification.</p>
+          </div>
+        </div>
+
+        <h3>For developers and designers</h3>
+        <ul class="case-list">
+          <li><strong>Specify fidelity requirements explicitly.</strong> Most models default to aesthetic enhancement. If you need source preservation, say so — and test it on known faces before trusting it on unknown ones.</li>
+          <li><strong>Test with ground truth.</strong> The Solvay approach works for any editing task: test on inputs where you know what the correct output looks like. If it fails on known faces, don't trust it on unknown ones.</li>
+          <li><strong>Aesthetic quality ≠ accuracy.</strong> A visually stunning output from an AI editing tool is not evidence that it preserved the source faithfully. These are orthogonal properties.</li>
+          <li><strong>For archival or identity-sensitive work</strong>, prefer models with explicit source-fidelity design (Gemini 3 Pro, Seedream 4.5) over general-purpose image editors.</li>
+        </ul>
+
+        <div class="case-rule">
+          <p><strong>The rule:</strong> If accuracy matters, don't judge AI output by how good it looks. Judge it by how close it is to what was actually there.</p>
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="case-sidebar">
+      <div class="sidebar-card sidebar-highlight">
+        <h3>📷 The image models</h3>
+        <p>See how AI image tools compare on prompting, consistency, and accuracy.</p>
+        <a href="/image-video/" class="sidebar-link">Image & Video guide →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>⚠️ Prompt Fails</h3>
+        <p>More examples of AI getting things confidently wrong — and what you can learn from each failure.</p>
+        <a href="/fails/" class="sidebar-link">Browse fails →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🔬 Make AI Check Its Work</h3>
+        <p>A recipe for forcing AI to verify its own output before you trust it.</p>
+        <a href="/prompts/ai-fact-check/" class="sidebar-link">View recipe →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🍳 Appliance Guide</h3>
+        <p>Which AI model is right for which task — strengths, weaknesses, and trade-offs.</p>
+        <a href="/models/" class="sidebar-link">Compare models →</a>
+      </div>
+    </aside>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.case-layout { display: grid; grid-template-columns: 1fr 240px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.case-content { display: flex; flex-direction: column; gap: var(--s12); }
+.case-section { display: flex; flex-direction: column; gap: var(--s4); }
+.case-kicker { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r-full); padding: 2px 10px; width: fit-content; }
+.failure-kicker { color: #c0392b; background: #fdf0ef; border-color: #f5c6c2; }
+.success-kicker { color: #27ae60; background: #eafaf1; border-color: #b7e4c7; }
+.case-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0; color: var(--text); }
+.case-section h3 { font-family: var(--font-display); font-size: 1.1rem; margin: var(--s4) 0 var(--s3); color: var(--text); }
+.case-section > p { color: var(--text-2); line-height: 1.75; margin: 0; }
+
+.solvay-facts { display: flex; gap: var(--s5); padding: var(--s5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); margin: var(--s2) 0; }
+.fact-item { display: flex; flex-direction: column; gap: var(--s1); }
+.fact-num { font-family: var(--font-display); font-size: 2rem; font-weight: 900; color: var(--accent); line-height: 1; }
+.fact-label { font-size: 0.75rem; color: var(--text-3); }
+
+.failure-callout { display: flex; gap: var(--s4); background: #fdf0ef; border: 1px solid #f5c6c2; border-radius: var(--r3); padding: var(--s5); }
+.callout-icon { font-size: 1.5rem; flex-shrink: 0; line-height: 1; }
+.failure-callout strong { display: block; margin-bottom: var(--s2); font-size: 0.95rem; color: #c0392b; }
+.failure-callout p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.65; }
+
+.case-list { list-style: none; padding: 0; margin: var(--s2) 0; display: flex; flex-direction: column; gap: var(--s3); }
+.case-list li { font-size: 0.9rem; color: var(--text-2); line-height: 1.65; padding-left: var(--s5); position: relative; }
+.case-list li::before { content: '→'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.champion-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin: var(--s4) 0; }
+.champion-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); display: flex; flex-direction: column; gap: var(--s3); }
+.champion-header { display: flex; gap: var(--s3); align-items: flex-start; }
+.champion-icon { font-size: 1.5rem; line-height: 1; flex-shrink: 0; }
+.champion-header strong { display: block; font-size: 0.95rem; }
+.champion-header span { font-size: 0.72rem; color: var(--text-3); }
+.champion-card > p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.champion-verdict { display: flex; align-items: center; gap: var(--s3); padding-top: var(--s3); border-top: 1px solid var(--border-light); }
+.verdict-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); }
+.verdict-pass { font-size: 0.8rem; font-weight: 700; color: #27ae60; }
+
+.quality-compare { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; margin: var(--s4) 0; }
+.quality-col { padding: var(--s5); }
+.quality-bad { background: var(--bg-alt); border-right: 1px solid var(--border); }
+.quality-good { background: var(--surface); }
+.quality-col h4 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s3); }
+.quality-col p { font-size: 0.85rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.6; }
+.quality-col p:last-child { margin: 0; }
+.quality-risk { font-style: italic; color: #c0392b !important; }
+.quality-win { font-style: italic; color: #27ae60 !important; }
+
+.case-rule { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s5); margin-top: var(--s4); }
+.case-rule p { font-size: 0.95rem; color: var(--text); margin: 0; line-height: 1.65; }
+
+.case-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-highlight { border-color: var(--accent-border); background: var(--accent-light); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) { .case-layout { grid-template-columns: 1fr; } .case-sidebar { position: static; } .champion-grid, .quality-compare { grid-template-columns: 1fr; } .solvay-facts { flex-wrap: wrap; } .quality-bad { border-right: none; border-bottom: 1px solid var(--border); } }
+</style>

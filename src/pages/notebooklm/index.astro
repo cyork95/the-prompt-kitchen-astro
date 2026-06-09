@@ -1,0 +1,248 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page title="NotebookLM Guide" description="Master Google NotebookLM — the research tool that turns your documents into a personal AI research assistant.">
+  <section class="page-hero container">
+    <h1><span class="h1-emoji">📓</span> NotebookLM</h1>
+    <p>Google's NotebookLM is unlike any other AI tool — it works entirely from <em>your</em> sources, not its training data. No hallucinations from the internet. Just your documents, deeply understood.</p>
+  </section>
+
+  <div class="container nlm-layout">
+    <div class="nlm-content">
+
+      <section class="nlm-section">
+        <h2>What makes NotebookLM different</h2>
+        <p>Most AI tools answer from everything they were trained on — which means they can mix in wrong information, outdated facts, or confident guesses. NotebookLM is <strong>source-grounded</strong>: it only answers from the documents, PDFs, links, or notes you upload. Every response cites exactly where it came from.</p>
+        <div class="nlm-diff-grid">
+          {[
+            { icon: '📎', label: 'Source-grounded', desc: 'Answers come only from your uploaded materials — with citations.' },
+            { icon: '🎙️', label: 'Audio Overview', desc: 'Converts your sources into a 15-minute podcast discussion you can listen to.' },
+            { icon: '📚', label: 'Multi-source synthesis', desc: 'Finds connections across multiple documents automatically.' },
+            { icon: '🔍', label: 'Gap detection', desc: 'Can tell you what\'s missing from your research, not just what\'s there.' },
+          ].map(d => (
+            <div class="nlm-diff-card">
+              <span class="diff-icon">{d.icon}</span>
+              <div>
+                <strong>{d.label}</strong>
+                <p>{d.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="nlm-section">
+        <h2>6 tricks that unlock its full power</h2>
+        <p>Out of the box, NotebookLM feels like a smart document summarizer. These techniques turn it into something much more useful.</p>
+
+        <div class="trick-list">
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">1</span>
+              <div>
+                <h3>Turn messy notes into an FAQ</h3>
+                <span class="trick-tag">Organization</span>
+              </div>
+            </div>
+            <p>When you've got sprawling notes from multiple sources and rereading them feels exhausting, ask NotebookLM to restructure them as questions and answers. It pulls real answers from your sources — not inferences.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">Try this prompt</span>
+              <pre>Turn these notes into an FAQ with clear answers. For each question, cite which source the answer comes from.</pre>
+            </div>
+          </div>
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">2</span>
+              <div>
+                <h3>Audio Overview — listen to your research</h3>
+                <span class="trick-tag">Passive Learning</span>
+              </div>
+            </div>
+            <p>Generate a short podcast where two synthetic voices discuss your notes and sources. Sounds gimmicky — it isn't. NotebookLM surfaces angles you missed, points out contradictions, and frames questions you can pursue. Works especially well on a commute or while cooking.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">How to use it</span>
+              <pre>Click "Audio Overview" in the top-right of your notebook. NotebookLM generates a 10–20 minute discussion based on all your sources. No prompt needed — just listen.</pre>
+            </div>
+          </div>
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">3</span>
+              <div>
+                <h3>Build a timeline from research</h3>
+                <span class="trick-tag">Structure</span>
+              </div>
+            </div>
+            <p>For any topic with a development history — a technology, a scientific field, a project — ask for a chronological map. NotebookLM reads across all your sources and builds the timeline in one shot.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">Try this prompt</span>
+              <pre>Build me a timeline of the major milestones in [topic] based on my sources. Include the date or approximate period for each milestone and which source it came from.</pre>
+            </div>
+          </div>
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">4</span>
+              <div>
+                <h3>Argument mapping for writing and debate</h3>
+                <span class="trick-tag">Critical Thinking</span>
+              </div>
+            </div>
+            <p>Before writing an essay, presentation, or argument, ask NotebookLM to map the strongest positions on both sides — with evidence from your sources. Forces you out of passive reading into active understanding.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">Try this prompt</span>
+              <pre>Pretend you're preparing for a debate about [topic]. List the 3 strongest arguments FOR and 3 strongest arguments AGAINST, with supporting evidence from my sources. Be specific — I want quotes or data, not summaries.</pre>
+            </div>
+          </div>
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">5</span>
+              <div>
+                <h3>Cross-notebook connections</h3>
+                <span class="trick-tag">Synthesis</span>
+              </div>
+            </div>
+            <p>Keep separate notebooks for separate research areas, then ask NotebookLM questions that bridge them. It finds connections between bodies of work you wouldn't have made manually — especially useful for interdisciplinary research or projects that draw on multiple domains.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">Try this prompt</span>
+              <pre>How does [concept from notebook A] relate to [concept from notebook B]? Are there tensions between them, or do they reinforce each other? Cite specific sources for each claim.</pre>
+            </div>
+          </div>
+
+          <div class="trick-card">
+            <div class="trick-header">
+              <span class="trick-num">6</span>
+              <div>
+                <h3>"What am I missing?" — the confidence check</h3>
+                <span class="trick-tag">Gap Detection</span>
+              </div>
+            </div>
+            <p>This is the most underrated feature. Once you think your research is complete, ask NotebookLM what you didn't cover. It'll surface blind spots, under-explored counterarguments, and topics your sources touch on but don't develop.</p>
+            <div class="trick-prompt">
+              <span class="prompt-label">Try this prompt</span>
+              <pre>Based on my sources, what's missing from this analysis? What topics are touched on but not fully explored? What counterarguments are absent? What should I research next?</pre>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section class="nlm-section">
+        <h2>Best source types to upload</h2>
+        <div class="sources-grid">
+          {[
+            { icon: '📄', label: 'PDFs', desc: 'Research papers, reports, contracts, textbooks, articles saved to PDF' },
+            { icon: '🔗', label: 'Web URLs', desc: 'Articles, blog posts, documentation pages — paste the link directly' },
+            { icon: '📝', label: 'Pasted text', desc: 'Meeting notes, transcripts, emails, anything you can copy' },
+            { icon: '📊', label: 'Google Docs & Slides', desc: 'Connect directly from your Drive — presentations and documents' },
+            { icon: '🎙️', label: 'Audio files', desc: 'Meeting recordings, interviews, lectures — NotebookLM transcribes and indexes them' },
+            { icon: '▶️', label: 'YouTube URLs', desc: 'Paste a YouTube link and NotebookLM ingests the transcript' },
+          ].map(s => (
+            <div class="source-card">
+              <span class="source-icon">{s.icon}</span>
+              <div>
+                <strong>{s.label}</strong>
+                <p>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="nlm-section">
+        <h2>Prompts worth saving</h2>
+        <p>These work well across any notebook, regardless of topic:</p>
+        <div class="saved-prompts">
+          {[
+            { label: 'Executive summary', prompt: 'Give me a 5-sentence executive summary of all my sources combined. What\'s the single most important takeaway?' },
+            { label: 'Study guide', prompt: 'Create a study guide from my sources: key concepts, definitions, and 5 practice questions I should be able to answer.' },
+            { label: 'Contradictions finder', prompt: 'Do any of my sources contradict each other? Find any conflicting claims and explain what the disagreement is actually about.' },
+            { label: 'Next questions', prompt: 'Based on what my sources cover, what are the 5 most important questions they leave unanswered? What should I research next?' },
+            { label: 'Jargon glossary', prompt: 'Extract all the domain-specific terms or jargon from my sources and define each one in plain English.' },
+            { label: 'Key figures', prompt: 'Who are the most frequently cited people or organizations in my sources? What position does each one take?' },
+          ].map(p => (
+            <div class="saved-prompt-card">
+              <span class="saved-label">{p.label}</span>
+              <p class="saved-text">"{p.prompt}"</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+
+    <aside class="nlm-sidebar">
+      <div class="sidebar-card">
+        <h3>🚀 Get started</h3>
+        <p>NotebookLM is free with a Google account.</p>
+        <a href="https://notebooklm.google.com" target="_blank" rel="noopener" class="sidebar-link">Open NotebookLM →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>📖 Recipe Book</h3>
+        <p>Need prompts to run inside NotebookLM? The Recipe Book has templates for research, analysis, and summarization.</p>
+        <a href="/prompts/" class="sidebar-link">Browse recipes →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🔬 Document Deep-Dive</h3>
+        <p>For interrogating a single document with targeted questions — before you build a full notebook around it.</p>
+        <a href="/prompts/document-deep-dive/" class="sidebar-link">View recipe →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🍳 Appliance Guide</h3>
+        <p>See how NotebookLM compares to ChatGPT, Claude, Gemini, and other AI tools.</p>
+        <a href="/models/" class="sidebar-link">Compare models →</a>
+      </div>
+    </aside>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.nlm-layout { display: grid; grid-template-columns: 1fr 240px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.nlm-content { display: flex; flex-direction: column; gap: var(--s12); }
+.nlm-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s4); }
+.nlm-section > p { color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s5); }
+
+.nlm-diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin-top: var(--s5); }
+.nlm-diff-card { display: flex; gap: var(--s3); padding: var(--s4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.diff-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1; }
+.nlm-diff-card strong { font-size: 0.9rem; display: block; margin-bottom: var(--s1); }
+.nlm-diff-card p { font-size: 0.8rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+.trick-list { display: flex; flex-direction: column; gap: var(--s5); }
+.trick-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
+.trick-header { display: flex; gap: var(--s4); align-items: flex-start; padding: var(--s5) var(--s5) 0; }
+.trick-num { width: 32px; height: 32px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.85rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.trick-header h3 { font-family: var(--font-display); font-size: 1.05rem; margin: 0 0 var(--s1); }
+.trick-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r-full); padding: 1px 7px; }
+.trick-card > p { padding: var(--s3) var(--s5); font-size: 0.875rem; color: var(--text-2); line-height: 1.65; margin: 0; }
+.trick-prompt { margin: 0; background: var(--bg-alt); border-top: 1px solid var(--border-light); padding: var(--s3) var(--s5); }
+.prompt-label { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); display: block; margin-bottom: var(--s2); }
+.trick-prompt pre { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-2); white-space: pre-wrap; word-break: break-word; margin: 0; background: none; border: none; padding: 0; line-height: 1.6; }
+
+.sources-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s3); margin-top: var(--s4); }
+.source-card { display: flex; gap: var(--s3); padding: var(--s3) var(--s4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.source-icon { font-size: 1.3rem; flex-shrink: 0; line-height: 1; }
+.source-card strong { font-size: 0.85rem; display: block; margin-bottom: 2px; }
+.source-card p { font-size: 0.78rem; color: var(--text-2); margin: 0; line-height: 1.45; }
+
+.saved-prompts { display: flex; flex-direction: column; gap: var(--s3); margin-top: var(--s4); }
+.saved-prompt-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s4) var(--s5); }
+.saved-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); display: block; margin-bottom: var(--s2); }
+.saved-text { font-size: 0.82rem; color: var(--text-2); font-style: italic; margin: 0; line-height: 1.6; }
+
+.nlm-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) { .nlm-layout { grid-template-columns: 1fr; } .nlm-sidebar { position: static; } .nlm-diff-grid, .sources-grid { grid-template-columns: 1fr; } }
+</style>
