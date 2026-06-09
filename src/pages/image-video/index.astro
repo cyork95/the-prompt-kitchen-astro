@@ -55,6 +55,7 @@ import Page from '../../layouts/Page.astro';
       <div class="links-row">
         <a href="/gallery/" class="link-card"><span>🍽️</span><div><strong>The Table Spread</strong><p>Style modifiers and image prompt anatomy</p></div></a>
         <a href="/models/" class="link-card"><span>🍳</span><div><strong>Appliance Guide</strong><p>Which AI tool to use for what</p></div></a>
+        <a href="/colorization-test/" class="link-card link-card--feature"><span>🔬</span><div><strong>Aesthetics vs. Accuracy</strong><p>How AI models hallucinate historical faces — the Solvay Conference colorization test</p></div></a>
       </div>
     </div>
   </div>
@@ -75,13 +76,15 @@ import Page from '../../layouts/Page.astro';
 .tip-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
 .tip-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
 .iv-links h2 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s4); }
-.links-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.links-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--s4); }
+.link-card--feature { border-color: var(--accent-border); background: var(--accent-light); }
+.link-card--feature:hover { background: var(--accent-light); filter: brightness(0.96); }
 .link-card { display: flex; gap: var(--s4); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; color: var(--text); transition: background var(--t-fast); align-items: flex-start; }
 .link-card:hover { background: var(--bg-alt); }
 .link-card span { font-size: 1.5rem; flex-shrink: 0; }
 .link-card strong { display: block; font-size: 0.9rem; margin-bottom: 2px; }
 .link-card p { font-size: 0.8rem; color: var(--text-3); margin: 0; }
-@media (max-width: 600px) { .links-row { grid-template-columns: 1fr; } }
+@media (max-width: 768px) { .links-row { grid-template-columns: 1fr; } }
 </style>
 <script>
 document.querySelectorAll<HTMLButtonElement>('.tab').forEach(tab => {
