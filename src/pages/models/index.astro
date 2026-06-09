@@ -63,13 +63,10 @@ const models = [
   <section class="page-hero container">
     <h1><span class="h1-emoji">🍳</span> Appliance Guide</h1>
     <p>Every kitchen needs the right appliance for the job. Here's what the main AI models are good at — and where they fall short.</p>
+    <p class="hero-sub">All the major models can do most things. The differences are at the margins — and the margins matter when you're using AI every day.</p>
   </section>
 
   <div class="container models-layout">
-    <div class="models-intro">
-      <p>All the major models can do most things. The differences are at the margins — and the margins matter when you're using AI every day.</p>
-    </div>
-
     <div class="models-grid">
       {models.map(m => (
         <article class="model-card">
@@ -111,10 +108,9 @@ const models = [
 <style>
 .page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
 .page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
-.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
-.models-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
-.models-intro { text-align: center; }
-.models-intro p { color: var(--text-2); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 560px; }
+.hero-sub { margin-top: var(--s3) !important; font-size: 0.95rem !important; color: var(--text-3) !important; }
+.models-layout { display: flex; flex-direction: column; gap: var(--s6); padding-bottom: var(--s20); }
 .models-grid { display: flex; flex-direction: column; gap: var(--s5); }
 .model-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
 .model-header { display: flex; align-items: center; gap: var(--s4); padding: var(--s5) var(--s6); background: var(--bg-alt); border-bottom: 1px solid var(--border-light); }
