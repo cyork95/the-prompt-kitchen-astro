@@ -1,0 +1,230 @@
+---
+import Page from '../../layouts/Page.astro';
+
+const features = [
+  {
+    num: '01',
+    name: 'CLAUDE.md',
+    tagline: 'Give Claude a permanent memory for your project',
+    icon: '📄',
+    desc: 'A file you drop in your project root that Claude reads at the start of every session — your stack, your decisions, your preferences, your conventions. No more re-explaining yourself every time.',
+    howTo: 'Create a file called CLAUDE.md in your project root. Write it like a briefing document: what the project does, what stack you use, what patterns to follow, what to avoid. Claude reads it automatically on every session start.',
+    example: `# My Project
+
+## Stack
+- Next.js 14 (App Router), TypeScript, Tailwind, Prisma + PostgreSQL
+- Tests: Vitest + Playwright
+
+## Conventions
+- Components: PascalCase, co-located with their tests
+- API routes: always validate with Zod before touching the DB
+- Never use any — use unknown and narrow properly
+
+## Current priorities
+Working on: checkout flow refactor (see /src/checkout/)
+Do not touch: legacy /api/v1/ routes — deprecation in Q3`,
+    docsUrl: 'https://code.claude.com/docs/en/claude-md',
+    docsLabel: 'CLAUDE.md docs',
+  },
+  {
+    num: '02',
+    name: 'Skills',
+    tagline: 'Teach Claude a workflow once — run it forever',
+    icon: '⚡',
+    desc: 'Skills are reusable, named workflows you define once. When you type /skill-name, Claude executes the exact same process every time — no drift, no re-explaining, consistent results.',
+    howTo: 'Create a .md file in your .claude/commands/ directory. Name it whatever you want the slash command to be. Describe the workflow in plain English — what to check, what to do, in what order. Claude runs it on demand.',
+    example: `# /review
+You are reviewing a PR for this project.
+
+1. Check all changed files follow our naming conventions (see CLAUDE.md)
+2. Flag any \`any\` types — suggest specific types instead
+3. Verify new API routes have Zod validation
+4. Check for missing error handling in async functions
+5. Summarize findings as: critical (blocking) / suggested / nitpicks`,
+    docsUrl: 'https://code.claude.com/docs/en/skills',
+    docsLabel: 'Skills docs',
+  },
+  {
+    num: '03',
+    name: 'MCP',
+    tagline: 'Connect Claude to your entire stack',
+    icon: '🔌',
+    desc: 'Model Context Protocol lets Claude connect to Slack, GitHub, Google Drive, Linear, Postgres, and hundreds of other tools — reading, writing, and acting across your stack from a single conversation.',
+    howTo: 'Add MCP servers to your Claude config. Each server exposes tools that Claude can call. Once connected, Claude can read Slack threads, create GitHub issues, query your database, or update Linear tickets — all from the same session.',
+    example: `// .claude/mcp_servers.json
+{
+  "github": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-github"],
+    "env": { "GITHUB_TOKEN": "your_token" }
+  },
+  "postgres": {
+    "command": "npx",
+    "args": ["-y", "@modelcontextprotocol/server-postgres"],
+    "env": { "DATABASE_URL": "postgres://..." }
+  }
+}`,
+    docsUrl: 'https://code.claude.com/docs/en/mcp',
+    docsLabel: 'MCP docs',
+  },
+  {
+    num: '04',
+    name: 'Routines',
+    tagline: 'Automated tasks that run while you sleep',
+    icon: '⏰',
+    desc: 'Routines let you hand Claude a recurring job — daily standup summaries, scheduled code reviews, monitoring tasks, report generation — and it runs on schedule with no human involvement.',
+    howTo: 'Define a routine with a name, a schedule (cron syntax), and instructions. Claude executes it on schedule, uses any connected MCP tools it needs, and delivers results wherever you specify — Slack, email, a file, a GitHub comment.',
+    example: `# Daily Standup Routine
+Schedule: 0 9 * * 1-5  # 9am, Mon-Fri
+
+Tasks:
+1. Pull last 24h of commits from GitHub (MCP)
+2. Check any open PRs waiting for review
+3. List today's Linear tickets assigned to the team
+4. Post summary to #dev-standup in Slack (MCP)
+
+Format: bullet list per person, max 3 items each`,
+    docsUrl: 'https://code.claude.com/docs/en/routines',
+    docsLabel: 'Routines docs',
+  },
+];
+---
+<Page title="Claude Code Guide" description="CLAUDE.md, Skills, MCP, Routines — the four features that turn Claude Code from a coding assistant into a full development workflow.">
+  <section class="page-hero container">
+    <h1><span class="h1-emoji">💻</span> Claude Code</h1>
+    <p>Four features that turn Claude from a chatbot you paste into to a development workflow that runs your stack.</p>
+  </section>
+
+  <div class="container cc-layout">
+    <div class="cc-content">
+
+      <section class="cc-intro">
+        <p>Claude Code is Anthropic's CLI and IDE integration — it reads your codebase, runs commands, and works across your tools. Most people use 10% of it. These are the four features that unlock the rest.</p>
+      </section>
+
+      {features.map(f => (
+        <section class="cc-feature">
+          <div class="feature-header">
+            <span class="feature-icon">{f.icon}</span>
+            <div class="feature-title">
+              <div class="feature-num">{f.num}</div>
+              <h2>{f.name}</h2>
+              <p class="feature-tagline">{f.tagline}</p>
+            </div>
+          </div>
+
+          <p class="feature-desc">{f.desc}</p>
+
+          <div class="feature-body">
+            <div class="feature-how">
+              <h4>How to set it up</h4>
+              <p>{f.howTo}</p>
+            </div>
+            <div class="feature-example">
+              <h4>Example</h4>
+              <pre class="feature-code">{f.example}</pre>
+            </div>
+          </div>
+
+          <a href={f.docsUrl} target="_blank" rel="noopener" class="feature-docs-link">
+            → {f.docsLabel}
+          </a>
+        </section>
+      ))}
+
+      <section class="cc-resource">
+        <div class="resource-badge">⭐ Community resource</div>
+        <h2>Claude Code Ultimate Guide</h2>
+        <p>The best community-built resource for everything else — hooks, plugins, advanced agentic workflows, security threat database, 181 production-ready templates, and a 271-question quiz to test your knowledge.</p>
+        <div class="resource-stats">
+          {[
+            { n: '181', label: 'Templates' },
+            { n: '271', label: 'Quiz questions' },
+            { n: '28', label: 'Security CVEs covered' },
+            { n: '6mo', label: 'Daily practice distilled' },
+          ].map(s => (
+            <div class="resource-stat">
+              <span class="stat-n">{s.n}</span>
+              <span class="stat-label">{s.label}</span>
+            </div>
+          ))}
+        </div>
+        <a href="https://github.com/FlorianBruniaux/claude-code-ultimate-guide" target="_blank" rel="noopener" class="resource-link">
+          View on GitHub →
+        </a>
+      </section>
+
+    </div>
+
+    <aside class="cc-sidebar">
+      <div class="sidebar-card sidebar-card--accent">
+        <h3>📥 Install Claude Code</h3>
+        <pre class="install-cmd">npm install -g @anthropic-ai/claude-code</pre>
+        <a href="https://code.claude.com" target="_blank" rel="noopener" class="sidebar-link">code.claude.com →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>📓 NotebookLM</h3>
+        <p>Another tool that earns its own guide — source-grounded AI research for documents and notes.</p>
+        <a href="/notebooklm/" class="sidebar-link">NotebookLM guide →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🍳 Appliance Guide</h3>
+        <p>Compare Claude, ChatGPT, Gemini, and more — strengths, weaknesses, best use cases.</p>
+        <a href="/models/" class="sidebar-link">Compare models →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🔧 Kitchen Gadgets</h3>
+        <p>23 AI agent skills — what agents can do in the real world, broken down by phase.</p>
+        <a href="/gadgets/" class="sidebar-link">Browse gadgets →</a>
+      </div>
+    </aside>
+  </div>
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.cc-layout { display: grid; grid-template-columns: 1fr 240px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.cc-content { display: flex; flex-direction: column; gap: var(--s10); }
+.cc-intro p { color: var(--text-2); font-size: 1rem; line-height: 1.75; margin: 0; padding: var(--s5) var(--s6); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); border-left: 3px solid var(--accent); }
+
+.cc-feature { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
+.feature-header { display: flex; gap: var(--s4); align-items: flex-start; padding: var(--s6) var(--s6) 0; }
+.feature-icon { font-size: 2rem; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.feature-num { font-size: 0.65rem; font-weight: 800; color: var(--accent); letter-spacing: 0.1em; margin-bottom: var(--s1); }
+.feature-title h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s1); }
+.feature-tagline { font-size: 0.875rem; color: var(--text-2); margin: 0; font-style: italic; }
+.feature-desc { padding: var(--s4) var(--s6); font-size: 0.9rem; color: var(--text-2); line-height: 1.7; margin: 0; }
+.feature-body { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border-light); }
+.feature-how { padding: var(--s5) var(--s5); border-right: 1px solid var(--border-light); }
+.feature-example { padding: var(--s5) var(--s5); background: var(--bg); }
+.feature-how h4, .feature-example h4 { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--text-3); margin: 0 0 var(--s3); }
+.feature-how p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.65; }
+.feature-code { font-family: var(--font-mono); font-size: 0.72rem; color: var(--text-2); white-space: pre-wrap; word-break: break-word; margin: 0; background: none; border: none; padding: 0; line-height: 1.6; }
+.feature-docs-link { display: block; padding: var(--s3) var(--s6); font-size: 0.82rem; font-weight: 700; color: var(--accent); text-decoration: none; border-top: 1px solid var(--border-light); background: var(--bg-alt); }
+.feature-docs-link:hover { text-decoration: underline; }
+
+.cc-resource { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r4); padding: var(--s7); }
+.resource-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: var(--s3); }
+.cc-resource h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s3); }
+.cc-resource > p { font-size: 0.9rem; color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s5); }
+.resource-stats { display: flex; gap: var(--s6); margin-bottom: var(--s5); flex-wrap: wrap; }
+.resource-stat { display: flex; flex-direction: column; gap: var(--s1); }
+.stat-n { font-family: var(--font-display); font-size: 1.75rem; font-weight: 900; color: var(--accent); line-height: 1; }
+.stat-label { font-size: 0.72rem; color: var(--text-3); }
+.resource-link { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); background: var(--accent); color: #fff; border-radius: var(--r2); font-size: 0.875rem; font-weight: 700; text-decoration: none; transition: background var(--t-fast); }
+.resource-link:hover { background: var(--accent-hover); }
+
+.install-cmd { font-family: var(--font-mono); font-size: 0.75rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s2) var(--s3); margin: var(--s2) 0 var(--s3); color: var(--text-2); white-space: pre; overflow-x: auto; }
+.cc-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card--accent { border-color: var(--accent-border); background: var(--accent-light); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+
+@media (max-width: 768px) { .cc-layout { grid-template-columns: 1fr; } .cc-sidebar { position: static; } .feature-body { grid-template-columns: 1fr; } .feature-how { border-right: none; border-bottom: 1px solid var(--border-light); } }
+</style>

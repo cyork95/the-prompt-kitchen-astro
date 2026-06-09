@@ -106,6 +106,37 @@ const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
       <p>No guardrails match "<span id="gr-query"></span>".</p>
       <button class="filter-pill active" id="gr-clear">Clear search</button>
     </div>
+
+    <!-- Further Reading -->
+    <section class="gr-reading">
+      <h2 class="reading-heading">Further Reading</h2>
+      <div class="gr-reading-list">
+        {[
+          {
+            title: "Google's AI Overviews Can Scam You. Here's How to Stay Safe",
+            source: "Wired",
+            tag: "AI Safety",
+            desc: "AI-generated search summaries are being exploited to surface scam sites and misinformation at scale. How the attack works and practical steps to protect yourself.",
+            url: "https://www.wired.com/story/googles-ai-overviews-can-scam-you-heres-how-to-stay-safe/",
+          },
+          {
+            title: "Make AI Check Its Work",
+            source: "The Prompt Kitchen",
+            tag: "Recipe",
+            desc: "A practical recipe for forcing AI to verify its own output before you trust it — layered fact-checking built into the prompt itself.",
+            url: "/prompts/ai-fact-check/",
+          },
+        ].map(item => (
+          <a href={item.url} target={item.url.startsWith('http') ? '_blank' : undefined} rel={item.url.startsWith('http') ? 'noopener' : undefined} class="gr-reading-card">
+            <div class="gr-reading-tag">{item.tag}</div>
+            <strong class="gr-reading-title">{item.title}</strong>
+            <span class="gr-reading-source">{item.source}</span>
+            <p class="gr-reading-desc">{item.desc}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
   </div>
 </Page>
 
@@ -196,6 +227,16 @@ const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
   font-style: italic;
   color: var(--text-2);
 }
+
+.gr-reading { margin-top: var(--s6); padding-top: var(--s8); border-top: 1px solid var(--border); }
+.reading-heading { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s5); }
+.gr-reading-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s4); }
+.gr-reading-card { display: flex; flex-direction: column; gap: var(--s2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; color: var(--text); transition: background var(--t-fast); }
+.gr-reading-card:hover { background: var(--bg-alt); }
+.gr-reading-tag { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); }
+.gr-reading-title { font-size: 0.9rem; font-weight: 700; color: var(--text); line-height: 1.4; }
+.gr-reading-source { font-size: 0.72rem; color: var(--text-3); }
+.gr-reading-desc { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.6; }
 </style>
 
 <script>
