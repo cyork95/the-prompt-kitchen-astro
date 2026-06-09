@@ -3177,16 +3177,18 @@ details[open] > summary .recipe-chevron {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4em;
+  gap: 0.35em;
   flex-wrap: wrap;
 }
 
 .h1-emoji {
-  display: inline-flex;
-  align-items: center;
-  font-style: normal;
+  display: inline-block;
+  font-size: 0.85em;
   line-height: 1;
+  vertical-align: middle;
   flex-shrink: 0;
+  position: relative;
+  top: -0.05em;
 }
 
 .page-hero p {
