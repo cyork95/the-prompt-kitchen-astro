@@ -95,10 +95,11 @@ import Page from '../../layouts/Page.astro';
   padding: var(--s3) var(--s2);
   text-align: center;
   background: var(--surface);
+  color: var(--text);
   border: none;
   border-right: 1px solid var(--border);
   cursor: pointer;
-  transition: background var(--t-fast);
+  transition: background var(--t-fast), color var(--t-fast);
   font-family: var(--font-body);
 }
 .phase-pill:last-child { border-right: none; }
