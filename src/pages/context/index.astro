@@ -80,6 +80,60 @@ import Page from '../../layouts/Page.astro';
         <p>If yes to all five — you're ready to cook.</p>
       </section>
 
+      <section class="prep-section" id="further-reading">
+        <h2>📚 Further reading</h2>
+        <p>Want to go deeper? These are the best technical pieces on context engineering, memory, cost, personas, and output reliability.</p>
+        <div class="reading-list">
+          {[
+            {
+              title: "Effective Context Engineering for AI Agents",
+              source: "Machine Learning Mastery",
+              tag: "Context Engineering",
+              desc: "A developer's guide to structuring context windows, managing token budgets, and feeding agents the right information at the right time.",
+              url: "https://machinelearningmastery.com/effective-context-engineering-for-ai-agents-a-developers-guide/",
+            },
+            {
+              title: "How AI Agents Remember Things: Vector Stores in LLM Memory",
+              source: "freeCodeCamp",
+              tag: "Memory",
+              desc: "Explains how agents persist information across sessions using vector databases — the technical foundation behind AI that actually remembers.",
+              url: "https://www.freecodecamp.org/news/how-ai-agents-remember-things-vector-stores-in-llm-memory/",
+            },
+            {
+              title: "How to Compress Your Prompts and Reduce LLM Costs",
+              source: "freeCodeCamp",
+              tag: "Cost Optimisation",
+              desc: "Practical techniques for trimming prompt tokens without losing quality — useful once you're running prompts at any scale.",
+              url: "https://www.freecodecamp.org/news/how-to-compress-your-prompts-and-reduce-llm-costs/",
+            },
+            {
+              title: "Functional Personas: A Lean, Practical AI Workflow",
+              source: "Smashing Magazine",
+              tag: "Personas",
+              desc: "How to build reusable AI personas that encode role, tone, and constraints — making your prompts consistent and portable across tools.",
+              url: "https://www.smashingmagazine.com/2025/09/functional-personas-ai-lean-practical-workflow/",
+            },
+            {
+              title: "How to Keep LLM Outputs Predictable Using Pydantic Validation",
+              source: "freeCodeCamp",
+              tag: "Output Reliability",
+              desc: "Schema-based validation to enforce structured outputs from language models — essential reading if you're piping AI output into code.",
+              url: "https://www.freecodecamp.org/news/how-to-keep-llm-outputs-predictable-using-pydantic-validation/",
+            },
+          ].map(r => (
+            <a href={r.url} target="_blank" rel="noopener" class="reading-card">
+              <div class="reading-meta">
+                <span class="reading-tag">{r.tag}</span>
+                <span class="reading-source">{r.source}</span>
+              </div>
+              <h3 class="reading-title">{r.title}</h3>
+              <p class="reading-desc">{r.desc}</p>
+              <span class="reading-cta">Read article →</span>
+            </a>
+          ))}
+        </div>
+      </section>
+
     </div>
 
     <aside class="prep-sidebar">
@@ -97,6 +151,11 @@ import Page from '../../layouts/Page.astro';
         <h3>📖 See it in action</h3>
         <p>The Recipe Book has 26 prompts that put these principles into practice.</p>
         <a href="/prompts/" class="sidebar-link">Browse recipes →</a>
+      </div>
+      <div class="sidebar-card sidebar-reading">
+        <h3>📚 Further reading</h3>
+        <p>Five technical deep-dives on context engineering, memory, cost, personas, and output validation.</p>
+        <a href="#further-reading" class="sidebar-link">Jump to reading list ↓</a>
       </div>
     </aside>
   </div>
@@ -146,6 +205,17 @@ import Page from '../../layouts/Page.astro';
 .sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
 .sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
 .sidebar-link:hover { text-decoration: underline; }
+
+.reading-list { display: flex; flex-direction: column; gap: var(--s4); margin-top: var(--s5); }
+.reading-card { display: flex; flex-direction: column; gap: var(--s2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
+.reading-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px var(--shadow); }
+.reading-meta { display: flex; align-items: center; gap: var(--s3); }
+.reading-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: var(--r-full); background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-border); }
+.reading-source { font-size: 0.72rem; color: var(--text-3); font-weight: 600; }
+.reading-title { font-family: var(--font-display); font-size: 1rem; margin: 0; color: var(--text); line-height: 1.35; }
+.reading-desc { font-size: 0.85rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.reading-cta { font-size: 0.78rem; font-weight: 700; color: var(--accent); margin-top: var(--s1); }
+.sidebar-reading { border-color: var(--accent-border); background: var(--accent-light); }
 
 @media (max-width: 768px) { .prep-layout { grid-template-columns: 1fr; } .prep-sidebar { position: static; } .compare-row { grid-template-columns: 1fr; } .compare-bad { border-right: none; border-bottom: 1px solid var(--border-light); } }
 </style>
