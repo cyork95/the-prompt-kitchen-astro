@@ -46,11 +46,17 @@ const examples = [
         </div>
         <div class="example-body">
           <div class="example-block example-prompt">
-            <span class="block-label">The prompt</span>
+            <div class="block-header-row">
+              <span class="block-label">The prompt</span>
+              <button class="example-copy-btn" data-copy={ex.prompt}>Copy</button>
+            </div>
             <pre class="example-pre">{ex.prompt}</pre>
           </div>
           <div class="example-block example-output">
-            <span class="block-label">The output</span>
+            <div class="block-header-row">
+              <span class="block-label">The output</span>
+              <button class="example-copy-btn" data-copy={ex.output}>Copy</button>
+            </div>
             <pre class="example-pre">{ex.output}</pre>
           </div>
         </div>
@@ -70,9 +76,9 @@ const examples = [
 </Page>
 
 <style>
-.page-hero { padding: var(--s12) 0 var(--s8); max-width: var(--container-narrow); }
+.page-hero { padding: var(--s12) 0 var(--s8); }
 .page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem,5vw,3rem); margin: 0 0 var(--s3); }
-.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0; max-width: 560px; }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 560px; }
 .examples-layout { display: flex; flex-direction: column; gap: var(--s8); padding-bottom: var(--s20); }
 .example-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); overflow: hidden; }
 .example-header { padding: var(--s4) var(--s6); background: var(--bg-alt); border-bottom: 1px solid var(--border-light); display: flex; align-items: center; gap: var(--s3); flex-wrap: wrap; }
@@ -82,9 +88,13 @@ const examples = [
 .example-body { display: grid; grid-template-columns: 1fr 1fr; }
 .example-block { padding: var(--s5) var(--s6); }
 .example-prompt { border-right: 1px solid var(--border-light); }
-.block-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: var(--s3); }
+.block-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--s3); }
+.block-label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
 .example-prompt .block-label { color: var(--text-3); }
 .example-output .block-label { color: var(--green); }
+.example-copy-btn { font-size: 0.68rem; font-weight: 600; color: var(--text-3); background: var(--bg-alt); border: 1px solid var(--border); border-radius: var(--r2); padding: 2px 8px; cursor: pointer; font-family: var(--font-mono); transition: all var(--t-fast); }
+.example-copy-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--accent-light); }
+.example-block .copy-btn { display: none; }
 .example-pre { font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.65; color: var(--text-2); white-space: pre-wrap; word-break: break-word; margin: 0; background: none; border: none; padding: 0; }
 .example-notes { padding: var(--s4) var(--s6); border-top: 1px solid var(--border-light); background: var(--accent-light); }
 .notes-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); display: block; margin-bottom: var(--s2); }
@@ -97,3 +107,21 @@ const examples = [
 .btn-primary:hover { background: var(--accent-hover); }
 @media (max-width: 700px) { .example-body { grid-template-columns: 1fr; } .example-prompt { border-right: none; border-bottom: 1px solid var(--border-light); } }
 </style>
+
+<script>
+document.querySelectorAll<HTMLButtonElement>('.example-copy-btn').forEach(btn => {
+  btn.addEventListener('click', async () => {
+    const text = btn.dataset.copy ?? '';
+    await navigator.clipboard.writeText(text).catch(() => {});
+    const orig = btn.textContent!;
+    btn.textContent = '✓ Copied!';
+    btn.style.color = 'var(--green)';
+    btn.style.borderColor = 'var(--green)';
+    setTimeout(() => {
+      btn.textContent = orig;
+      btn.style.color = '';
+      btn.style.borderColor = '';
+    }, 2000);
+  });
+});
+</script>
