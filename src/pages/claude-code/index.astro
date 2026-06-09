@@ -206,15 +206,15 @@ Format: bullet list per person, max 3 items each`,
 .feature-docs-link { display: block; padding: var(--s3) var(--s6); font-size: 0.82rem; font-weight: 700; color: var(--accent); text-decoration: none; border-top: 1px solid var(--border-light); background: var(--bg-alt); }
 .feature-docs-link:hover { text-decoration: underline; }
 
-.cc-resource { background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r4); padding: var(--s7); }
-.resource-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: var(--s3); }
-.cc-resource h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0 0 var(--s3); }
-.cc-resource > p { font-size: 0.9rem; color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s5); }
-.resource-stats { display: flex; gap: var(--s6); margin-bottom: var(--s5); flex-wrap: wrap; }
+.cc-resource { background: var(--accent-light); border: 1px solid var(--accent-border); border-left: 4px solid var(--accent); border-radius: var(--r4); padding: var(--s8) var(--s8) var(--s7); display: flex; flex-direction: column; gap: var(--s4); }
+.resource-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); }
+.cc-resource h2 { font-family: var(--font-display); font-size: 1.4rem; margin: 0; }
+.cc-resource > p { font-size: 0.9rem; color: var(--text-2); line-height: 1.75; margin: 0; }
+.resource-stats { display: flex; gap: var(--s7); flex-wrap: wrap; padding: var(--s4) 0; border-top: 1px solid var(--accent-border); border-bottom: 1px solid var(--accent-border); }
 .resource-stat { display: flex; flex-direction: column; gap: var(--s1); }
 .stat-n { font-family: var(--font-display); font-size: 1.75rem; font-weight: 900; color: var(--accent); line-height: 1; }
 .stat-label { font-size: 0.72rem; color: var(--text-3); }
-.resource-link { display: inline-flex; align-items: center; padding: var(--s2) var(--s5); background: var(--accent); color: #fff; border-radius: var(--r2); font-size: 0.875rem; font-weight: 700; text-decoration: none; transition: background var(--t-fast); }
+.resource-link { display: inline-flex; align-items: center; align-self: flex-start; padding: var(--s3) var(--s6); background: var(--accent); color: #fff; border-radius: var(--r2); font-size: 0.875rem; font-weight: 700; text-decoration: none; transition: background var(--t-fast); }
 .resource-link:hover { background: var(--accent-hover); }
 
 .install-cmd { font-family: var(--font-mono); font-size: 0.72rem; background: var(--bg); border: 1px solid var(--border); border-radius: var(--r2); padding: var(--s3) var(--s3) var(--s3) var(--s3); margin: var(--s2) 0 var(--s3); color: var(--text-2); white-space: pre-wrap; word-break: break-all; line-height: 1.6; position: relative; }
