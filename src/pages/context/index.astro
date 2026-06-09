@@ -80,6 +80,74 @@ import Page from '../../layouts/Page.astro';
         <p>If yes to all five — you're ready to cook.</p>
       </section>
 
+      <section class="prep-section" id="prompt-chaining">
+        <h2>Prompt engineering is evolving</h2>
+        <p class="section-kicker">From single mega-prompts to sequential chains — and why the shift produces dramatically better results</p>
+
+        <div class="chain-callout">
+          <span class="chain-stat">67%</span>
+          <p>average improvement in output quality when switching from single complex prompts to 5-step chains — measured across writing, data parsing, and code generation workflows over 30 days.</p>
+        </div>
+
+        <h3>The problem with mega-prompts</h3>
+        <p>When you pack everything into one giant prompt — context, instructions, format requirements, edge cases, examples — you're asking a single cook to prep, cook, plate, and run the whole restaurant at once. The model spreads thin.</p>
+        <p>Single mega-prompts break down in predictable ways:</p>
+        <ul class="chain-list">
+          <li><strong>Hallucinations multiply.</strong> The more you ask at once, the more the model fills gaps with invented details to satisfy competing demands.</li>
+          <li><strong>Focus dilutes.</strong> Competing instructions create ambiguity — the model optimizes for some requirements at the expense of others, and you can't predict which.</li>
+          <li><strong>Context drift.</strong> In a long prompt, early constraints get de-prioritized as the model generates later parts of the response. The instruction you put first is often the one it "forgets."</li>
+          <li><strong>No checkpoints.</strong> You can't catch errors mid-process. You get the whole output or start over — there's no place to course-correct.</li>
+        </ul>
+
+        <h3>The solution: the 5-step chain</h3>
+        <p>Prompt chaining breaks one complex workflow into ~5 sequential micro-prompts where <strong>Output A becomes Input B</strong>. Each prompt does exactly one thing, and does it well.</p>
+        <div class="chain-steps">
+          {[
+            { n: '1', label: 'Define', desc: 'Establish scope, key angles, or raw material. Keep this prompt narrow.' },
+            { n: '2', label: 'Structure', desc: 'Take the output of step 1 and build a skeleton — outline, schema, or plan.' },
+            { n: '3', label: 'Generate', desc: 'Work through the structure one section at a time. Focus the model on a single chunk.' },
+            { n: '4', label: 'Refine', desc: 'Pass the draft back in. Ask for a specific improvement — tighten, cut, or deepen. One lens only.' },
+            { n: '5', label: 'Format', desc: 'Apply final structure, tone, or output requirements to the polished draft.' },
+          ].map(s => (
+            <div class="chain-step">
+              <div class="step-num">{s.n}</div>
+              <div>
+                <strong>{s.label}</strong>
+                <p>{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p>Each step is focused, verifiable, and correctable before it feeds the next. You can swap, repeat, or branch any step without restarting from scratch.</p>
+
+        <h3>Before vs. after: writing an article</h3>
+        <div class="compare-table chain-compare">
+          <div class="compare-row compare-header">
+            <div>❌ Single mega-prompt</div>
+            <div>✅ 3-step chain</div>
+          </div>
+          <div class="compare-row">
+            <div class="compare-bad">
+              <span class="compare-quote">"Research the topic of vector databases, write a 1,200-word technical blog post aimed at mid-level developers, include an intro, three sections with subheadings, a comparison table of the top 5 tools, real code examples in Python, and a conclusion with a CTA. Tone: authoritative but approachable. Don't be fluffy."</span>
+              <p class="compare-note">Result: generic structure, shallow comparisons, the code doesn't match the tools in the table, the CTA is boilerplate. Total rewrite needed.</p>
+            </div>
+            <div class="compare-good">
+              <p class="chain-step-label">Step 1 — Research</p>
+              <span class="compare-quote">"List the 5 most-used vector databases for production ML apps in 2025. For each: one-line summary, primary use case, and one concrete limitation."</span>
+              <p class="chain-step-label">Step 2 — Outline</p>
+              <span class="compare-quote">"Using this comparison [paste step 1 output]: write a 7-section outline for a 1,200-word technical blog post for mid-level developers. Each section gets a heading and 2-sentence description of what it covers."</span>
+              <p class="chain-step-label">Step 3 — Draft section by section</p>
+              <span class="compare-quote">"Write section 3 of this outline in full [paste section 3 description]. Tone: direct, no padding. Include one Python snippet showing a real insert operation."</span>
+              <p class="compare-note">Result: each section is coherent, the code matches what was discussed, the comparison table is accurate. Minor edits only.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="chain-source">
+          <p>Methodology and benchmarks via <a href="https://x.com/godofprompt/status/2021552838774780007" target="_blank" rel="noopener">@godofprompt</a> — 30-day structured testing across writing, parsing, and code generation workflows.</p>
+        </div>
+      </section>
+
       <section class="prep-section" id="further-reading">
         <h2>📚 Further reading</h2>
         <p>Want to go deeper? These are the best technical pieces on context engineering, memory, cost, personas, and output reliability.</p>
@@ -152,6 +220,11 @@ import Page from '../../layouts/Page.astro';
         <p>The Recipe Book has 26 prompts that put these principles into practice.</p>
         <a href="/prompts/" class="sidebar-link">Browse recipes →</a>
       </div>
+      <div class="sidebar-card sidebar-chain">
+        <h3>⛓️ Prompt chaining</h3>
+        <p>Breaking complex tasks into 5 sequential micro-prompts boosts output quality by up to 67%.</p>
+        <a href="#prompt-chaining" class="sidebar-link">Read the technique ↓</a>
+      </div>
       <div class="sidebar-card sidebar-reading">
         <h3>📚 Further reading</h3>
         <p>Five technical deep-dives on context engineering, memory, cost, personas, and output validation.</p>
@@ -206,6 +279,30 @@ import Page from '../../layouts/Page.astro';
 .sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
 .sidebar-link:hover { text-decoration: underline; }
 
+/* ── Prompt chaining section ── */
+.section-kicker { font-size: 1rem; color: var(--text-2); font-style: italic; margin-bottom: var(--s6) !important; }
+.chain-callout { display: flex; gap: var(--s5); align-items: center; background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); padding: var(--s5) var(--s6); margin: var(--s5) 0 var(--s6); }
+.chain-stat { font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: var(--accent); line-height: 1; flex-shrink: 0; }
+.chain-callout p { font-size: 0.9rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+.chain-list { list-style: none; padding: 0; margin: var(--s3) 0 var(--s6); display: flex; flex-direction: column; gap: var(--s3); }
+.chain-list li { font-size: 0.9rem; color: var(--text-2); line-height: 1.6; padding-left: var(--s5); position: relative; }
+.chain-list li::before { content: '—'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.chain-steps { display: flex; flex-direction: column; gap: 0; margin: var(--s4) 0 var(--s6); border: 1px solid var(--border); border-radius: var(--r3); overflow: hidden; }
+.chain-step { display: flex; gap: var(--s4); align-items: flex-start; padding: var(--s4) var(--s5); border-bottom: 1px solid var(--border-light); background: var(--surface); }
+.chain-step:last-child { border-bottom: none; }
+.chain-step:hover { background: var(--bg-alt); }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.78rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.chain-step strong { font-size: 0.9rem; display: block; margin-bottom: var(--s1); }
+.chain-step p { font-size: 0.82rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+.chain-compare .compare-bad p.compare-note, .chain-compare .compare-good p.compare-note { font-size: 0.78rem; color: var(--text-3); font-style: italic; margin: var(--s3) 0 0; padding-top: var(--s3); border-top: 1px solid var(--border-light); }
+.chain-step-label { display: block; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin: var(--s4) 0 var(--s2); }
+.chain-step-label:first-child { margin-top: 0; }
+.chain-source { margin-top: var(--s5); padding: var(--s4) var(--s5); background: var(--bg-alt); border-radius: var(--r2); border: 1px solid var(--border-light); }
+.chain-source p { font-size: 0.78rem; color: var(--text-3); margin: 0; }
+.chain-source a { color: var(--accent); font-weight: 600; }
+.prep-section h3 { font-family: var(--font-display); font-size: 1.15rem; margin: var(--s6) 0 var(--s4); color: var(--text); }
+.sidebar-chain { border-color: var(--accent-border); }
+/* ── Reading list ── */
 .reading-list { display: flex; flex-direction: column; gap: var(--s4); margin-top: var(--s5); }
 .reading-card { display: flex; flex-direction: column; gap: var(--s2); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); text-decoration: none; transition: border-color var(--t-fast), box-shadow var(--t-fast); }
 .reading-card:hover { border-color: var(--accent); box-shadow: 0 2px 12px var(--shadow); }
