@@ -12,7 +12,9 @@
   "dependencies": {
     "astro":              "^4.15.0",
     "@astrojs/mdx":       "^3.1.0",
-    "@supabase/supabase-js": "^2.45.0"
+    "@astrojs/vercel":    "^10.0.8",
+    "@supabase/supabase-js": "^2.45.0",
+    "@vercel/analytics":  "^2.0.1"
   },
   "devDependencies": {
     "astro-pagefind":     "^1.7.0",

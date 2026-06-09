@@ -1,8 +1,13 @@
 import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import pagefind from 'astro-pagefind';
+import vercel from '@astrojs/vercel/serverless';
 
 export default defineConfig({
+  output: 'hybrid',
+  adapter: vercel({
+    webAnalytics: { enabled: true }
+  }),
   site: 'https://thepromptkitchen.fyi',
   integrations: [
     mdx(),
