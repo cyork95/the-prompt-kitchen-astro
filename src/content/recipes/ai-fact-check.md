@@ -1,7 +1,7 @@
 ---
 title: "Make AI Check Its Work"
 category: "Research"
-difficulty: "prep-cook"
+difficulty: "home-cook"
 tags: ["fact-checking", "hallucinations", "accuracy", "verification", "research"]
 teaser: "Force AI to verify its own claims before presenting them — and flag anything it can't actually confirm."
 bestFor: "Research that matters, anything you'll cite or share, factual questions where errors have consequences"

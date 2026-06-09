@@ -1,7 +1,7 @@
 ---
 title: "Vibe Code It"
 category: "Coding"
-difficulty: "prep-cook"
+difficulty: "sous-chef"
 tags: ["coding", "vibe-coding", "apps", "no-code", "tools", "automation"]
 teaser: "Build a working app, tool, or script by describing what you want in plain English — no programming knowledge required."
 bestFor: "Simple web apps, personal tools, data trackers, calculators, automations, scripts, dashboards"
