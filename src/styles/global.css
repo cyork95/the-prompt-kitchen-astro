@@ -3171,24 +3171,16 @@ details[open] > summary .recipe-chevron {
 .page-hero h1 {
   font-family: var(--font-display);
   font-size: clamp(2rem, 5vw, 3.5rem);
-  line-height: 1.1;
+  line-height: 1.15;
   margin: 0 0 var(--s4) 0;
   color: var(--text);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35em;
-  flex-wrap: wrap;
 }
 
 .h1-emoji {
-  display: inline-block;
-  font-size: 0.85em;
-  line-height: 1;
-  vertical-align: middle;
-  flex-shrink: 0;
-  position: relative;
-  top: -0.05em;
+  display: inline;
+  font-size: 1em;
+  margin-right: 0.1em;
+  vertical-align: -0.1em;
 }
 
 .page-hero p {
