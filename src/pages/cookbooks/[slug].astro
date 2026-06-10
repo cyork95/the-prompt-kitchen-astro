@@ -68,6 +68,14 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Creators and solo builders with a day job', 'Professionals looking to launch a secondary revenue stream'],
     color: '#D97706',
   },
+  'deep-work-session': {
+    title: 'Deep Work Session System',
+    emoji: '🧠',
+    tagline: '"One prompt per phase. Full cognitive depth, no friction."',
+    description: 'A 4-phase cognitive OS — pre-session runway to eliminate distraction, a Socratic sounding board for complex logic, a mid-session unblocking protocol, and a shutdown context anchor for seamless next-session re-entry.',
+    audience: ['Knowledge workers, engineers, and writers', 'Anyone doing high-cognitive-load solo work'],
+    color: '#7C3AED',
+  },
 };
 
 export async function getStaticPaths() {
@@ -80,6 +88,7 @@ export async function getStaticPaths() {
     'indie-hacker-launch': true,
     'job-search-os': true,
     'side-hustle-validation': true,
+    'deep-work-session': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
