@@ -52,6 +52,14 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Solo founders & indie builders', 'Launching a micro-SaaS or digital product'],
     color: '#7C3AED',
   },
+  'job-search-os': {
+    title: 'The Job Search OS',
+    emoji: '💼',
+    tagline: '"Turn chaos into a high-velocity hiring pipeline."',
+    description: 'A 6-phase operational system — ATS resume optimization, cover letters, direct outreach, technical interview coaching, behavioral STAR prep, and offer negotiation — for serious career transitions.',
+    audience: ['Mid-career professionals making a move', 'Engineers, data professionals, and knowledge workers'],
+    color: '#0369A1',
+  },
 };
 
 export async function getStaticPaths() {
@@ -62,6 +70,7 @@ export async function getStaticPaths() {
     'startup-founder': true,
     'youtube-growth': true,
     'indie-hacker-launch': true,
+    'job-search-os': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
