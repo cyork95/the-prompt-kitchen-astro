@@ -60,6 +60,14 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Mid-career professionals making a move', 'Engineers, data professionals, and knowledge workers'],
     color: '#0369A1',
   },
+  'side-hustle-validation': {
+    title: 'Side Hustle Validation Framework',
+    emoji: '💡',
+    tagline: '"Idea to market signal in a weekend."',
+    description: 'A 5-phase sprint from raw idea to hard data — asymmetric advantage audit, smoke-test landing page, $0 guerrilla distribution, unit economics modeling, and a Go/No-Go verdict based on real market signals.',
+    audience: ['Creators and solo builders with a day job', 'Professionals looking to launch a secondary revenue stream'],
+    color: '#D97706',
+  },
 };
 
 export async function getStaticPaths() {
@@ -71,6 +79,7 @@ export async function getStaticPaths() {
     'youtube-growth': true,
     'indie-hacker-launch': true,
     'job-search-os': true,
+    'side-hustle-validation': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
