@@ -23,7 +23,7 @@ const cookbooks = defineCollection({
   type: 'content',
   schema: z.object({
     title:       z.string(),
-    cookbook:    z.enum(['indie-hacker', 'student', 'creator', 'startup-founder']),
+    cookbook:    z.enum(['indie-hacker', 'student', 'creator', 'startup-founder', 'youtube-growth', 'indie-hacker-launch']),
     category:    z.string(),
     difficulty:  z.enum(['beginner', 'home-cook', 'sous-chef']).default('home-cook'),
     tags:        z.array(z.string()).default([]),

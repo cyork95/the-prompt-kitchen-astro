@@ -36,6 +36,22 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Early-stage founders', 'Pre-seed through Series A'],
     color: '#DC2626',
   },
+  'youtube-growth': {
+    title: 'YouTube Channel Growth System',
+    emoji: '📺',
+    tagline: '"Turn the algorithm into your distribution engine."',
+    description: 'Channel architecture, CTR engineering, retention blueprints, SEO metadata, launch velocity, and analytics triage — a complete operational system for serious YouTube creators.',
+    audience: ['YouTube creators at any stage', 'Stuck at a plateau or starting from 0'],
+    color: '#FF0000',
+  },
+  'indie-hacker-launch': {
+    title: 'Indie Hacker Launch Checklist',
+    emoji: '🚢',
+    tagline: '"From waitlist to War Room to retention flywheel."',
+    description: 'The complete launch lifecycle for solo builders — pre-launch scarcity, Product Hunt positioning, community seeding, launch day operations, and post-launch retention.',
+    audience: ['Solo founders & indie builders', 'Launching a micro-SaaS or digital product'],
+    color: '#7C3AED',
+  },
 };
 
 export async function getStaticPaths() {
@@ -44,6 +60,8 @@ export async function getStaticPaths() {
     'student': true,
     'creator': true,
     'startup-founder': true,
+    'youtube-growth': true,
+    'indie-hacker-launch': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
