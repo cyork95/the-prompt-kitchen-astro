@@ -84,6 +84,14 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Creators, builders, and ambitious professionals', 'Anyone tired of goals that stall after January'],
     color: '#059669',
   },
+  'engineering-manager-os': {
+    title: 'Team Leader & Engineering Manager OS',
+    emoji: '👑',
+    tagline: '"Protect your team\'s velocity. Build high-trust culture."',
+    description: 'Eight operational tools for engineering managers — performance reviews, diplomatic no emails, project kickoff briefs, scope creep responses, retrospectives, remote icebreakers, 1:1 agendas, and quarterly OKRs.',
+    audience: ['Engineering managers and tech leads', 'Senior ICs moving into leadership roles'],
+    color: '#0369A1',
+  },
 };
 
 export async function getStaticPaths() {
@@ -98,6 +106,7 @@ export async function getStaticPaths() {
     'side-hustle-validation': true,
     'deep-work-session': true,
     'quarterly-goal-setting': true,
+    'engineering-manager-os': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
