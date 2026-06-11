@@ -76,6 +76,14 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Knowledge workers, engineers, and writers', 'Anyone doing high-cognitive-load solo work'],
     color: '#7C3AED',
   },
+  'quarterly-goal-setting': {
+    title: 'Quarterly Goal Setting Ritual',
+    emoji: '📅',
+    tagline: '"90 days. 3 objectives. No abandoned resolutions."',
+    description: 'A 5-phase system from reflection to daily execution — post-mortem audit, ruthless priority filter, OKR translation, 12-week sprint scaffolding, and a daily/weekly ritual integration framework.',
+    audience: ['Creators, builders, and ambitious professionals', 'Anyone tired of goals that stall after January'],
+    color: '#059669',
+  },
 };
 
 export async function getStaticPaths() {
@@ -89,6 +97,7 @@ export async function getStaticPaths() {
     'job-search-os': true,
     'side-hustle-validation': true,
     'deep-work-session': true,
+    'quarterly-goal-setting': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
