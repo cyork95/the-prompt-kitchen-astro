@@ -92,6 +92,62 @@ const cookbookMeta: Record<string, { title: string; emoji: string; tagline: stri
     audience: ['Engineering managers and tech leads', 'Senior ICs moving into leadership roles'],
     color: '#0369A1',
   },
+  'accelerated-learning': {
+    title: 'Accelerated Learning & Cognitive Performance',
+    emoji: '🧠',
+    tagline: '"Bypass beginner traps. Build deep mastery faster."',
+    description: 'Seven cognitive accelerator tools — public speaking delivery framework, speed reading extraction, muscle memory myelination protocols, data analysis self-teaching roadmap, skill diagnostic audit, emergency exam prep, and a failure-to-learning forensic review.',
+    audience: ['Ambitious professionals and self-learners', 'Engineers, creators, and students hitting performance plateaus'],
+    color: '#7C3AED',
+  },
+  'personal-infrastructure-os': {
+    title: 'Personal Infrastructure & Life Strategy System',
+    emoji: '⚓',
+    tagline: '"Master your internal architecture. Build operational clarity."',
+    description: 'Seven operational core tools — a flow-state trigger protocol, circadian energy matrix, distraction fireproofing guide, brain dump triage system, end-of-day shutdown ritual, annual life review framework, and a life trajectory explorer.',
+    audience: ['High-performers optimizing attention and energy', 'Anyone at a crossroads wanting operational clarity on their daily life and long-term direction'],
+    color: '#0F766E',
+  },
+  'creative-spark-os': {
+    title: 'Creative Spark & Brand Ideation System',
+    emoji: '⚡',
+    tagline: '"From blank page to market-ready concept — without the block."',
+    description: 'Seven ideation engine tools — filtered business idea generation, creative block destruction, Socratic fiction world-building, unforgettable metaphor crafting, lyric construction blueprints, product naming with taglines, and a full campaign activation blueprint.',
+    audience: ['Solopreneurs, creators, and indie builders', 'Writers, brand strategists, and anyone who builds things that need to be named and sold'],
+    color: '#B45309',
+  },
+  'human-connection-os': {
+    title: 'Human Connection & Emotional Resilience Architecture',
+    emoji: '🤍',
+    tagline: '"Say the hard thing well. Hold the people you love."',
+    description: 'Seven relational blueprint tools — conflict resolution playbooks, age-calibrated parenting scaffolds, friendship reconnection messages, high-resonance gratitude practice, acute anxiety unwinding sequences, boundary-setting sovereignty packets, and a legacy letter protocol.',
+    audience: ['Anyone navigating a difficult relationship moment or emotional transition', 'Parents, partners, and people who want to communicate with more precision and care'],
+    color: '#BE185D',
+  },
+  'critical-analysis-os': {
+    title: 'Critical Analysis & Decision Engines',
+    emoji: '📊',
+    tagline: '"No confirmation bias. No narrative spin. Just the data."',
+    description: 'Six high-stakes evaluation tools — an engineering-first buyer\'s guide, a relocation triage scorecard, a career pivot matrix, an investment risk stress-test, a book knowledge repository extractor, and a media integrity bias audit.',
+    audience: ['Analysts, investors, and high-stakes decision-makers', 'Anyone who needs to cut through marketing noise, political spin, or emotional friction to reach a clear verdict'],
+    color: '#1D4ED8',
+  },
+  'ai-engineering-os': {
+    title: 'AI Engineering & Prompt Architecture System',
+    emoji: '🤖',
+    tagline: '"Stop prompting. Start engineering."',
+    description: 'Six meta-layer tools for AI power users — prompt optimization with advanced token structure, AI output polishing, forensic AI text detection, multi-model pipeline architecture, persistent personal memory system, and custom agent specification with injection protection.',
+    audience: ['Developers, engineers, and AI power users', 'Anyone building custom AI workflows, agents, or prompt systems who wants precision over accident'],
+    color: '#6D28D9',
+  },
+  'lifestyle-design-os': {
+    title: 'Lifestyle Design & Experiential Planning Suite',
+    emoji: '🏡',
+    tagline: '"Design the systems that run your days. Build the milestones that define your years."',
+    description: 'Six intentional life infrastructure tools — an integrated fitness and nutrition sync engine, a spatial home organization architecture plan, three non-cliché gathering blueprints, a custom road trip entertainment suite, a capsule wardrobe matrix, and a hyper-personalized bucket list generator.',
+    audience: ['Anyone designing a more intentional daily life', 'Hosts, planners, travelers, and people who want their environment and experiences to match who they actually are'],
+    color: '#065F46',
+  },
 };
 
 export async function getStaticPaths() {
@@ -107,6 +163,13 @@ export async function getStaticPaths() {
     'deep-work-session': true,
     'quarterly-goal-setting': true,
     'engineering-manager-os': true,
+    'accelerated-learning': true,
+    'personal-infrastructure-os': true,
+    'creative-spark-os': true,
+    'human-connection-os': true,
+    'critical-analysis-os': true,
+    'ai-engineering-os': true,
+    'lifestyle-design-os': true,
   });
   return slugs.map(slug => ({ params: { slug }, props: { slug } }));
 }
