@@ -1,0 +1,191 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Cursor Guide & Migration"
+  description="Cursor's acquisition of Continue, context engineering, and the ultimate audit plan for migrating your custom prompts and Ollama configurations to .cursorrules."
+>
+
+  <section class="page-hero container">
+    <div class="hero-badge">NEWS &amp; DIGEST</div>
+    <h1><span class="h1-emoji">🖱️</span> Cursor &amp; Continue</h1>
+    <p>Cursor has acquired Continue. Here is the technical breakdown of the developer tool consolidation wave, and a step-by-step blueprint for auditing and migrating your local engineering workflows.</p>
+  </section>
+
+  <div class="container cursor-layout">
+    <div class="cursor-content">
+
+      <!-- High Level Digest -->
+      <section class="cursor-section">
+        <h2>🧭 High-Level Digest</h2>
+        <div class="digest-highlight">
+          <p><strong>The Big Picture:</strong> Cursor has quietly acquired the open-source AI coding assistant <strong>Continue</strong> (and its core team), marking a massive consolidation wave in the developer tooling space following Cursor's recent acquisitions of Supermaven and Graphite.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-icon">🔄</span>
+            <div>
+              <h3>Consolidation &amp; Sunset</h3>
+              <p>The acquisition sunsets Continue's standalone product (users have until <strong>July 15</strong> to export data). Co-founder Nate Sesti is joining Cursor, and the remaining codebase has been handed to the community under an Apache 2.0 license.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">🔓</span>
+            <div>
+              <h3>Open-Source Strain</h3>
+              <p>Continue was the leading transparent, modular alternative to proprietary tools, allowing developers to self-host or plug in custom LLMs. Its exit underscores the financial strain open-source developer tools face when competing against heavily capitalized players.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">📦</span>
+            <div>
+              <h3>Ecosystem Monopoly</h3>
+              <p>Backed by aggressive ecosystem scaling and substantial valuation momentum, Cursor is absorbing its top UI, context-indexing, and autocomplete competitors (Supermaven, Graphite, Continue) to solidify itself as the absolute default AI-native IDE.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Execution & Application Blueprint -->
+      <section class="cursor-section">
+        <h2>🛠️ Execution &amp; Application Blueprint</h2>
+        <p class="section-desc">If you or your engineering team currently rely on the Continue plugin for VS Code or JetBrains, immediately schedule an operational migration window before the <strong>July 15 data deletion deadline</strong> to transition configuration files and custom model integrations over to Cursor or native alternative wrappers.</p>
+
+        <div class="audit-block">
+          <h3>📋 AI-Native Development Environment Audit</h3>
+          <p class="audit-intro">Deploy this framework to re-evaluate vendor lock-in risk and transition your engineering workflows smoothly in light of this market consolidation:</p>
+
+          <div class="audit-steps">
+            <div class="audit-step">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Data Sovereignty Check</h4>
+                <p>Review whether your codebase policies allow for external cloud-based indexing. If air-gapped or self-hosted LLM setups are required (previously handled by Continue via Ollama), evaluate local-first alternatives like the <a href="https://zed.dev" target="_blank" rel="noopener">Zed editor</a> or Ollama-integrated VS Code extensions.</p>
+              </div>
+            </div>
+
+            <div class="audit-step">
+              <div class="step-num">2</div>
+              <div>
+                <h4>Context &amp; Prompt Customization Porting</h4>
+                <p>Extract your custom rules, system prompts, and context mapping configurations from <code>~/.continue/config.yaml</code>. Convert and map these tailored behaviors into Cursor's workspace settings (<code>.cursorrules</code>) to ensure your context-driven engineering workflows do not lose precision.</p>
+              </div>
+            </div>
+
+            <div class="audit-step">
+              <div class="step-num">3</div>
+              <div>
+                <h4>Workflow Integration Audit</h4>
+                <p>Audit how your team utilizes inline edits and multi-file changes. Train your engineering team on Cursor's Composer feature (<code>Ctrl+I</code> / <code>Cmd+I</code>) to replace Continue's multi-file "Plan" or "Agent" modes, ensuring no drop in feature-generation speed.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>
+            <strong>Future Catalyst</strong>
+            <p>As the AI developer tooling market shifts from lightweight IDE plugins to deeply integrated, proprietary AI-native operating systems, standardizing your development workflows around high-context environments like Cursor provides an immediate 10x leverage in code generation, multi-file refactoring, and codebase-wide comprehension.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Porting config example -->
+      <section class="cursor-section">
+        <h2>🔧 Creating your `.cursorrules`</h2>
+        <p>To port your custom instructions from Continue into Cursor, create a <code>.cursorrules</code> file in your project root. Here is a production-grade template to get you started:</p>
+        <pre class="code-block"><code># .cursorrules template
+# Calibrates the AI model's role, rules, and code patterns for this workspace
+
+role: senior_software_engineer
+
+style:
+  - "Write clean, readable code following modern TypeScript and ESNext patterns"
+  - "Prefer composition over inheritance"
+  - "Keep functions focused, small, and pure where possible"
+  - "Write descriptive variable names; do not write self-explanatory comments"
+
+rules:
+  - "Always check for O(n^2) loops and redundant database calls"
+  - "Validate external API payloads with Zod before using them"
+  - "Write unit tests for any new helper functions"
+  - "Never swallow errors; log them or bubble them up explicitly"</code></pre>
+      </section>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="cursor-sidebar">
+      <div class="sidebar-card sidebar-accent">
+        <h3>🚨 July 15 Deadline</h3>
+        <p>Continue's standalone cloud configuration storage will sunset on <strong>July 15</strong>. Export your custom system prompts now.</p>
+      </div>
+      <div class="sidebar-card">
+        <h3>🥫 Reusable Rules</h3>
+        <p>Want to write a custom ruleset? Browse templates in the Pantry to find the perfect style guidelines for your project.</p>
+        <a href="/pantry/" class="sidebar-link">Open The Pantry →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>💻 Claude Code Guide</h3>
+        <p>Using the command line instead of an IDE? Read our guide on Anthropic's new Claude Code CLI.</p>
+        <a href="/claude-code/" class="sidebar-link">Claude Code Guide →</a>
+      </div>
+    </aside>
+  </div>
+
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.hero-badge { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); padding: 2px var(--s3); border-radius: var(--r-full); margin-bottom: var(--s3); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.cursor-layout { display: grid; grid-template-columns: 1fr 260px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.cursor-content { display: flex; flex-direction: column; gap: var(--s12); }
+.cursor-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s4); color: var(--text); }
+.section-desc { color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s6); font-size: 0.95rem; }
+
+.digest-highlight { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 0 var(--r3) var(--r3) 0; padding: var(--s5); margin-bottom: var(--s6); }
+.digest-highlight p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text); }
+
+.pillars-grid { display: flex; flex-direction: column; gap: var(--s4); }
+.pillar-card { display: flex; gap: var(--s4); padding: var(--s5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.pillar-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; }
+.pillar-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 var(--s2); color: var(--text); }
+.pillar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.audit-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); margin-bottom: var(--s6); }
+.audit-block h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s2); color: var(--text); }
+.audit-intro { font-size: 0.9rem; color: var(--text-2); margin: 0 0 var(--s5); }
+.audit-steps { display: flex; flex-direction: column; gap: var(--s4); }
+.audit-step { display: flex; gap: var(--s4); align-items: flex-start; }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.audit-step h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 4px; color: var(--text); }
+.audit-step p { font-size: 0.85rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+.audit-step p a { color: var(--accent); text-decoration: none; }
+.audit-step p a:hover { text-decoration: underline; }
+
+.callout { display: flex; gap: var(--s4); padding: var(--s5); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); }
+.callout-icon { font-size: 1.5rem; flex-shrink: 0; }
+.callout strong { display: block; font-weight: 700; margin-bottom: var(--s2); color: var(--text); }
+.callout p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.code-block { background: var(--code-bg) !important; border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r3); padding: var(--s5); overflow-x: auto; margin: var(--s2) 0 0; }
+.code-block code { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text) !important; line-height: 1.6; }
+
+.cursor-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); color: var(--text); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+.sidebar-card.sidebar-accent { background: var(--bg-alt); border-color: var(--accent-border); }
+.sidebar-card.sidebar-accent h3 { color: var(--accent); }
+
+@media (max-width: 768px) { .cursor-layout { grid-template-columns: 1fr; } .cursor-sidebar { position: static; } }
+</style>
