@@ -1,0 +1,148 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Grok Guide & Real-Time Synthesis"
+  description="Master xAI Grok-2 — real-time X (Twitter) firehose intelligence integration, enhanced reasoning, and the Real-Time Intel Synthesis Protocol."
+>
+
+  <section class="page-hero container">
+    <div class="hero-badge">NEWS &amp; DIGEST</div>
+    <h1><span class="h1-emoji">⚡</span> Grok-2 Guide</h1>
+    <p>xAI has introduced Grok-2, a frontier-level model featuring significantly enhanced reasoning, multimodality, and real-time web search capabilities. Here is how to leverage its live data stream for your technical workflows.</p>
+  </section>
+
+  <div class="container grok-layout">
+    <div class="grok-content">
+
+      <!-- High Level Digest -->
+      <section class="grok-section">
+        <h2>🧭 High-Level Digest</h2>
+        <div class="digest-highlight">
+          <p><strong>The Big Picture:</strong> xAI has introduced "Grok-2," a frontier-level model featuring significantly enhanced reasoning and multimodal capabilities, now integrated with a real-time web search interface designed to provide immediate, context-aware information.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-icon">🧠</span>
+            <div>
+              <h3>Enhanced Reasoning &amp; Multimodality</h3>
+              <p>The architecture delivers substantial performance leaps in complex reasoning tasks, coding proficiency, and visual analysis, positioning it as a direct competitor to top-tier models like Claude 3.5 Sonnet and GPT-4o.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">⏱️</span>
+            <div>
+              <h3>Real-Time Data Integration</h3>
+              <p>By leveraging the live X (formerly Twitter) data stream, the model offers "first-hand" temporal awareness, enabling it to synthesize news, trends, and real-time events faster than models relying on static training cutoffs.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">🤖</span>
+            <div>
+              <h3>Agentic Functionality</h3>
+              <p>The rollout emphasizes a shift toward agent-based tasks where the model moves beyond simple Q&A to execute multi-step workflows, retrieve specific web-based data, and perform iterative refinement on queries.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Execution & Application Blueprint -->
+      <section class="grok-section">
+        <h2>🛠️ Execution &amp; Application Blueprint</h2>
+        <p class="section-desc">Integrate Grok-2 into your daily research stack for high-velocity, news-driven tasks—such as technical trend tracking or market monitoring—where real-time events significantly impact decision-making.</p>
+
+        <div class="audit-block">
+          <h3>📋 Real-Time Intelligence Synthesis Protocol</h3>
+          <p class="audit-intro">Deploy this prompt template to leverage Grok's unique access to live, unfiltered streams for your technical or professional work:</p>
+
+          <div class="prompt-box">
+            <pre class="prompt-content"><code>### REAL-TIME INTEL SYNTHESIS PROTOCOL
+
+1. **Context Boundary:** State the specific industry or project (e.g., "Enterprise AI Governance").
+2. **The Temporal Query:** Define the timeframe of interest (e.g., "Analyze the last 48 hours of discourse regarding [Project/Topic]").
+3. **The Signal-to-Noise Filter:** Instruct the model to: 
+   * Ignore standard PR releases.
+   * Extract technical sentiment, engineering challenges, or "hot takes" from developers and industry experts.
+4. **The Synthesis:** "Synthesize these findings into a concise list of actionable risks and opportunities for our [Specific Roadmap Item]."</code></pre>
+          </div>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>
+            <strong>Future Catalyst</strong>
+            <p>As these models gain deeper integration into the X firehose and agentic APIs, the ability to automate "market intelligence loops"—where the model proactively alerts you to shifts in technical consensus or competitive moves before they hit mainstream aggregators—will become a critical structural advantage for engineering leads and product strategists.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="grok-sidebar">
+      <div class="sidebar-card sidebar-accent">
+        <h3>⚡ Grok-2 strengths</h3>
+        <p>Best for high-velocity, news-driven research, temporal tracking, and extracting technical sentiment directly from active developer channels.</p>
+      </div>
+      <div class="sidebar-card">
+        <h3>🍳 Appliance Guide</h3>
+        <p>Compare Grok-2 against Claude 3.5 Sonnet, GPT-4o, and Gemini 1.5 Pro to pick the right model for your task.</p>
+        <a href="/models/" class="sidebar-link">Model Guide →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>📓 NotebookLM Guide</h3>
+        <p>Need deep research over static documents instead of live streams? Read our guide on NotebookLM.</p>
+        <a href="/notebooklm/" class="sidebar-link">NotebookLM Guide →</a>
+      </div>
+    </aside>
+  </div>
+
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.hero-badge { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); padding: 2px var(--s3); border-radius: var(--r-full); margin-bottom: var(--s3); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.grok-layout { display: grid; grid-template-columns: 1fr 260px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.grok-content { display: flex; flex-direction: column; gap: var(--s12); }
+.grok-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s4); color: var(--text); }
+.section-desc { color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s6); font-size: 0.95rem; }
+
+.digest-highlight { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 0 var(--r3) var(--r3) 0; padding: var(--s5); margin-bottom: var(--s6); }
+.digest-highlight p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text); }
+
+.pillars-grid { display: flex; flex-direction: column; gap: var(--s4); }
+.pillar-card { display: flex; gap: var(--s4); padding: var(--s5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.pillar-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; }
+.pillar-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 var(--s2); color: var(--text); }
+.pillar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.audit-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); margin-bottom: var(--s6); }
+.audit-block h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s2); color: var(--text); }
+.audit-intro { font-size: 0.9rem; color: var(--text-2); margin: 0 0 var(--s5); }
+
+.prompt-box { background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r3); padding: var(--s5); overflow-x: auto; margin-top: var(--s4); }
+.prompt-content { margin: 0; padding: 0; background: none; border: none; }
+.prompt-content code { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text) !important; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+
+.callout { display: flex; gap: var(--s4); padding: var(--s5); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); }
+.callout-icon { font-size: 1.5rem; flex-shrink: 0; }
+.callout strong { display: block; font-weight: 700; margin-bottom: var(--s2); color: var(--text); }
+.callout p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.grok-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); color: var(--text); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+.sidebar-card.sidebar-accent { background: var(--bg-alt); border-color: var(--accent-border); }
+.sidebar-card.sidebar-accent h3 { color: var(--accent); }
+
+@media (max-width: 768px) { .grok-layout { grid-template-columns: 1fr; } .grok-sidebar { position: static; } }
+</style>
