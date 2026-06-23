@@ -1,0 +1,189 @@
+---
+import Page from '../../layouts/Page.astro';
+---
+<Page
+  title="Codex CLI Guide & Scaffolding"
+  description="Master OpenAI's updated Codex agentic CLI — rapid prototyping, progressive autonomy, and the Autonomous Codebase Initialization Protocol."
+>
+
+  <section class="page-hero container">
+    <div class="hero-badge">NEWS &amp; DIGEST</div>
+    <h1><span class="h1-emoji">🤖</span> Codex CLI</h1>
+    <p>OpenAI's updated Codex agentic CLI is a powerful tool for rapidly prototyping functional full-stack software, mobile applications, games, and data analysis pipelines using iterative natural language commands.</p>
+  </section>
+
+  <div class="container codex-layout">
+    <div class="codex-content">
+
+      <!-- High Level Digest -->
+      <section class="codex-section">
+        <h2>🧭 High-Level Digest</h2>
+        <div class="digest-highlight">
+          <p><strong>The Big Picture:</strong> This guide showcases how OpenAI’s updated Codex agentic CLI can be leveraged to rapidly prototype functional full-stack software, mobile applications, games, and data analysis pipelines using iterative natural language commands rather than manual coding.</p>
+        </div>
+
+        <div class="pillars-grid">
+          <div class="pillar-card">
+            <span class="pillar-icon">📈</span>
+            <div>
+              <h3>Progressive Agent Autonomy</h3>
+              <p>The guide highlights Codex's operational versatility across distinct modes—ranging from user-approved workflows (<code>--suggest</code> mode) to semi-automated structures (<code>--auto-edit</code>) and fully autonomous project scaffolding (<code>--full-auto</code>) to match developer risk tolerance.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">🏗️</span>
+            <div>
+              <h3>Contextual Project Architecture</h3>
+              <p>Moving beyond single-file scripts, the selected projects demonstrate Codex's capability to orchestrate multi-file architectures, connect complex backends (Supabase, Stripe), integrate third-party APIs, and manage state tracking.</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <span class="pillar-icon">🔌</span>
+            <div>
+              <h3>Open &amp; Swappable Backend Ecosystem</h3>
+              <p>Emphasizing flexibility, the CLI framework functions as an open-source orchestrator, allowing developers to plug in their own localized, self-hosted LLMs or custom enterprise APIs to circumvent proprietary lock-in.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Execution & Application Blueprint -->
+      <section class="codex-section">
+        <h2>🛠️ Execution &amp; Application Blueprint</h2>
+        <p class="section-desc">Install the Codex CLI locally, initialize it inside a clean Git repository, and run a single-command prototype challenge to stand up a localized data service or a customized utility app in under five minutes.</p>
+
+        <div class="audit-block">
+          <h3>📋 Autonomous Codebase Initialization Protocol</h3>
+          <p class="audit-intro">Deploy this framework to smoothly transition an application concept into a fully structured codebase using Codex CLI:</p>
+
+          <div class="audit-steps">
+            <div class="audit-step">
+              <div class="step-num">1</div>
+              <div>
+                <h4>Environment Initialization</h4>
+                <p>Ensure Node.js (LTS) and Git are installed on your host system. Run the terminal configuration commands to install the CLI and configure your environment:</p>
+                <div class="code-box">
+                  <pre><code>npm install -g @openai/codex
+export OPENAI_API_KEY="your-api-key"
+mkdir core-prototype-service && cd core-prototype-service
+git init</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="audit-step">
+              <div class="step-num">2</div>
+              <div>
+                <h4>Architectural Intent Setup</h4>
+                <p>Create a <code>.cursorrules</code> or <code>AGENTS.md</code> file in the root directory to establish rigid project guardrails, style conventions, and database schema bounds before running the agent.</p>
+              </div>
+            </div>
+
+            <div class="audit-step">
+              <div class="step-num">3</div>
+              <div>
+                <h4>Autonomous Generation Execution</h4>
+                <p>Trigger full autonomy to spin up the boilerplate, dependencies, and core operational files using a highly specific blueprint prompt:</p>
+                <div class="code-box">
+                  <pre><code>codex --full-auto "Build a lightweight FastAPI microservice with a custom UI that accepts an uploaded CSV file, executes basic outlier detection using NumPy, and renders a summary table on the frontend. Include complete error handling, a structured requirements.txt file, and a README.md detailing local execution steps."</code></pre>
+                </div>
+              </div>
+            </div>
+
+            <div class="audit-step">
+              <div class="step-num">4</div>
+              <div>
+                <h4>Iterative Refinement Layer</h4>
+                <p>Switch to interactive suggest mode to manually audit, verify, and fine-tune individual endpoints or specific application logic:</p>
+                <div class="code-box">
+                  <pre><code>codex --suggest "Analyze the generated endpoint and add a validation utility to verify the uploaded CSV has non-null header fields before parsing."</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout callout-tip">
+          <span class="callout-icon">💡</span>
+          <div>
+            <strong>Future Catalyst</strong>
+            <p>Shifting software development from manual syntax composition to intent-driven agentic generation allows engineers to act as pure system architects. Embracing these high-context execution frameworks drastically cuts down on boilerplate code cycles, compresses the timeline for building minimal viable products from weeks to minutes, and unlocks unprecedented bandwidth for deep systems design and logic optimization.</p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- Sidebar -->
+    <aside class="codex-sidebar">
+      <div class="sidebar-card sidebar-accent">
+        <h3>🚀 Codex CLI Highlights</h3>
+        <p>A multi-mode agentic developer tool for local scaffolding, multi-file code generation, and swappable model backends.</p>
+      </div>
+      <div class="sidebar-card">
+        <h3>💻 Claude Code Guide</h3>
+        <p>Using Anthropic's developer CLI instead? Read our guide on Claude Code commands and MCP integrations.</p>
+        <a href="/claude-code/" class="sidebar-link">Claude Code Guide →</a>
+      </div>
+      <div class="sidebar-card">
+        <h3>🖱️ Cursor Guide</h3>
+        <p>Migrating from Continue or looking to optimize your IDE rules? Read the Cursor migration guide.</p>
+        <a href="/cursor/" class="sidebar-link">Cursor IDE Guide →</a>
+      </div>
+    </aside>
+  </div>
+
+</Page>
+
+<style>
+.page-hero { padding: var(--s12) 0 var(--s8); }
+.hero-badge { display: inline-block; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.08em; color: var(--accent); background: var(--accent-light); border: 1px solid var(--accent-border); padding: 2px var(--s3); border-radius: var(--r-full); margin-bottom: var(--s3); }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 var(--s3); }
+.page-hero p { color: var(--text-2); font-size: 1.05rem; margin: 0 auto; max-width: 580px; }
+
+.codex-layout { display: grid; grid-template-columns: 1fr 260px; gap: var(--s8); padding-bottom: var(--s20); align-items: start; }
+.codex-content { display: flex; flex-direction: column; gap: var(--s12); }
+.codex-section h2 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 var(--s4); color: var(--text); }
+.section-desc { color: var(--text-2); line-height: 1.7; margin: 0 0 var(--s6); font-size: 0.95rem; }
+
+.digest-highlight { background: var(--bg-alt); border-left: 3px solid var(--accent); border-radius: 0 var(--r3) var(--r3) 0; padding: var(--s5); margin-bottom: var(--s6); }
+.digest-highlight p { margin: 0; font-size: 1.05rem; line-height: 1.6; color: var(--text); }
+
+.pillars-grid { display: flex; flex-direction: column; gap: var(--s4); }
+.pillar-card { display: flex; gap: var(--s4); padding: var(--s5); background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); align-items: flex-start; }
+.pillar-icon { font-size: 1.6rem; flex-shrink: 0; line-height: 1; }
+.pillar-card h3 { font-family: var(--font-display); font-size: 1.1rem; margin: 0 0 var(--s2); color: var(--text); }
+.pillar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.audit-block { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r4); padding: var(--s6); margin-bottom: var(--s6); }
+.audit-block h3 { font-family: var(--font-display); font-size: 1.25rem; margin: 0 0 var(--s2); color: var(--text); }
+.audit-intro { font-size: 0.9rem; color: var(--text-2); margin: 0 0 var(--s5); }
+
+.audit-steps { display: flex; flex-direction: column; gap: var(--s5); }
+.audit-step { display: flex; flex-direction: column; gap: var(--s2); }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); color: #fff; font-size: 0.8rem; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.audit-step h4 { font-size: 0.95rem; font-weight: 700; margin: 0; color: var(--text); }
+.audit-step p { font-size: 0.85rem; color: var(--text-2); margin: 0; line-height: 1.5; }
+
+.code-box { background: var(--code-bg); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--r3); padding: var(--s4) var(--s5); overflow-x: auto; margin-top: var(--s2); }
+.code-box pre { margin: 0; padding: 0; background: none; border: none; }
+.code-box pre code { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text) !important; line-height: 1.55; white-space: pre-wrap; word-break: break-all; }
+
+.callout { display: flex; gap: var(--s4); padding: var(--s5); background: var(--accent-light); border: 1px solid var(--accent-border); border-radius: var(--r3); }
+.callout-icon { font-size: 1.5rem; flex-shrink: 0; }
+.callout strong { display: block; font-weight: 700; margin-bottom: var(--s2); color: var(--text); }
+.callout p { font-size: 0.875rem; color: var(--text-2); margin: 0; line-height: 1.6; }
+
+.codex-sidebar { display: flex; flex-direction: column; gap: var(--s4); position: sticky; top: calc(var(--nav-h) + var(--s4)); }
+.sidebar-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r3); padding: var(--s5); }
+.sidebar-card h3 { font-family: var(--font-display); font-size: 1rem; margin: 0 0 var(--s2); color: var(--text); }
+.sidebar-card p { font-size: 0.875rem; color: var(--text-2); margin: 0 0 var(--s3); line-height: 1.5; }
+.sidebar-link { font-size: 0.875rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+.sidebar-link:hover { text-decoration: underline; }
+.sidebar-card.sidebar-accent { background: var(--bg-alt); border-color: var(--accent-border); }
+.sidebar-card.sidebar-accent h3 { color: var(--accent); }
+
+@media (max-width: 768px) { .codex-layout { grid-template-columns: 1fr; } .codex-sidebar { position: static; } }
+</style>
