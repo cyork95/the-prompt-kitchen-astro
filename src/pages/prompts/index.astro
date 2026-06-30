@@ -191,17 +191,7 @@ clearBtn?.addEventListener('click', () => {
   filterRecipes();
 });
 
-// Favorites (localStorage)
-const STORAGE_KEY = 'pk-favorites';
-
-function getFavorites(): Record<string, { title: string; category: string; url: string }> {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
-  catch { return {}; }
-}
-
-function saveFavorites(favs: Record<string, { title: string; category: string; url: string }>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
-}
+import { getFavorites, saveFavorites } from '../../utils/favorites';
 
 function initHeartButtons() {
   const favs = getFavorites();
