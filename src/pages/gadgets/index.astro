@@ -462,8 +462,14 @@ function copySnip(id: string) {
 }
 
 // expose to inline onclick attrs
-(window as any).closeDetailBtn = closeDetail;
-(window as any).copySnip = copySnip;
+declare global {
+  interface Window {
+    closeDetailBtn: () => void;
+    copySnip: (id: string) => void;
+  }
+}
+window.closeDetailBtn = closeDetail;
+window.copySnip = copySnip;
 
 document.addEventListener('DOMContentLoaded', () => {
   renderPhases();

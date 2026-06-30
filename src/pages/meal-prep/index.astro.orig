@@ -7,10 +7,6 @@ const sorted = mealPreps.sort((a, b) => a.data.order - b.data.order);
 
 const categories = ['All', ...new Set(sorted.map(mp => mp.data.category))];
 
-const renderedMPs = await Promise.all(
-  sorted.map(async (mp) => ({ mp, rendered: await mp.render() }))
-);
-
 const categoryLabels: Record<string, string> = {
   writing: '✍️ Writing',
   coding: '💻 Coding',
@@ -83,9 +79,8 @@ const categoryLabels: Record<string, string> = {
     <!-- Cards -->
     {sorted.length > 0 ? (
       <div class="mp-grid" id="mp-grid">
-        {renderedMPs.map(item => {
-          const mp = item.mp;
-          const { Content } = item.rendered;
+        {sorted.map(async mp => {
+          const { Content } = await mp.render();
           return (
             <div
               class="mp-card"
