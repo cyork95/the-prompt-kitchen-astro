@@ -41,6 +41,19 @@ interface FavoriteItem {
   url: string;
 }
 
+function escapeHTML(str: string): string {
+  return str.replace(/[&<>'"]/g, (tag) => {
+    const chars: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      "'": '&#39;',
+      '"': '&quot;'
+    };
+    return chars[tag] || tag;
+  });
+}
+
 function getFavorites(): Record<string, FavoriteItem> {
   try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
   catch { return {}; }
@@ -73,11 +86,11 @@ function renderFavorites() {
     card.style.position = 'relative';
     card.innerHTML = `
       <div class="recipe-card-meta">
-        <span class="recipe-card-category">${fav.category}</span>
+        <span class="recipe-card-category">${escapeHTML(fav.category || '')}</span>
       </div>
-      <h3><a href="${fav.url}" style="color:inherit;text-decoration:none;">${fav.title}</a></h3>
+      <h3><a href="${escapeHTML(fav.url || '')}" style="color:inherit;text-decoration:none;">${escapeHTML(fav.title || '')}</a></h3>
       <div class="recipe-card-footer">
-        <a href="${fav.url}" class="recipe-card-read">Read recipe →</a>
+        <a href="${escapeHTML(fav.url || '')}" class="recipe-card-read">Read recipe →</a>
         <button class="heart-btn remove-btn" data-id="${id}" aria-label="Remove from saved">❤️</button>
       </div>
     `;
