@@ -729,6 +729,8 @@
 </style>
 
 <script>
+import { escapeHTML } from "../utils/html";
+
 // ── Mega menu ────────────────────────────────────────────────────────────
 (function () {
   const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('.mega-trigger'));
@@ -821,18 +823,6 @@
 
   function showDropdown() { dropdown.hidden = false; }
   function hideDropdown() { dropdown.hidden = true; }
-
-  function escapeHTML(str: string | undefined | null) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;')
-      .replace(/&lt;mark&gt;/g, '<mark>')
-      .replace(/&lt;\/mark&gt;/g, '</mark>');
-  }
 
   function renderResults(results: any[]) {
     resultsList.innerHTML = '';

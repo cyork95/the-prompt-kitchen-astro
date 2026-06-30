@@ -340,6 +340,8 @@ const ITEMS = [
 </style>
 
 <script>
+import { escapeHTML } from "../../utils/html";
+
 // Build gallery data from static cards
 const ITEMS: Record<string, { prompt: string; params: string; note: string }> = {
   "img-001": { prompt: "Ancient redwood forest at dawn, golden light rays breaking through morning mist, moss-covered bark, fern undergrowth, photorealistic, shot on Sony A7R V with 24-70mm f/2.8 lens, 8K detail", params: "Default settings — Aurora generates one image per prompt, no parameters needed", note: "Grok's Aurora image model is free at grok.com with a free X account — no credits, no waitlist. Naming a specific camera body and lens gives it a precise reference for optics and depth of field. The 'golden light rays through mist' detail reliably produces strong atmospheric lighting." },
@@ -392,8 +394,6 @@ function closeDetail() {
   document.querySelectorAll('.gallery-card').forEach(c => c.classList.remove('active'));
 }
 
-function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
 function renderDetail(card: HTMLElement) {
   const id = card.dataset.id!;
   const img = card.querySelector('img')!;
@@ -405,24 +405,24 @@ function renderDetail(card: HTMLElement) {
   el.innerHTML = `
     <div class="gd-header">
       <div class="gd-image">
-        <img src="${esc(img.src)}" alt="${esc(title)}" />
+        <img src="${escapeHTML(img.src)}" alt="${escapeHTML(title)}" />
       </div>
       <div class="gd-info">
         <div>
-          <div class="gd-model">${esc(model)}</div>
-          <h2 class="gd-title">${esc(title)}</h2>
+          <div class="gd-model">${escapeHTML(model)}</div>
+          <h2 class="gd-title">${escapeHTML(title)}</h2>
         </div>
         <div>
           <div class="gd-section-label">Prompt used</div>
-          <div class="gd-prompt-box">${esc(data.prompt)}</div>
+          <div class="gd-prompt-box">${escapeHTML(data.prompt)}</div>
         </div>
         <div>
           <div class="gd-section-label">Parameters</div>
-          <div class="gd-params">${esc(data.params)}</div>
+          <div class="gd-params">${escapeHTML(data.params)}</div>
         </div>
         <div>
           <div class="gd-section-label">What made it work</div>
-          <p class="gd-note">${esc(data.note)}</p>
+          <p class="gd-note">${escapeHTML(data.note)}</p>
         </div>
         <div class="gd-actions">
           <button class="btn btn-primary btn-sm" id="copy-prompt-btn">📋 Copy prompt</button>
