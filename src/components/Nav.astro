@@ -822,6 +822,18 @@
   function showDropdown() { dropdown.hidden = false; }
   function hideDropdown() { dropdown.hidden = true; }
 
+  function escapeHTML(str: string | undefined | null) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;')
+      .replace(/&lt;mark&gt;/g, '<mark>')
+      .replace(/&lt;\/mark&gt;/g, '</mark>');
+  }
+
   function renderResults(results: any[]) {
     resultsList.innerHTML = '';
     emptyMsg.hidden = results.length > 0;
@@ -831,9 +843,13 @@
       const a = document.createElement('a');
       a.href = result.url;
       a.className = 'nav-search-result';
+
+      const safeTitle = escapeHTML(result.meta?.title || 'Untitled');
+      const safeExcerpt = escapeHTML(result.excerpt);
+
       a.innerHTML = `
-        <span class="nav-search-result-title">${result.meta?.title || 'Untitled'}</span>
-        ${result.excerpt ? `<span class="nav-search-result-excerpt">${result.excerpt}</span>` : ''}
+        <span class="nav-search-result-title">${safeTitle}</span>
+        ${safeExcerpt ? `<span class="nav-search-result-excerpt">${safeExcerpt}</span>` : ''}
       `;
       a.addEventListener('click', () => { hideDropdown(); input.value = ''; });
       li.appendChild(a);
