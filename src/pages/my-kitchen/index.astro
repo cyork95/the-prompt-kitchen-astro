@@ -33,13 +33,7 @@ import Page from '../../layouts/Page.astro';
 </style>
 
 <script>
-const STORAGE_KEY = 'pk-favorites';
-
-interface FavoriteItem {
-  title: string;
-  category: string;
-  url: string;
-}
+import { getFavorites, saveFavorites, type FavoriteItem } from '../../utils/storage';
 
 function escapeHTML(str: string): string {
   return str.replace(/[&<>'"]/g, (tag) => {
@@ -52,15 +46,6 @@ function escapeHTML(str: string): string {
     };
     return chars[tag] || tag;
   });
-}
-
-function getFavorites(): Record<string, FavoriteItem> {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
-  catch { return {}; }
-}
-
-function saveFavorites(favs: Record<string, FavoriteItem>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
 }
 
 function renderFavorites() {

@@ -126,6 +126,8 @@ const categories = ['All', ...new Set(sorted.map(r => r.data.category))];
 </style>
 
 <script>
+import { getFavorites, saveFavorites } from '../../utils/storage';
+
 const grid = document.getElementById('recipe-grid')!;
 const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));
 const searchInput = document.getElementById('recipe-search') as HTMLInputElement;
@@ -191,7 +193,7 @@ clearBtn?.addEventListener('click', () => {
   filterRecipes();
 });
 
-import { getFavorites, saveFavorites } from '../../utils/favorites';
+ // Favorites (localStorage)
 
 function initHeartButtons() {
   const favs = getFavorites();

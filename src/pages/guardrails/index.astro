@@ -22,6 +22,13 @@ const categoryLabels: Record<string, string> = {
 };
 
 const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
+
+const renderedGuardrails = await Promise.all(
+  sorted.map(async gr => {
+    const { Content } = await gr.render();
+    return { gr, Content };
+  })
+);
 ---
 <Page
   title="Kitchen Guardrails"
@@ -67,8 +74,7 @@ const categories = ['All', ...new Set(sorted.map(g => g.data.category))];
 
     {sorted.length > 0 ? (
       <div class="gr-grid" id="gr-grid">
-        {sorted.map(async gr => {
-          const { Content } = await gr.render();
+        {renderedGuardrails.map(({ gr, Content }) => {
           const color = categoryColors[gr.data.category] ?? '#B85C20';
           return (
             <div
