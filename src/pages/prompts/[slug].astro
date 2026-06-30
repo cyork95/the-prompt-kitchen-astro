@@ -380,18 +380,7 @@ const difficultyLabel = {
 </style>
 
 <script>
-// Favorites
-const STORAGE_KEY = 'pk-favorites';
-const SESSION_KEY = 'pk-session';
-
-function getFavorites(): Record<string, { title: string; category: string; url: string }> {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) ?? '{}'); }
-  catch { return {}; }
-}
-
-function saveFavorites(favs: Record<string, { title: string; category: string; url: string }>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(favs));
-}
+import { getFavorites, saveFavorites, SESSION_KEY } from '../../utils/favorites';
 
 const heartBtn = document.getElementById('heart-btn') as HTMLButtonElement | null;
 if (heartBtn) {
