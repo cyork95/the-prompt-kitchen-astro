@@ -380,7 +380,10 @@ const difficultyLabel = {
 </style>
 
 <script>
-import { getFavorites, saveFavorites, SESSION_KEY } from '../../utils/favorites';
+import { getFavorites, saveFavorites } from '../../utils/storage';
+
+// Favorites
+const SESSION_KEY = 'pk-session';
 
 const heartBtn = document.getElementById('heart-btn') as HTMLButtonElement | null;
 if (heartBtn) {
@@ -414,6 +417,8 @@ if (heartBtn) {
     updateHeart(!isSaved);
   });
 }
+
+import { getMyVotes, saveMyVotes } from '../../utils/votes';
 
 // Voting (Supabase — graceful fallback if env vars not set)
 async function loadVotes(recipeId: string) {
@@ -476,18 +481,8 @@ if (voteBar) {
   // Load initial counts
   loadVotes(recipeId);
 
-  // Track which emojis this session has voted for (localStorage)
-  const VOTES_KEY = `pk-votes-${recipeId}`;
-  function getMyVotes(): Set<string> {
-    try { return new Set(JSON.parse(localStorage.getItem(VOTES_KEY) ?? '[]')); }
-    catch { return new Set(); }
-  }
-  function saveMyVotes(votes: Set<string>) {
-    localStorage.setItem(VOTES_KEY, JSON.stringify([...votes]));
-  }
-
   // Mark already-voted buttons on load
-  const myVotes = getMyVotes();
+  const myVotes = getMyVotes(recipeId);
   voteBar.querySelectorAll<HTMLButtonElement>('.vote-btn').forEach(btn => {
     if (myVotes.has(btn.dataset.emoji!)) btn.classList.add('voted');
   });
@@ -498,7 +493,7 @@ if (voteBar) {
     const countEl = btn.querySelector<HTMLSpanElement>('.vote-count');
 
     btn.addEventListener('click', async () => {
-      const votes = getMyVotes();
+      const votes = getMyVotes(recipeId);
       const isVoted = votes.has(emoji);
       const countStr = countEl?.textContent ?? '0';
       const count = parseInt(countStr, 10) || 0;
@@ -515,7 +510,7 @@ if (voteBar) {
         if (countEl) countEl.textContent = String(count + 1);
         await submitVote(recipeId, emoji);
       }
-      saveMyVotes(votes);
+      saveMyVotes(recipeId, votes);
     });
   });
 }

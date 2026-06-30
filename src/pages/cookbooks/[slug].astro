@@ -182,6 +182,13 @@ const allCookbookRecipes = await getCollection('cookbooks').catch(() => []);
 const recipes = allCookbookRecipes
   .filter(r => r.data.cookbook === slug)
   .sort((a, b) => a.data.order - b.data.order);
+
+const recipesWithContent = await Promise.all(
+  recipes.map(async (recipe) => {
+    const { Content } = await recipe.render();
+    return { ...recipe, Content };
+  })
+);
 ---
 <Page
   title={meta.title}
@@ -210,27 +217,24 @@ const recipes = allCookbookRecipes
   </div>
 
   <div class="container cb-layout">
-    {recipes.length > 0 ? (
+    {recipesWithContent.length > 0 ? (
       <div class="card-grid">
-        {recipes.map(async recipe => {
-          const { Content } = await recipe.render();
-          return (
-            <div class="recipe-card cookbook-recipe-card">
-              <div class="recipe-card-meta">
-                <span class="recipe-card-category">{recipe.data.category}</span>
-                <span class="recipe-card-difficulty">{recipe.data.difficulty}</span>
-              </div>
-              <h3>{recipe.data.title}</h3>
-              {recipe.data.teaser && <p class="recipe-card-teaser">{recipe.data.teaser}</p>}
-              <details class="recipe-inline-detail">
-                <summary>View recipe</summary>
-                <div class="recipe-inline-content prose">
-                  <Content />
-                </div>
-              </details>
+        {recipesWithContent.map(recipe => (
+          <div class="recipe-card cookbook-recipe-card">
+            <div class="recipe-card-meta">
+              <span class="recipe-card-category">{recipe.data.category}</span>
+              <span class="recipe-card-difficulty">{recipe.data.difficulty}</span>
             </div>
-          );
-        })}
+            <h3>{recipe.data.title}</h3>
+            {recipe.data.teaser && <p class="recipe-card-teaser">{recipe.data.teaser}</p>}
+            <details class="recipe-inline-detail">
+              <summary>View recipe</summary>
+              <div class="recipe-inline-content prose">
+                <recipe.Content />
+              </div>
+            </details>
+          </div>
+        ))}
       </div>
     ) : (
       <div class="cookbook-coming-soon">

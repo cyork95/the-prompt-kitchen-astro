@@ -32,7 +32,7 @@ sorted.forEach(item => {
 
   <div class="container pantry-layout">
     {Object.keys(shelves).length > 0 ? (
-      Object.entries(shelves).map(([shelf, items]) => {
+      Object.entries(shelves).map(async ([shelf, items]) => {
         const s = shelfLabels[shelf] ?? { label: shelf, emoji: '🫙', desc: '' };
         return (
           <div class="pantry-shelf">
@@ -45,7 +45,7 @@ sorted.forEach(item => {
             </div>
 
             <div class="pantry-items">
-              {items.map(async item => {
+              {await Promise.all(items.map(async item => {
                 const { Content } = await item.render();
                 return (
                   <div class="pantry-item">
@@ -67,7 +67,7 @@ sorted.forEach(item => {
                     </details>
                   </div>
                 );
-              })}
+              }))}
             </div>
           </div>
         );
