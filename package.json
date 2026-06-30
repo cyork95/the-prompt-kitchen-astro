@@ -4,18 +4,21 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev":   "astro dev",
+    "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro":   "astro"
+    "astro": "astro"
   },
   "dependencies": {
-    "astro":              "^4.15.0",
-    "@astrojs/mdx":       "^3.1.0",
-    "@supabase/supabase-js": "^2.45.0"
+    "@astrojs/mdx": "^3.1.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "astro": "^4.15.0"
   },
   "devDependencies": {
-    "astro-pagefind":     "^1.7.0",
-    "@pagefind/default-ui": "^1.1.0"
+    "@pagefind/default-ui": "^1.1.0",
+    "@testing-library/dom": "^10.4.1",
+    "astro-pagefind": "^1.7.0",
+    "jsdom": "^29.1.1",
+    "vitest": "^4.1.9"
   }
 }
