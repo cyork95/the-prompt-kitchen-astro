@@ -35,19 +35,6 @@ import Page from '../../layouts/Page.astro';
 <script>
 import { getFavorites, saveFavorites, type FavoriteItem } from '../../utils/storage';
 
-function escapeHTML(str: string): string {
-  return str.replace(/[&<>'"]/g, (tag) => {
-    const chars: Record<string, string> = {
-      '&': '&amp;',
-      '<': '&lt;',
-      '>': '&gt;',
-      "'": '&#39;',
-      '"': '&quot;'
-    };
-    return chars[tag] || tag;
-  });
-}
-
 function renderFavorites() {
   const favs = getFavorites();
   const keys = Object.keys(favs);
@@ -69,18 +56,39 @@ function renderFavorites() {
     const card = document.createElement('div');
     card.className = 'recipe-card';
     card.style.position = 'relative';
-    card.innerHTML = `
-      <div class="recipe-card-meta">
-        <span class="recipe-card-category">${escapeHTML(fav.category || '')}</span>
-      </div>
-      <h3><a href="${escapeHTML(fav.url || '')}" style="color:inherit;text-decoration:none;">${escapeHTML(fav.title || '')}</a></h3>
-      <div class="recipe-card-footer">
-        <a href="${escapeHTML(fav.url || '')}" class="recipe-card-read">Read recipe →</a>
-        <button class="heart-btn remove-btn" data-id="${id}" aria-label="Remove from saved">❤️</button>
-      </div>
-    `;
 
-    const removeBtn = card.querySelector<HTMLButtonElement>('.remove-btn')!;
+    const meta = document.createElement('div');
+    meta.className = 'recipe-card-meta';
+    const category = document.createElement('span');
+    category.className = 'recipe-card-category';
+    category.textContent = fav.category || '';
+    meta.appendChild(category);
+
+    const titleH3 = document.createElement('h3');
+    const titleA = document.createElement('a');
+    titleA.href = fav.url || '';
+    titleA.style.color = 'inherit';
+    titleA.style.textDecoration = 'none';
+    titleA.textContent = fav.title || '';
+    titleH3.appendChild(titleA);
+
+    const footer = document.createElement('div');
+    footer.className = 'recipe-card-footer';
+    const readA = document.createElement('a');
+    readA.href = fav.url || '';
+    readA.className = 'recipe-card-read';
+    readA.textContent = 'Read recipe →';
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'heart-btn remove-btn';
+    removeBtn.setAttribute('data-id', id);
+    removeBtn.setAttribute('aria-label', 'Remove from saved');
+    removeBtn.textContent = '❤️';
+    footer.appendChild(readA);
+    footer.appendChild(removeBtn);
+
+    card.appendChild(meta);
+    card.appendChild(titleH3);
+    card.appendChild(footer);
     removeBtn.addEventListener('click', () => {
       const favs = getFavorites();
       delete favs[id];
