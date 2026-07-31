@@ -355,12 +355,15 @@ const ITEMS: Record<string, { prompt: string; params: string; note: string }> = 
 let activeId: string | null = null;
 
 // Tab filtering — by tag (not just type)
-document.querySelectorAll<HTMLButtonElement>('.gallery-tab').forEach(tab => {
+const tabs = document.querySelectorAll<HTMLButtonElement>('.gallery-tab');
+const cards = document.querySelectorAll<HTMLElement>('.gallery-card');
+
+tabs.forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.gallery-tab').forEach(t => t.classList.remove('active'));
+    tabs.forEach(t => t.classList.remove('active'));
     tab.classList.add('active');
     const filter = tab.dataset.filter ?? 'all';
-    document.querySelectorAll<HTMLElement>('.gallery-card').forEach(card => {
+    cards.forEach(card => {
       const tags = (card.dataset.tags ?? '').split(',');
       card.hidden = filter !== 'all' && !tags.includes(filter);
     });
