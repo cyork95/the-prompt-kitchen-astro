@@ -822,16 +822,27 @@
   function showDropdown() { dropdown.hidden = false; }
   function hideDropdown() { dropdown.hidden = true; }
 
-  function escapeHTML(str: string | undefined | null) {
-    if (!str) return '';
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;')
-      .replace(/&lt;mark&gt;/g, '<mark>')
-      .replace(/&lt;\/mark&gt;/g, '</mark>');
+  function appendWithMarks(el: HTMLElement, text: string | undefined | null) {
+    if (!text) return;
+    const str = String(text);
+    // Split by <mark> or </mark> to preserve Pagefind's highlighting
+    const parts = str.split(/(<mark>|<\/mark>)/);
+    let inMark = false;
+    for (const part of parts) {
+      if (part === '<mark>') {
+        inMark = true;
+      } else if (part === '</mark>') {
+        inMark = false;
+      } else if (part) {
+        if (inMark) {
+          const mark = document.createElement('mark');
+          mark.textContent = part;
+          el.appendChild(mark);
+        } else {
+          el.appendChild(document.createTextNode(part));
+        }
+      }
+    }
   }
 
   function renderResults(results: any[]) {
@@ -844,13 +855,18 @@
       a.href = result.url;
       a.className = 'nav-search-result';
 
-      const safeTitle = escapeHTML(result.meta?.title || 'Untitled');
-      const safeExcerpt = escapeHTML(result.excerpt);
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'nav-search-result-title';
+      appendWithMarks(titleSpan, result.meta?.title || 'Untitled');
+      a.appendChild(titleSpan);
 
-      a.innerHTML = `
-        <span class="nav-search-result-title">${safeTitle}</span>
-        ${safeExcerpt ? `<span class="nav-search-result-excerpt">${safeExcerpt}</span>` : ''}
-      `;
+      if (result.excerpt) {
+        const excerptSpan = document.createElement('span');
+        excerptSpan.className = 'nav-search-result-excerpt';
+        appendWithMarks(excerptSpan, result.excerpt);
+        a.appendChild(excerptSpan);
+      }
+
       a.addEventListener('click', () => { hideDropdown(); input.value = ''; });
       li.appendChild(a);
       resultsList.appendChild(li);
