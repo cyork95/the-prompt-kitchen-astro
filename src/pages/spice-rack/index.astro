@@ -306,13 +306,25 @@ function updateOutput() {
   }
 }
 
-document.querySelectorAll<HTMLButtonElement>('.spice-btn').forEach(btn => {
+const allSpiceBtns = document.querySelectorAll<HTMLButtonElement>('.spice-btn');
+const buttonsByShelf = new Map<string, HTMLButtonElement[]>();
+
+allSpiceBtns.forEach(btn => {
+  const shelf = btn.dataset.shelf!;
+  if (!buttonsByShelf.has(shelf)) {
+    buttonsByShelf.set(shelf, []);
+  }
+  buttonsByShelf.get(shelf)!.push(btn);
+});
+
+allSpiceBtns.forEach(btn => {
   btn.addEventListener('click', () => {
     const shelf = btn.dataset.shelf!;
     const text = btn.dataset.text!;
 
     // Deselect all in this shelf group
-    document.querySelectorAll<HTMLButtonElement>(`.spice-btn[data-shelf="${shelf}"]`).forEach(b => {
+    const shelfBtns = buttonsByShelf.get(shelf) || [];
+    shelfBtns.forEach(b => {
       b.classList.remove('active');
     });
 
@@ -337,7 +349,7 @@ copyBtn.addEventListener('click', async () => {
 
 clearBtn.addEventListener('click', () => {
   Object.keys(selections).forEach(k => delete selections[k]);
-  document.querySelectorAll<HTMLButtonElement>('.spice-btn').forEach(b => b.classList.remove('active'));
+  allSpiceBtns.forEach(b => b.classList.remove('active'));
   updateOutput();
 });
 </script>

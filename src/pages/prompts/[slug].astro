@@ -426,12 +426,15 @@ async function loadVotes(recipeId: string) {
   if (!supabaseUrl || !supabaseKey) return;
 
   try {
-    const res = await fetch(
-      `${supabaseUrl}/rest/v1/recipe_votes?recipe_id=eq.${recipeId}&select=emoji`,
-      { headers: { apikey: supabaseKey, Authorization: `Bearer ${supabaseKey}` } }
-    );
-    if (!res.ok) return;
-    const rows: { emoji: string }[] = await res.json();
+    const { createClient } = await import('@supabase/supabase-js').catch(() => ({ createClient: null }));
+    if (!createClient) return;
+    const sb = createClient(supabaseUrl, supabaseKey);
+    const { data: rows, error } = await sb
+      .from('recipe_votes')
+      .select('emoji')
+      .eq('recipe_id', recipeId);
+
+    if (error || !rows) return;
 
     const counts: Record<string, number> = { fire: 0, chef: 0, star: 0 };
     rows.forEach(r => { if (r.emoji in counts) counts[r.emoji]++; });
@@ -459,16 +462,16 @@ async function submitVote(recipeId: string, emoji: string) {
 
   const sessionId = getSessionId();
   try {
-    await fetch(`${supabaseUrl}/rest/v1/recipe_votes`, {
-      method: 'POST',
-      headers: {
-        apikey: supabaseKey,
-        Authorization: `Bearer ${supabaseKey}`,
-        'Content-Type': 'application/json',
-        Prefer: 'resolution=ignore-duplicates',
-      },
-      body: JSON.stringify({ recipe_id: recipeId, emoji, session_id: sessionId }),
-    });
+    const { createClient } = await import('@supabase/supabase-js').catch(() => ({ createClient: null }));
+    if (!createClient) return;
+    const sb = createClient(supabaseUrl, supabaseKey);
+    // Ignore duplicates gracefully
+    await sb
+      .from('recipe_votes')
+      .upsert(
+        { recipe_id: recipeId, emoji, session_id: sessionId },
+        { onConflict: 'recipe_id,session_id', ignoreDuplicates: true }
+      );
   } catch {}
 }
 

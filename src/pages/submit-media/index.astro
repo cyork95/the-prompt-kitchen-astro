@@ -358,7 +358,7 @@ form?.addEventListener('submit', async e => {
 
   try {
     // Try Supabase if available
-    const { createClient } = await import('https://esm.sh/@supabase/supabase-js@2').catch(() => ({ createClient: null }));
+    const { createClient } = await import('@supabase/supabase-js').catch(() => ({ createClient: null }));
     const url  = (import.meta as any).env?.PUBLIC_SUPABASE_URL;
     const key  = (import.meta as any).env?.PUBLIC_SUPABASE_ANON_KEY;
 
