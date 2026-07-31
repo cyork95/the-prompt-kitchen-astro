@@ -380,11 +380,9 @@ const difficultyLabel = {
 </style>
 
 <script>
-import { getFavorites, saveFavorites } from '../../utils/storage';
+import { getFavorites, saveFavorites, SESSION_KEY } from '../../utils/favorites';
 
 // Favorites
-const SESSION_KEY = 'pk-session';
-
 const heartBtn = document.getElementById('heart-btn') as HTMLButtonElement | null;
 if (heartBtn) {
   const id = heartBtn.dataset.recipeId!;

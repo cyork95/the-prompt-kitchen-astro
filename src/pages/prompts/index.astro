@@ -126,7 +126,7 @@ const categories = ['All', ...new Set(sorted.map(r => r.data.category))];
 </style>
 
 <script>
-import { getFavorites, saveFavorites } from '../../utils/storage';
+import { getFavorites, saveFavorites } from '../../utils/favorites';
 
 const grid = document.getElementById('recipe-grid')!;
 const cards = Array.from(grid.querySelectorAll<HTMLElement>('.recipe-card'));

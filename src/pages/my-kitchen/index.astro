@@ -33,7 +33,7 @@ import Page from '../../layouts/Page.astro';
 </style>
 
 <script>
-import { getFavorites, saveFavorites, type FavoriteItem } from '../../utils/storage';
+import { getFavorites, saveFavorites, type FavoriteItem } from '../../utils/favorites';
 
 function escapeHTML(str: string): string {
   return str.replace(/[&<>'"]/g, (tag) => {

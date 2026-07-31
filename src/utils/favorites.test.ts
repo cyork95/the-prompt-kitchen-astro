@@ -47,6 +47,20 @@ describe('favorites utility', () => {
       const result = getFavorites();
       expect(result).toEqual(mockData);
     });
+
+    it('returns an empty object and does not throw when localStorage is unavailable (throws on access)', () => {
+      // Mock getItem to throw an error, simulating a scenario like strict privacy settings
+      vi.stubGlobal('localStorage', {
+        getItem: vi.fn(() => {
+          throw new Error('Access denied');
+        })
+      });
+
+      expect(() => getFavorites()).not.toThrow();
+      expect(getFavorites()).toEqual({});
+
+      // Restored in afterEach via vi.unstubAllGlobals()
+    });
   });
 
   describe('saveFavorites', () => {
