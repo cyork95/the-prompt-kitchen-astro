@@ -34,6 +34,7 @@ import Page from '../../layouts/Page.astro';
 
 <script>
 import { getFavorites, saveFavorites, type FavoriteItem } from '../../utils/storage';
+import { escapeHTML } from '../../utils/escapeHTML';
 
 function renderFavorites() {
   const favs = getFavorites();
