@@ -388,49 +388,113 @@ function closeDetail() {
   activeId = null;
   const el = document.getElementById('gallery-detail')!;
   el.classList.remove('open');
-  el.innerHTML = '';
+  el.textContent = '';
   document.querySelectorAll('.gallery-card').forEach(c => c.classList.remove('active'));
 }
 
-function esc(s: string) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-
 function renderDetail(card: HTMLElement) {
   const id = card.dataset.id!;
-  const img = card.querySelector('img')!;
+  const sourceImg = card.querySelector('img')!;
   const title = card.querySelector('.gc-title')!.textContent ?? '';
   const model = card.querySelector('.model-badge')!.textContent ?? '';
   const data = ITEMS[id] ?? { prompt: '', params: '', note: '' };
 
   const el = document.getElementById('gallery-detail')!;
-  el.innerHTML = `
-    <div class="gd-header">
-      <div class="gd-image">
-        <img src="${esc(img.src)}" alt="${esc(title)}" />
-      </div>
-      <div class="gd-info">
-        <div>
-          <div class="gd-model">${esc(model)}</div>
-          <h2 class="gd-title">${esc(title)}</h2>
-        </div>
-        <div>
-          <div class="gd-section-label">Prompt used</div>
-          <div class="gd-prompt-box">${esc(data.prompt)}</div>
-        </div>
-        <div>
-          <div class="gd-section-label">Parameters</div>
-          <div class="gd-params">${esc(data.params)}</div>
-        </div>
-        <div>
-          <div class="gd-section-label">What made it work</div>
-          <p class="gd-note">${esc(data.note)}</p>
-        </div>
-        <div class="gd-actions">
-          <button class="btn btn-primary btn-sm" id="copy-prompt-btn">📋 Copy prompt</button>
-          <button class="btn btn-secondary btn-sm gd-close" id="close-detail-btn">✕ Close</button>
-          <span class="copy-confirm" id="copy-confirm">Copied!</span>
-        </div>
-      </div>
-    </div>`;
+  el.textContent = ''; // clear it first
+
+  const gdHeader = document.createElement('div');
+  gdHeader.className = 'gd-header';
+
+  // gd-image
+  const gdImage = document.createElement('div');
+  gdImage.className = 'gd-image';
+  const imgElem = document.createElement('img');
+  imgElem.src = sourceImg.src;
+  imgElem.alt = title;
+  gdImage.appendChild(imgElem);
+
+  // gd-info
+  const gdInfo = document.createElement('div');
+  gdInfo.className = 'gd-info';
+
+  // title/model wrapper
+  const wrapper1 = document.createElement('div');
+  const gdModel = document.createElement('div');
+  gdModel.className = 'gd-model';
+  gdModel.textContent = model;
+  const gdTitle = document.createElement('h2');
+  gdTitle.className = 'gd-title';
+  gdTitle.textContent = title;
+  wrapper1.appendChild(gdModel);
+  wrapper1.appendChild(gdTitle);
+
+  // prompt used
+  const wrapper2 = document.createElement('div');
+  const labelPrompt = document.createElement('div');
+  labelPrompt.className = 'gd-section-label';
+  labelPrompt.textContent = 'Prompt used';
+  const gdPromptBox = document.createElement('div');
+  gdPromptBox.className = 'gd-prompt-box';
+  gdPromptBox.textContent = data.prompt;
+  wrapper2.appendChild(labelPrompt);
+  wrapper2.appendChild(gdPromptBox);
+
+  // parameters
+  const wrapper3 = document.createElement('div');
+  const labelParams = document.createElement('div');
+  labelParams.className = 'gd-section-label';
+  labelParams.textContent = 'Parameters';
+  const gdParams = document.createElement('div');
+  gdParams.className = 'gd-params';
+  gdParams.textContent = data.params;
+  wrapper3.appendChild(labelParams);
+  wrapper3.appendChild(gdParams);
+
+  // what made it work
+  const wrapper4 = document.createElement('div');
+  const labelNote = document.createElement('div');
+  labelNote.className = 'gd-section-label';
+  labelNote.textContent = 'What made it work';
+  const gdNote = document.createElement('p');
+  gdNote.className = 'gd-note';
+  gdNote.textContent = data.note;
+  wrapper4.appendChild(labelNote);
+  wrapper4.appendChild(gdNote);
+
+  // actions
+  const gdActions = document.createElement('div');
+  gdActions.className = 'gd-actions';
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'btn btn-primary btn-sm';
+  copyBtn.id = 'copy-prompt-btn';
+  copyBtn.textContent = '📋 Copy prompt';
+
+  const closeBtn = document.createElement('button');
+  closeBtn.className = 'btn btn-secondary btn-sm gd-close';
+  closeBtn.id = 'close-detail-btn';
+  closeBtn.textContent = '✕ Close';
+
+  const copyConfirm = document.createElement('span');
+  copyConfirm.className = 'copy-confirm';
+  copyConfirm.id = 'copy-confirm';
+  copyConfirm.textContent = 'Copied!';
+
+  gdActions.appendChild(copyBtn);
+  gdActions.appendChild(closeBtn);
+  gdActions.appendChild(copyConfirm);
+
+  // build hierarchy
+  gdInfo.appendChild(wrapper1);
+  gdInfo.appendChild(wrapper2);
+  gdInfo.appendChild(wrapper3);
+  gdInfo.appendChild(wrapper4);
+  gdInfo.appendChild(gdActions);
+
+  gdHeader.appendChild(gdImage);
+  gdHeader.appendChild(gdInfo);
+
+  el.appendChild(gdHeader);
   el.classList.add('open');
 
   document.getElementById('copy-prompt-btn')!.addEventListener('click', async () => {
