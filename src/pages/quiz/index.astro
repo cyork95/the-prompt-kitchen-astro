@@ -126,6 +126,7 @@ const recommendations: Record<string, { name: string; emoji: string; url: string
 
 const answers: Record<number, string> = {};
 let step = 0;
+const quizSteps = document.querySelectorAll('.quiz-step');
 
 function getRecommendation() {
   const useCase = answers[0];
@@ -155,7 +156,7 @@ function renderQuestion(i: number) {
   body.querySelectorAll<HTMLButtonElement>('.quiz-option').forEach(btn => {
     btn.addEventListener('click', () => {
       answers[i] = btn.dataset.key!;
-      document.querySelectorAll('.quiz-step').forEach((s, idx) => {
+      quizSteps.forEach((s, idx) => {
         s.classList.toggle('done', idx < i + 1);
         s.classList.toggle('active', idx === i + 1);
       });
@@ -172,7 +173,7 @@ function renderQuestion(i: number) {
 function renderResult() {
   const rec = getRecommendation();
   const body = document.getElementById('quiz-body')!;
-  document.querySelectorAll('.quiz-step').forEach(s => { s.classList.add('done'); s.classList.remove('active'); });
+  quizSteps.forEach(s => { s.classList.add('done'); s.classList.remove('active'); });
 
   body.innerHTML = `
     <div class="quiz-result">
@@ -202,7 +203,7 @@ function renderResult() {
   document.getElementById('btn-retake')?.addEventListener('click', () => {
     step = 0;
     Object.keys(answers).forEach(k => delete (answers as any)[k]);
-    document.querySelectorAll('.quiz-step').forEach((s, i) => {
+    quizSteps.forEach((s, i) => {
       s.classList.toggle('active', i === 0);
       s.classList.remove('done');
     });
