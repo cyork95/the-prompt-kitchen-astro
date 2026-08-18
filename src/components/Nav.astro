@@ -841,13 +841,18 @@ import { escapeHTML as coreEscapeHTML } from '../utils/escapeHTML';
       a.href = result.url;
       a.className = 'nav-search-result';
 
-      const safeTitle = escapeHTML(result.meta?.title || 'Untitled');
-      const safeExcerpt = escapeHTML(result.excerpt);
+      const titleSpan = document.createElement('span');
+      titleSpan.className = 'nav-search-result-title';
+      appendWithMarks(titleSpan, result.meta?.title || 'Untitled');
+      a.appendChild(titleSpan);
 
-      a.innerHTML = `
-        <span class="nav-search-result-title">${safeTitle}</span>
-        ${safeExcerpt ? `<span class="nav-search-result-excerpt">${safeExcerpt}</span>` : ''}
-      `;
+      if (result.excerpt) {
+        const excerptSpan = document.createElement('span');
+        excerptSpan.className = 'nav-search-result-excerpt';
+        appendWithMarks(excerptSpan, result.excerpt);
+        a.appendChild(excerptSpan);
+      }
+
       a.addEventListener('click', () => { hideDropdown(); input.value = ''; });
       li.appendChild(a);
       resultsList.appendChild(li);
