@@ -729,6 +729,8 @@
 </style>
 
 <script>
+import { escapeHTML as coreEscapeHTML } from '../utils/escapeHTML';
+
 // ── Mega menu ────────────────────────────────────────────────────────────
 (function () {
   const triggers = Array.from(document.querySelectorAll<HTMLButtonElement>('.mega-trigger'));
@@ -822,27 +824,11 @@
   function showDropdown() { dropdown.hidden = false; }
   function hideDropdown() { dropdown.hidden = true; }
 
-  function appendWithMarks(el: HTMLElement, text: string | undefined | null) {
-    if (!text) return;
-    const str = String(text);
-    // Split by <mark> or </mark> to preserve Pagefind's highlighting
-    const parts = str.split(/(<mark>|<\/mark>)/);
-    let inMark = false;
-    for (const part of parts) {
-      if (part === '<mark>') {
-        inMark = true;
-      } else if (part === '</mark>') {
-        inMark = false;
-      } else if (part) {
-        if (inMark) {
-          const mark = document.createElement('mark');
-          mark.textContent = part;
-          el.appendChild(mark);
-        } else {
-          el.appendChild(document.createTextNode(part));
-        }
-      }
-    }
+  function escapeHTML(str: string | undefined | null) {
+    if (!str) return '';
+    return coreEscapeHTML(str)
+      .replace(/&lt;mark&gt;/g, '<mark>')
+      .replace(/&lt;\/mark&gt;/g, '</mark>');
   }
 
   function renderResults(results: any[]) {

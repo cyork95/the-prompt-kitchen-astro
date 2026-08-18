@@ -1,7 +1,33 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { getFavorites, saveFavorites, STORAGE_KEY, type FavoriteItem } from './_favorites';
+import { getFavorites, saveFavorites, escapeHTML, STORAGE_KEY, type FavoriteItem } from './_favorites';
 
 describe('Favorites utilities', () => {
+  describe('escapeHTML', () => {
+    it('returns the original string if no special characters are present', () => {
+      expect(escapeHTML('hello world')).toBe('hello world');
+      expect(escapeHTML('12345')).toBe('12345');
+      expect(escapeHTML('')).toBe('');
+    });
+
+    it('escapes special HTML characters correctly', () => {
+      expect(escapeHTML('&')).toBe('&amp;');
+      expect(escapeHTML('<')).toBe('&lt;');
+      expect(escapeHTML('>')).toBe('&gt;');
+      expect(escapeHTML("'")).toBe('&#39;');
+      expect(escapeHTML('"')).toBe('&quot;');
+    });
+
+    it('handles multiple occurrences and combinations of special characters', () => {
+      const input = '<script>alert("XSS & \'hacks\'")</script>';
+      const expected = '&lt;script&gt;alert(&quot;XSS &amp; &#39;hacks&#39;&quot;)&lt;/script&gt;';
+      expect(escapeHTML(input)).toBe(expected);
+    });
+
+    it('does not escape other characters', () => {
+      expect(escapeHTML('a/b+c-d=e')).toBe('a/b+c-d=e');
+    });
+  });
+
   beforeEach(() => {
     localStorage.clear();
     vi.restoreAllMocks();
